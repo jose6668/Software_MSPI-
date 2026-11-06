@@ -1,6 +1,6 @@
 # Arquitectura y decisiones técnicas
 
-Versión: 0.2 — Repositorios y rama Develop registrados y comprobados
+Versión: 0.4 — Principios ARQ-09 a ARQ-14 y bibliotecas frontend aprobados
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos y aprobaciones](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Cálculos](04-reglas-de-calculo-y-valoracion.md), [Diccionario](05-diccionario-de-datos-y-validaciones.md), [Estados](06-estados-y-transiciones.md), [Modelo y aislamiento](07-modelo-de-datos-y-aislamiento-por-esquemas.md).
 
@@ -8,28 +8,28 @@ Relacionados: [Requerimientos y aprobaciones](01-parametros-y-requerimientos.md)
 
 Definir la arquitectura inicial del sistema y registrar las tecnologías indicadas por el usuario: backend Spring Boot organizado como monolito modular, frontend React + TypeScript + Vite y repositorios independientes de documentación, backend y frontend.
 
-La configuración del backend se documenta a partir de la captura de Spring Initializr, no de inspección del POM o compilación. El usuario proporcionó los remotos del backend y frontend y señaló que el código está en `Develop` en ambos; la existencia de esa rama se comprobó mediante la conexión GitHub el 6 de noviembre de 2026. Las rutas locales de esos repositorios siguen sin verificarse y no se inventan.
+El backend utiliza Maven, Java 17 y Spring Boot 4.1.2, con grupo `software`, artefacto `mspi` y paquete base `software.mspi`. El frontend utiliza React, TypeScript y Vite. Ambos proyectos mantienen su código en la rama `Develop` de sus respectivos repositorios.
 
-Esta actualización modifica solamente este Markdown. No se crean ni modifican código, POM, scripts, configuraciones, dependencias, ramas o infraestructura. Los árboles, rutas de API y diagramas siguientes son diseños escritos, no archivos generados. El README y los documentos anteriores se conservan sin cambios.
+La arquitectura establece responsabilidades, contratos, límites de módulos y criterios de seguridad y operación. Los diagramas y estructuras describen el diseño del sistema; su implementación y verificación se desarrollan en los repositorios de código.
 
-Convenciones: **confirmado** = indicado por usuario o visible en la captura; **heredado** = aprobado en APR-01 a APR-04; **propuesto** = recomendación técnica aún por revisar; **por verificar** = requiere inspección del proyecto real. Confirmar una selección en Initializr no demuestra que el proyecto compile o tenga aislamiento implementado.
+Convenciones: **confirmado** = decisión del proyecto o configuración comprobada; **heredado** = aprobado en APR-01 a APR-04; **aprobado** = decisión aceptada con alcance explícito; **propuesto** = alternativa pendiente de revisión; **por verificar** = comprobación técnica aún no realizada. La presencia de dependencias no demuestra compilación ni aislamiento en ejecución.
 
 ## 2. Registro de decisiones confirmadas APR-05
 
-Se registra APR-05 en este documento, sin modificar el registro histórico del documento 1 por el alcance de archivo único solicitado. Fecha: 6 de noviembre de 2026. Fundamento: instrucciones del usuario y captura suministrada.
+APR-05 registra las tecnologías y organización definidas por el usuario el 6 de noviembre de 2026. APR-06 (sección 17) aprueba modularidad/persistencia y APR-07 (sección 18) aprueba los principios técnicos restantes y cinco bibliotecas frontend. Los parámetros todavía no definidos conservan su estado pendiente.
 
 | ID | Decisión | Estado y origen |
 | --- | --- | --- |
 | ARQ-01 | Spring Boot como backend y monolito modular para v1 | Confirmado por instrucción del usuario |
-| ARQ-02 | Maven, Java 17, Spring Boot 4.1.2, Jar, YAML | Confirmado en captura; verificar después compilación y entorno instalado |
-| ARQ-03 | Group `software`, Artifact `mspi`, paquete base `software.mspi` | Confirmado en captura; se respeta sin sustituirlo por la sugerencia anterior |
+| ARQ-02 | Maven, Java 17, Spring Boot 4.1.2, Jar, YAML | Configuración del proyecto; Java/Boot/Maven comprobados en POM; compilación y entorno pendientes |
+| ARQ-03 | Group `software`, Artifact `mspi`, paquete base `software.mspi` | Metadatos definidos; groupId/artifactId comprobados en POM |
 | ARQ-04 | React + TypeScript + Vite como frontend | Confirmado por instrucción del usuario; versiones concretas no elegidas |
 | ARQ-05 | Repositorios separados; código backend/frontend en Develop | Remotos aportados por usuario y rama comprobada en ambos; enlaces en sección 4; rutas locales no verificadas |
 | ARQ-06 | PostgreSQL, esquemas por empresa, identidad técnica limitada y aislamiento | Heredado de APR-03/APR-04; versión y mecanismos físicos pendientes |
 
 Java 17 es la selección de esta versión del proyecto, reemplazando la sugerencia conversacional de Java 21, que no había sido aprobada. La documentación de Boot 4.1.2 establece Java 17 como mínimo compatible; esa compatibilidad no sustituye la comprobación de otras bibliotecas. [Requisitos oficiales de Spring Boot](https://docs.spring.io/spring-boot/system-requirements.html).
 
-Material UI no se considera elegida por escoger React. Biblioteca visual, rutas, formularios, consultas, autenticación y alojamiento siguen como decisiones técnicas pendientes.
+APR-07 aprueba Material UI, React Router, React Hook Form, Zod y TanStack Query, además de autenticación web mediante sesión/cookie y CSRF. Versiones compatibles, biblioteca de gráficos, proveedor de alojamiento y parámetros operativos aún deben definirse.
 
 ## 3. Vista general
 
@@ -60,7 +60,9 @@ Los módulos separan funciones; los esquemas separan empresas. Todos los módulo
 | Backend | [Software_MSPI-back.git](https://github.com/jose6668/Software_MSPI-back.git) | `Develop` | [Código backend en Develop](https://github.com/jose6668/Software_MSPI-back/tree/Develop) |
 | Frontend | [Software_MSPI-front.git](https://github.com/jose6668/Software_MSPI-front.git) | `Develop` | [Código frontend en Develop](https://github.com/jose6668/Software_MSPI-front/tree/Develop) |
 
-Se respeta exactamente la mayúscula inicial de `Develop`. La comprobación confirma existencia de rama, no rama predeterminada, protección, revisión de contenido, instalación de dependencias o compilación. Para futuras lecturas de POM, manifiesto frontend y código se indicará explícitamente `Develop`, sin asumir `main` o `develop`. Para una revisión reproducible se registrará también el commit inspeccionado; en esta tarea no se fija ninguno.
+Se respeta exactamente la mayúscula inicial de `Develop`, sin asumir que sea la rama predeterminada o de despliegue. Las revisiones de configuración indican rama y commit para permitir reproducibilidad.
+
+Configuración backend comprobada el 6 de noviembre de 2026: [mspi/pom.xml](https://github.com/jose6668/Software_MSPI-back/blob/01afba1397bdbe821dec79102a1ef8947511bc9d/mspi/pom.xml), commit `01afba1397bdbe821dec79102a1ef8947511bc9d`, blob `b6aeff6e69c09dcc442d5896bcb972ab1c2af029`. La raíz Maven está en `mspi/`, no en la raíz del repositorio. Esta revisión se limita al manifiesto; no incluye compilación, pruebas o auditoría completa. El manifiesto frontend y las rutas locales siguen pendientes de revisión.
 
 | Repositorio | Responsabilidad | Información compartida por contrato |
 | --- | --- | --- |
@@ -74,29 +76,32 @@ No almacenar secretos en ninguno de los repositorios. Los enlaces de código que
 
 ## 5. Dependencias del backend
 
-### 5.1. Selecciones visibles en la captura
+### 5.1. Dependencias declaradas en el backend
 
-| Selección | Uso en la arquitectura | Límite de la confirmación |
+| Dependencia o integración | Uso en la arquitectura | Estado comprobado |
 | --- | --- | --- |
-| Spring Security | Autenticación y autorización de solicitudes/casos de uso | No define por sí sola sesión, JWT o proveedor de identidad |
-| Validation | Validaciones de entrada y mensajes de campos | No reemplaza reglas entre registros, autorización o restricciones de BD |
-| PostgreSQL Driver | Conexiones JDBC con PostgreSQL | No configura pertenencia ni credenciales por esquema |
-| Flyway Migration | Cambios de estructura versionados | No autoriza migrar con la credencial ordinaria de empresa |
-| Spring Boot Actuator | Salud y observación operativa | Endpoints y exposición deben restringirse por configuración |
-| Spring Modulith | Soporte para estructura/verificación de módulos | Versión exacta y artefactos del proyecto no comprobados |
+| Spring Web MVC | API REST del monolito | `spring-boot-starter-webmvc` declarado |
+| Spring Data JPA | Repositorios y persistencia aprobada en ARQ-08 | `spring-boot-starter-data-jpa` declarado |
+| Spring Security | Autenticación y autorización | `spring-boot-starter-security` declarado; mecanismo de sesión/proveedor pendiente |
+| Validation | Validación de entradas | `spring-boot-starter-validation` declarado; no sustituye integridad/autorización |
+| PostgreSQL Driver | Conexiones PostgreSQL | `org.postgresql:postgresql`, alcance runtime |
+| Flyway | Cambios de estructura | Starter Flyway y `flyway-database-postgresql` declarados |
+| Actuator | Salud y observación operativa | Starter Actuator declarado; exposición aún por configurar |
+| Spring Modulith 2.1.1 | Estructura, pruebas e integración modular | BOM 2.1.1; starters core/JPA y componentes runtime, observabilidad y Actuator declarados |
+| Pruebas | Soporte de pruebas de los componentes | Starters de pruebas de Actuator/JPA/Flyway/Security/Validation/Web MVC y Modulith declarados |
 
-La parte superior de la lista de dependencias está recortada. No se confirma la selección de Spring Web o Spring Data JPA solo por esa imagen. Que se vea un fragmento de descripción del contenedor no sustituye la lectura del POM.
+Las declaraciones anteriores se comprobaron en el POM del commit indicado. Falta verificar resolución de dependencias, compilación, ejecución y configuración multiesquema. El starter JPA de Modulith no resuelve por sí mismo dónde persistir eventos de varias empresas; esa decisión permanece en ARQ-13.
 
-### 5.2. Componentes por verificar o incorporar después
+### 5.2. Decisiones de integración y componentes pendientes
 
 | Componente | Recomendación | Estado |
 | --- | --- | --- |
-| Spring MVC | `spring-boot-starter-webmvc` para API REST del backend | Por verificar en POM; recomendado |
-| Spring Data JPA | `spring-boot-starter-data-jpa` para persistencia si se adopta la propuesta JPA | Por verificar selección; estrategia ORM pendiente de diseño |
-| Flyway para PostgreSQL | Verificar starter/integración y módulo `org.flywaydb:flyway-database-postgresql` | No asumir que seleccionar la etiqueta basta; comprobar dependencias generadas |
-| Pruebas de módulos | Soporte de pruebas de Spring Modulith y comprobación de límites | Propuesto; ajustar al BOM compatible |
+| Spring MVC | Contratos, validaciones y manejo de errores REST | Dependencia presente; contrato ARQ-10 pendiente |
+| Spring Data JPA | Aislamiento de identidad común y contexto empresarial | Uso aprobado ARQ-08; diseño físico y prueba técnica pendientes |
+| Flyway para PostgreSQL | Ejecución técnica separada por ámbito y permisos | Dependencias presentes; ejecución/recuperación ARQ-13 pendiente |
+| Pruebas de módulos | Comprobar límites mediante Spring Modulith | Dependencia de pruebas presente; pruebas aún no ejecutadas |
 | Pruebas de integración | Pruebas de seguridad, API y PostgreSQL real mediante Testcontainers | Propuesto; versiones y ejecución a definir |
-| Documentación API | Contrato revisable y, si se adopta, generación OpenAPI compatible con Boot 4 | Propuesto; no elegir biblioteca/versión por suposición |
+| Documentación API | Contrato OpenAPI compatible con Boot 4 | Aprobado APR-07; biblioteca/integración y versión pendientes |
 
 Boot publica starters y gestión de versiones para su plataforma; se propone respetar sus versiones gestionadas y comprobar el BOM generado para Modulith en lugar de mezclar versiones manualmente. [Dependencias de Spring Boot](https://docs.spring.io/spring-boot/reference/using/build-systems.html). Spring documenta el módulo específico de Flyway para PostgreSQL y recomienda una estrategia única de inicialización. [Inicialización y migraciones](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
 
@@ -106,7 +111,7 @@ Lombok, MapStruct, Redis, Kafka, RabbitMQ, Spring Cloud y librerías JWT no se c
 
 Se propone organizar por capacidad funcional, no poner todos los controladores, servicios y repositorios de la aplicación en carpetas globales.
 
-| Módulo propuesto bajo software.mspi | Responsabilidad principal | Propiedad lógica de datos |
+| Módulo aprobado bajo software.mspi | Responsabilidad principal | Propiedad lógica de datos |
 | --- | --- | --- |
 | identidad | Cuenta, autenticación, sesión y recuperación | Usuarios, credenciales, sesiones y comprobantes comunes |
 | empresas | Registro, membresías, roles e invitaciones | Empresas y autorización empresarial común |
@@ -121,7 +126,7 @@ Se propone organizar por capacidad funcional, no poner todos los controladores, 
 | reportes | Vistas de consulta y reporte básico | Proyecciones autorizadas; no nuevas fuentes de verdad |
 | gestion | Coordinación de casos de uso que cruzan módulos | Orquestación; no duplicación de entidades o repositorios ajenos |
 
-Es una propuesta de límites, no una lista de paquetes ya creados. Aprovisionamiento, conexiones, almacenamiento y migraciones son adaptadores técnicos con acceso controlado; su organización concreta debe evitar que una utilidad global se convierta en puerta para consultar cualquier empresa.
+ARQ-07 aprueba estos doce límites funcionales y gestion como coordinador. Su presencia efectiva en el código debe implementarse y verificarse. Aprovisionamiento, conexiones, almacenamiento y migraciones son adaptadores técnicos con acceso controlado; una utilidad global no puede convertirse en puerta para consultar cualquier empresa.
 
 ### 6.1. Estructura interior propuesta
 
@@ -137,7 +142,7 @@ software.mspi.activos
     persistence adaptadores y repositorios internos
 ```
 
-Los nombres definitivos y exposición de paquetes se ajustarán al modelo de detección de Spring Modulith. Los tipos internos no son API pública por ser clases Java public. Propuesta: un proyecto Maven inicial con módulos lógicos por paquetes y un Jar, sin exigir módulos Maven separados por cada dominio en v1.
+Los nombres internos y exposición de paquetes se ajustarán al modelo de Spring Modulith. Los tipos internos no son API pública por ser clases Java public. ARQ-07 aprueba un proyecto Maven inicial, módulos lógicos por paquetes y un Jar; no se exigen módulos Maven separados por dominio en v1.
 
 ### 6.2. Reglas de dependencia
 
@@ -177,17 +182,17 @@ Flujo propuesto:
 
 La conexión común de identidad y la empresarial no se consideran automáticamente una sola transacción por anotar un método. Los casos que escriben en ámbitos distintos deben tener una estrategia explícita de consistencia y recuperación. Las operaciones empresariales que necesiten atomicidad entre módulos deben compartir la misma unidad de trabajo/conexión empresarial, no abrir una transacción independiente por módulo sin control.
 
-### JPA: decisión pendiente que debe probarse
+### JPA: decisión aprobada y verificación técnica pendiente
 
-Spring Data JPA es la propuesta de persistencia, pero el proyecto exige más que un DataSource global. Antes de adoptarla como diseño físico definitivo, demostrar selección de conexión por empresa, separación de identidad común, fijación de contexto durante toda la transacción y ausencia de contaminación de cachés/contexto de persistencia. No iniciar consultas diferidas fuera del contexto autorizado ni cambiar empresa dentro de la misma unidad de trabajo.
+ARQ-08 aprueba Spring Data JPA como persistencia. Su implementación debe demostrar selección de conexión por empresa, separación de identidad común, fijación del contexto durante la transacción y ausencia de contaminación de cachés/contexto de persistencia. La aprobación no autoriza un DataSource global con acceso universal. No iniciar consultas diferidas fuera del contexto autorizado ni cambiar empresa dentro de la misma unidad de trabajo.
 
-No se prescribe un EntityManagerFactory ilimitado por empresa ni un único usuario SQL que pueda leer todos los esquemas. Debe evaluarse una estrategia compatible con las credenciales empresariales aprobadas; si la complejidad es excesiva, comparar acceso JDBC explícito sin cambiar silenciosamente DMP-03. La elección final requiere prueba técnica en el repositorio backend, fuera de esta tarea documental.
+No se prescribe un EntityManagerFactory ilimitado por empresa ni un usuario SQL que lea todos los esquemas. El mecanismo JPA debe ser compatible con credenciales empresariales limitadas; su configuración requiere prueba técnica en el backend. Si no satisface las restricciones, documentar y revisar una alternativa JDBC antes de sustituir la decisión, sin cambiar silenciosamente ARQ-08 o DMP-03.
 
 Propuesta inicial: sin caché compartida de entidades empresariales ni totales hasta demostrar su separación. Las claves de caché del frontend/consultas deben incluir empresa y alcance de autorización, no solo ID del objeto.
 
 ## 8. API y comunicación con frontend
 
-Se propone API REST con JSON para datos y un flujo separado para archivos. Las rutas siguientes son convenciones pendientes, no endpoints implementados:
+APR-07 aprueba API REST con JSON, prefijo `/api/v1` y empresa explícita validada en rutas empresariales; archivos usan flujo separado. Los siguientes ejemplos ilustran esa convención, no endpoints implementados. Contratos concretos por operación siguen por especificar:
 
 ```text
 /api/v1/identidad/...
@@ -206,13 +211,13 @@ Se propone API REST con JSON para datos y un flujo separado para archivos. Las r
 - Un identificador de correlación une backend/historial sin duplicar contenidos sensibles.
 - Contrato debe incluir nulabilidad, unidades, fechas/zonas, precisión de presentación y estados provisionales. Las equivalencias de riesgo no se publican como probabilidades medidas.
 
-La especificación final definirá respuestas y códigos HTTP, formatos y compatibilidad entre repositorios. No se crea archivo OpenAPI ni cliente generado en esta tarea.
+APR-07 aprueba DTO separados de entidades JPA, paginación/filtros permitidos, errores uniformes, revisión esperada y comandos de transición explícitos. El contrato se documentará mediante OpenAPI; respuestas/códigos HTTP, formatos e integración compatible todavía deben especificarse. No se genera contrato ni cliente en esta actualización.
 
 ## 9. Autenticación y autorización
 
-Confirmado Spring Security; pendiente elegir mecanismo de inicio de sesión. Para la aplicación web inicial se propone sesión de servidor mediante cookie protegida y protección CSRF, con frontend/API bajo un mismo origen externo cuando el despliegue lo permita. Es una recomendación para revisar, no una aprobación de cookies, tiempos o proveedor.
+APR-07 aprueba Spring Security con sesión de servidor y cookie de sesión `HttpOnly`, `Secure` bajo HTTPS, manteniendo protección CSRF. Se aprueba el objetivo de frontend/API bajo el mismo origen externo cuando el alojamiento lo permita. No se introduce JWT como mecanismo inicial. Duraciones, política de credenciales, atributos de cookie dependientes del despliegue, invitaciones y recuperación siguen por concretar.
 
-Si se adopta sesión: proteger cookie de sesión con atributos acordes al entorno, HTTPS fuera de desarrollo, cierre e invalidación del lado servidor y tratamiento explícito del token CSRF en el cliente. No desactivar CSRF solo por usar React. Spring Security documenta protección CSRF e integración específica con aplicaciones JavaScript. [Guía de Spring Security](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html).
+Proteger cookie de sesión conforme al entorno, HTTPS fuera de desarrollo, cierre/invalidación en servidor y tratamiento explícito del token CSRF en el cliente. La cookie de sesión y el token CSRF tienen funciones distintas; no exponer el identificador de sesión a JavaScript para resolver CSRF. No desactivar esa protección por usar React. [Guía de Spring Security](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html).
 
 Alternativas como proveedor OIDC o tokens se revisarán si surge necesidad; JWT no es obligatorio por tener React o repositorios separados. No almacenar secretos de base de datos en el navegador y no tratar comprobantes accesibles a JavaScript como almacenamiento seguro por defecto.
 
@@ -249,24 +254,31 @@ Comportamientos requeridos por decisiones anteriores:
 - Dar a RA su vista mínima cuando solo tenga ese rol y permitir permisos adicionales únicamente cuando otro rol los conceda.
 - Validar formularios para orientar, conservando servidor como autoridad. No adjuntar archivo nuevo a una entrega congelada.
 
-### Bibliotecas del frontend todavía no elegidas
+### Bibliotecas del frontend aprobadas y pendientes acotados
 
-| Necesidad | Opciones a evaluar | Estado |
+| Necesidad | Elección | Estado |
 | --- | --- | --- |
-| Navegación | Enrutador compatible con React | Pendiente; React Router fue opción, no decisión |
-| Formularios | Validación tipada y manejo de campos | Pendiente; no fijar librería por suposición |
-| Consultas/caché | Cliente con claves por empresa e invalidación de permisos | Pendiente; no exige Redux o caché global |
-| Interfaz visual | Material UI u otra biblioteca acordada | Pendiente; escoger React no aprueba Material UI |
+| Navegación | React Router | Aprobada APR-07; modo/configuración de rutas por definir |
+| Formularios | React Hook Form | Aprobada APR-07; organización de formularios por funcionalidad |
+| Validación tipada | Zod | Aprobada APR-07; esquemas frontend no reemplazan validación del backend |
+| Consultas/caché | TanStack Query | Aprobada APR-07; claves por empresa y alcance, invalidación y limpieza al cerrar sesión |
+| Interfaz visual | Material UI | Aprobada APR-07; componentes y tema por definir |
 | Gráficos | Matriz de riesgos y resúmenes accesibles | Pendiente; no generar visualizaciones nuevas en esta tarea |
 | Versiones/runtime | React, TypeScript, Vite, Node y gestor de paquetes compatibles | Pendiente de fijar en repositorio frontend y comprobar requisitos oficiales |
 
+Las cinco bibliotecas se instalan/configuran en el repositorio frontend en una etapa posterior. Fuentes de referencia: [React Router](https://reactrouter.com/start/declarative/installation), [React Hook Form](https://react-hook-form.com/get-started), [Zod](https://zod.dev/), [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) y [Material UI](https://mui.com/material-ui/getting-started/). La aprobación elige herramientas, no versiones ni una configuración ya probada.
+
+Al cambiar empresa, separar cachés y descartar respuestas tardías del contexto anterior. Al cerrar sesión, limpiar datos privados del cliente. Las reglas y resultados definitivos siguen en servidor; no duplicar el cálculo de criticidad o residual como autoridad en los formularios.
+
 ## 11. Flyway y ciclo técnico de empresa
 
-Flyway está seleccionado y los principios DMP-07 están aprobados. Se propone distinguir migraciones comunes y plantilla de migraciones empresariales, con historial por esquema/empresa, credencial técnica separada y versión verificada antes de habilitar operaciones.
+APR-07 aprueba Flyway como único mecanismo de evolución de estructura, con credenciales técnicas separadas conforme DMP-07. Distinguir ámbito común y migraciones empresariales con historial por empresa/esquema y verificación antes de habilitar operaciones. Organización exacta y ejecución quedan por configurar.
 
-La aplicación de solicitudes ordinarias no debe autoaprovisionar todos los esquemas al arrancar con una credencial universal de migración. Un proceso técnico controlado aplica cambios y registra intentos. Configurar la integración automática de Flyway para que respete esa separación; sus detalles requieren inspección del POM y estrategia de ejecución.
+La aplicación ordinaria no autoaprovisiona esquemas al arrancar con credencial universal de migración. Un proceso técnico controlado aplica cambios/registra intentos. Las dependencias están comprobadas en POM; configuración de ejecución y recuperación aún debe concretarse y probarse.
 
-Si se usa JPA, no utilizar actualización/creación automática de Hibernate como segundo mecanismo de evolución de estructura. La configuración exacta de validación se decidirá para el acceso común y empresarial, sin suponer que validar una conexión prueba todos los esquemas. La documentación de Boot describe las opciones de inicialización y la conveniencia de una estrategia única. [Inicialización de bases](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
+Con JPA aprobado, Hibernate no creará ni actualizará tablas automáticamente como segundo mecanismo. La validación de estructura se configurará por ámbito sin suponer que una conexión prueba todos los esquemas. [Inicialización de bases](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
+
+APR-07 aprueba coordinación síncrona mediante contratos públicos para operaciones críticas iniciales y sin broker en v1. Cambio obligatorio de negocio e historial debe conservar consistencia transaccional; un evento volátil no reemplaza esa garantía. Antes de introducir asincronía necesaria se definirán publicación fiable, persistencia, reintentos e idempotencia. El starter de eventos de Modulith no configura ni habilita automáticamente ese diseño.
 
 Alta: reservar empresa, crear estructura/propietario y permisos, verificar compatibilidad, preparar invitación por canal elegido y activar solo al completar requisitos. Reintentos no duplican empresa; migraciones empresariales inicialmente secuenciales y con bloqueo de operaciones incompatibles. No hay recuperación demostrada hasta ejecutar pruebas en entorno separado.
 
@@ -274,7 +286,9 @@ Alta: reservar empresa, crear estructura/propietario y permisos, verificar compa
 
 DMP-08 aprobado: archivo privado por empresa, metadatos en BD, descarga autorizada y copias coordinadas. Proveedor, carpetas físicas, cuotas y retención siguen pendientes. Una referencia documental no concede acceso externo ni se descarga automáticamente.
 
-Propuesta de despliegue inicial: una instancia backend y frontend estático, publicables bajo un mismo origen mediante infraestructura por elegir, con PostgreSQL y almacenamiento privado. No se eligen aún contenedores, proveedor, dominios, puertos o proxy. Tener repositorios separados no obliga a desplegar cada módulo de backend por separado.
+APR-07 aprueba entornos separados de desarrollo y demostración, almacenamiento privado y el objetivo de frontend/API bajo un mismo origen cuando sea viable. Se propone una instancia backend y frontend estático inicialmente; proveedor, contenedores, dominios, puertos y proxy siguen por elegir. Repositorios separados no obligan a desplegar módulos backend por separado.
+
+Se aprueba integración continua para compilación/pruebas en ambos repositorios y pruebas de integración backend con PostgreSQL real mediante Testcontainers, incluyendo aislamiento, permisos y concurrencia. La biblioteca permite administrar servicios en contenedores durante pruebas; su ejecución necesita un entorno compatible, por concretar. [Integración oficial de Testcontainers](https://docs.spring.io/spring-boot/reference/testing/testcontainers.html). No se crean workflows ni se ejecutan esas pruebas en esta actualización.
 
 Configuraciones por entorno y secretos externos al repositorio; YAML no almacena credenciales reales versionadas. Actuator expone solo comprobaciones acordadas a destinatarios autorizados; no publicar configuración, conexiones o información interna de empresas.
 
@@ -294,11 +308,11 @@ No se incorporan en esta versión microservicios, descubrimiento de servicios, A
 
 ## 14. Verificación prevista
 
-Escenarios futuros; no se han ejecutado pruebas de código ni acceso a repositorios externos.
+Escenarios futuros; no se han ejecutado compilación o pruebas de código. La lectura remota del POM de referencia sí está registrada en sección 4; no equivale a auditoría completa ni ejecución.
 
 | ID | Comprobación | Resultado esperado |
 | --- | --- | --- |
-| AT-01 | Compilar backend real con Java 17 y Boot 4.1.2 | Dependencias compatibles y compilación reproducible; no asumir por captura |
+| AT-01 | Compilar backend real con Java 17 y Boot 4.1.2 | Dependencias compatibles y compilación reproducible; lectura de POM no sustituye ejecución |
 | AT-02 | Verificar estructura con Spring Modulith | Sin ciclos ni accesos a componentes internos no autorizados |
 | AT-03 | Conexión A consulta B y solicitud con ID ajeno | Rechazo en motor y servidor, respectivamente |
 | AT-04 | Mezclar caché/contexto JPA o cambiar empresa en una transacción | Bloqueo de cambio/mezcla; ningún dato de otra empresa |
@@ -313,20 +327,20 @@ Escenarios futuros; no se han ejecutado pruebas de código ni acceso a repositor
 | AT-13 | Contrato backend/frontend y cambio de versión | Campos/errores/estados compatibles; no presentar pendientes como cero |
 | AT-14 | Autenticación web elegida y solicitudes de modificación | Controles de sesión/CSRF/origen coherentes con diseño aprobado |
 
-## 15. Decisiones técnicas propuestas y pendientes
+## 15. Estado de decisiones técnicas
 
-Las tecnologías confirmadas ARQ-01 a ARQ-06 no se vuelven a pedir. Las siguientes necesitan elección o diseño posterior:
+ARQ-01 a ARQ-06 están confirmadas. APR-06 aprueba ARQ-07/ARQ-08 y APR-07 aprueba los principios recomendados de ARQ-09 a ARQ-14. Quedan por definir los detalles físicos, versiones y políticas que se indican en cada fila; no se considera implementación verificada:
 
-| ID | Tema | Propuesta o trabajo necesario |
+| ID | Tema | Estado y trabajo restante |
 | --- | --- | --- |
-| ARQ-07 | Límites de módulos | Revisar los doce módulos y gestion como coordinador; un Jar y módulos lógicos por paquetes inicialmente |
-| ARQ-08 | Persistencia | Verificar JPA en POM y demostrar aislamiento por credencial/contexto; comparar JDBC si hace falta |
-| ARQ-09 | Autenticación web | Evaluar sesión de servidor/cookie y CSRF para aplicación web; alternativa de proveedor si se requiere; fijar duraciones y canal |
-| ARQ-10 | API | Acordar rutas, DTO, paginación, errores, revisión esperada y formato de contrato |
-| ARQ-11 | Bibliotecas frontend | Elegir navegación, formularios, consultas, interfaz visual y gráficos; fijar versiones/runtime compatibles |
-| ARQ-12 | Conexiones y PostgreSQL | Versión, permisos comunes mínimos, pools por contexto, límites, secretos y control de concurrencia |
-| ARQ-13 | Migraciones y eventos | Concretar ejecución Flyway separada, dependencias y recuperación; publicación fiable si se usa asincronía |
-| ARQ-14 | Infraestructura y pruebas | Alojamiento, almacenamiento, respaldo, despliegue, integración continua y pruebas PostgreSQL |
+| ARQ-07 | Límites de módulos | Aprobada APR-06: doce módulos, gestion coordinador, un proyecto Maven y un Jar, contratos públicos e internos encapsulados |
+| ARQ-08 | Persistencia | Aprobada APR-06: Spring Data JPA, presente en POM; configuración y prueba de aislamiento por credencial/contexto pendientes |
+| ARQ-09 | Autenticación web | Aprobada APR-07: sesión de servidor, cookie protegida y CSRF; duraciones/credenciales/canales por definir |
+| ARQ-10 | API | Aprobada APR-07: REST /api/v1, DTO, empresa validada, paginación, errores, revisión y comandos; OpenAPI aprobado, integración y contratos específicos pendientes |
+| ARQ-11 | Bibliotecas frontend | Aprobada APR-07: React Router, React Hook Form, Zod, TanStack Query y Material UI; versiones/runtime, gráficos y tema pendientes |
+| ARQ-12 | Conexiones y PostgreSQL | Aprobada APR-07: accesos separados, credencial/pool acotados por empresa, contexto fijo y secretos externos; versión/permisos/límites físicos y prueba con dos empresas pendientes |
+| ARQ-13 | Migraciones y eventos | Aprobada APR-07: Flyway único con credencial separada, sin DDL automático de Hibernate, coordinación síncrona inicial y sin broker; recuperación/asincronía fiable por concretar cuando aplique |
+| ARQ-14 | Infraestructura y pruebas | Aprobada APR-07: entornos separados, origen común cuando viable, archivos privados, CI y pruebas PostgreSQL con Testcontainers; proveedor, cuotas, retención y metas operativas pendientes |
 
 Adicionalmente siguen abiertos los pendientes funcionales ya registrados: rúbricas de riesgo/evidencia, umbrales agregados, política de cláusulas, retención y readmisión. Redactar arquitectura no completa decisiones funcionales inexistentes.
 
@@ -341,6 +355,28 @@ Adicionalmente siguen abiertos los pendientes funcionales ya registrados: rúbri
 | Estados y evidencia | TR del documento 6; DVAL del documento 5; DMP-08 |
 | Operación y recuperación | RNF del documento 1; DMP-07/DMP-08; AIS/AT para pruebas futuras |
 
-Las fuentes oficiales se enlazan junto a las afirmaciones técnicas correspondientes y fueron consultadas el 6 de noviembre de 2026. Las propuestas de diseño son decisiones razonadas para este proyecto, no prescripciones de esas bibliotecas. El inventario de artefactos disponibles de Modulith sirve para revisar el proyecto generado, sin fijar aquí una versión por una etiqueta de Initializr. [Módulos de Spring Modulith](https://docs.spring.io/spring-modulith/reference/appendix.html).
+Las fuentes oficiales se enlazan junto a las afirmaciones técnicas y fueron consultadas el 6 de noviembre de 2026. Las propuestas de diseño son decisiones del proyecto, no prescripciones de las bibliotecas. Modulith 2.1.1 está declarado por el POM de referencia; su ejecución y compatibilidad del conjunto se comprobarán mediante pruebas. [Módulos de Spring Modulith](https://docs.spring.io/spring-modulith/reference/appendix.html).
 
-Pendiente siguiente: revisar las decisiones ARQ-07 a ARQ-14 y, cuando se realice la revisión técnica, inspeccionar POM y manifiesto frontend en `Develop`, registrando el commit de origen. Los repositorios ya están identificados, pero su contenido no fue auditado en esta actualización. No es necesario volver a aprobar Spring Boot, Java 17, monolito modular, React + TypeScript + Vite, PostgreSQL o los principios DMP ya acordados. Esta tarea solo actualiza este Markdown, sin otros archivos ni implementación.
+Siguiente etapa: detallar contratos y configuración de los principios aprobados y ejecutar verificaciones de modularidad/aislamiento. El POM backend está revisado; manifiesto frontend, versiones compatibles, código funcional, compilación y pruebas siguen por verificar. Las decisiones no requieren nueva aprobación del mismo principio; sus parámetros todavía no definidos se revisarán explícitamente.
+
+## 17. Registro de aprobación APR-06
+
+Fecha: 6 de noviembre de 2026. El usuario aprueba las dos decisiones recomendadas como siguientes pasos: ARQ-07 y ARQ-08.
+
+- **ARQ-07:** doce módulos funcionales de la sección 6, incluyendo gestion para coordinación transversal; monolito con un proyecto Maven y un Jar inicialmente, contratos públicos y encapsulación de internos, sin dependencias circulares. La distribución no equivale a paquetes ya implementados.
+- **ARQ-08:** Spring Data JPA como persistencia, conservando separación de identidad común y empresa, credenciales empresariales limitadas y contexto fijado por transacción. Antes de uso real se debe demostrar aislamiento de conexiones/cachés, integridad y autorización. No se aprueba acceso universal ni se declara una prueba técnica superada.
+
+La revisión del POM confirma dependencias, no implementación. Estado histórico de APR-06: ARQ-09 a ARQ-14 quedaron pendientes. Su aprobación posterior está en APR-07; no se atribuye a APR-06 elección de autenticación, bibliotecas frontend, límites o proveedor.
+
+## 18. Registro de aprobación APR-07
+
+Fecha: 6 de noviembre de 2026. El usuario aprueba las recomendaciones para ARQ-09 a ARQ-14 y solicita actualizar este documento.
+
+- **ARQ-09:** sesión de servidor con cookie de sesión HttpOnly, Secure en HTTPS y CSRF, invalidación en servidor y permisos vigentes por operación; sin JWT inicial. Duraciones y políticas específicas aún abiertas.
+- **ARQ-10:** API REST /api/v1, empresa explícita validada, DTO separados de entidades, paginación/filtros permitidos, errores uniformes, revisión esperada, transiciones por comandos y contrato OpenAPI. Faltan contratos detallados e integración concreta.
+- **ARQ-11:** React Router, React Hook Form, Zod, TanStack Query y Material UI. Claves de consultas separadas por empresa/alcance y limpieza de datos privados al salir. Versiones compatibles, biblioteca de gráficos y parámetros visuales no elegidos.
+- **ARQ-12:** separación de acceso común/empresarial, credencial limitada por empresa, conexiones acotadas, empresa fija durante transacción y secretos fuera del repositorio. Demostrar aislamiento con dos empresas antes de extenderlo; versión PostgreSQL, límites y configuración final pendientes.
+- **ARQ-13:** Flyway como único mecanismo de evolución, credenciales técnicas separadas y sin creación/actualización automática Hibernate; contratos y coordinación síncrona para operaciones críticas, sin broker inicialmente. Asincronía futura requiere fiabilidad, persistencia e idempotencia explícitas.
+- **ARQ-14:** desarrollo/demostración separados, objetivo de origen común cuando viable, almacenamiento privado, integración continua en ambos repositorios y pruebas con PostgreSQL real mediante Testcontainers.
+
+Esta aprobación no fija proveedor, costes, cuotas, retención, tiempos de sesión/invitación/recuperación, tamaño de pools, versiones frontend/PostgreSQL o metas de recuperación. No instala dependencias, modifica código o workflows, ni acredita pruebas ejecutadas. El registro y los cambios se limitan a este Markdown.
