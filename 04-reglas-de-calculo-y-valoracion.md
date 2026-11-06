@@ -169,7 +169,7 @@ F3 e202d947420644d87dba6f5ee8dbccf47de5081b1911b641ccebffefff9f2234
 - **Origen:** F1 `PORTADA!F30:F37`: divide las medias redondeadas de las cláusulas 4,5,6,7,9 y 10 por 714, y la cláusula 8 por 625. Los objetivos G30:G36 son 0,14 salvo operación, 0,16.
 - **Hallazgo:** a puntuación 100 en las siete cláusulas, las fórmulas suman `6 × 100/714 + 100/625 = 1,000336…`, equivalente a 100,0336… %. La diferencia proviene de aproximar pesos mediante divisores.
 - **Propuesta:** pesos 0,14 para cláusulas 4,5,6,7,9,10 y 0,16 para la 8; `puntaje ponderado = suma(peso × media de cláusula)` en puntos; cobertura y pendientes se muestran aparte. Con todas en 100, resultado 100 exacto.
-- **Ejemplo:** las medias redondeadas almacenadas 50,67,67,60,67,67,50 dan 61,28 puntos con pesos explícitos; las fórmulas actuales dan aproximadamente 61,280224 %. La coincidencia visual a dos decimales no equivale a igualdad de regla.
+- **Ejemplo:** las medias redondeadas almacenadas 50,67,67,60,67,67,50 dan 61,26 puntos con pesos explícitos; las fórmulas actuales dan aproximadamente 61,280224 %. La diferencia debe registrarse al cambiar de metodología.
 - **Pendiente:** justificar pesos y decidir aplicabilidad de cláusulas. No excluir requisitos obligatorios por analogía con controles. Mientras se decide, un grupo sin información bloquea el global definitivo; no redistribuir pesos automáticamente. Los componentes PHVA se agrupan de acuerdo con el mapeo aprobado y no se mezclan con el global de controles.
 
 ### CAL-EVA-05. Cobertura de procesos del alcance
