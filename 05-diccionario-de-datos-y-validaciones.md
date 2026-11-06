@@ -1,6 +1,6 @@
 # Diccionario de datos y validaciones
 
-Versión: 0.3 — Datos y validaciones ajustados a APR-01 y APR-02
+Versión: 0.4 — Datos y validaciones ajustados a APR-01/APR-02/APR-03
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md).
 
@@ -8,7 +8,7 @@ Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02
 
 Definir los datos de la primera versión, su significado, origen, obligatoriedad y validaciones. Las entidades son conceptos funcionales: no representan todavía tablas, nombres SQL, tipos físicos, índices ni contratos definitivos de API.
 
-La separación por esquema empresarial es una decisión confirmada. La distribución de entidades, longitudes, tipos físicos y restricciones adicionales no aprobadas siguen en revisión. APR-02 resuelve parte de DEC-01 a DEC-12; su estado individual está en la sección 11 del documento 4. Describir un campo calculado no aprueba otra fórmula por asociación.
+La separación por esquema empresarial es una decisión confirmada. APR-03 aprueba PostgreSQL, distribución lógica común/empresarial, marca de pertenencia y principios de integridad/versiones del documento 7. Longitudes, tipos físicos, normalización y otras restricciones no aprobadas siguen en revisión. APR-02 resuelve parte de DEC-01 a DEC-12; estado individual en documento 4. Describir un campo calculado no aprueba otra fórmula por asociación.
 
 APR-01 del documento 1 aprueba alcance y política de roles, actualizados aquí para admitir varios roles por membresía. Esa aprobación no confirma las demás propuestas de datos, límites o metodologías.
 
@@ -42,11 +42,11 @@ Las entidades persistentes incluyen `id` (ID, M/S, inmutable) y `creado_en` (Ins
 
 Los registros de negocio incluyen `creado_por` y, cuando aplique, `actualizado_por` (REF(usuario), S), conservando atribución histórica aunque la membresía ya no esté vigente. Las operaciones técnicas se atribuyen a un actor de servicio identificado. Los eventos y versiones cerradas son inmutables y no reciben edición ordinaria. No se borran usuarios referenciados en los flujos iniciales.
 
-Todo registro empresarial tiene una **pertenencia empresarial verificable** derivada del contexto autorizado. En un esquema por empresa no se exige duplicar `empresa_id` en todas las tablas: su representación y la validación de relaciones se resolverán en el modelo físico. El navegador no puede elegir libremente el esquema ni fijar campos de autoría, resultados o privilegios.
+Todo registro empresarial tiene **pertenencia empresarial verificable** derivada del contexto autorizado. APR-03 aprueba incluir `empresa_id` en tablas empresariales y exigir coincidencia con la fila propietaria del esquema: sustituye la opción anterior de dejar esa redundancia abierta. La restricción física se definirá con PostgreSQL y DMP-04. El navegador no elige esquema ni fija libremente empresa, autoría, resultados o privilegios.
 
 ## 3. Distribución y protección
 
-| Ámbito propuesto | Entidades | Restricción |
+| Ámbito lógico aprobado APR-03 | Entidades | Restricción |
 | --- | --- | --- |
 | Común de plataforma | DD-01 a DD-08 | Compartir ubicación no implica visibilidad para todas las empresas; identidades y secretos tienen accesos específicos |
 | Esquema de cada empresa | DD-09 a DD-25 | Relaciones locales dentro de la empresa; referencias al catálogo o identidad común pasan controles explícitos |
@@ -635,6 +635,6 @@ Pendientes específicos antes del modelo físico:
 4. Confirmar datos personales y campos documentales de inventario necesarios para la primera versión, evitando recopilar información innecesaria.
 5. Definir retención, corrección de archivos, unidad exacta del límite de carga y cuotas por empresa.
 6. Aprobar los catálogos propuestos de implementación/verificación, guardado incompleto y condiciones de fechas y evidencias.
-7. Diseñar relaciones, restricciones atómicas y control de versiones entre esquema común, empresarial y almacenamiento privado; esto requiere un documento posterior de modelo de datos.
+7. Aplicar el modelo lógico aprobado parcialmente en documento 7; concretar DMP-04 para referencias comunes/conexiones antes de implementar aislamiento y definir detalles físicos, restricciones atómicas y coherencia con almacenamiento privado. DMP-07/DMP-08 siguen pendientes.
 
 El próximo paso es el modelo de datos y relaciones, acompañado por la especificación detallada de estados y transiciones. Este diccionario no implementa tablas ni cambia archivos Excel o políticas pendientes.

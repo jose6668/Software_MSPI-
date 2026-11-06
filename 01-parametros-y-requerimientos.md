@@ -1,6 +1,6 @@
 # Parámetros y requerimientos del sistema
 
-Versión: 0.3 — Aprobaciones APR-01 y APR-02 incorporadas
+Versión: 0.4 — Aprobaciones APR-01, APR-02 y APR-03 incorporadas
 Fecha: 6 de noviembre de 2026
 Nombre provisional: Sistema de Gestión de Seguridad de la Información
 
@@ -20,8 +20,8 @@ El sistema apoyará la gestión y la documentación. Una calificación o un repo
 | Base funcional | Los tres archivos Excel existentes | Confirmado por el contexto del proyecto |
 | Desarrollo | Desde cero, por etapas | Confirmado por el usuario |
 | Idioma inicial | Español | Propuesto |
-| Base de datos | Motor relacional con soporte de esquemas; candidato: PostgreSQL | Pendiente de decisión técnica |
-| Acceso inicial | Empresas y usuarios creados por invitación; sin registro público | Propuesto |
+| Base de datos | PostgreSQL; esquema común y esquema por empresa | Aprobado APR-03; versión y configuración pendientes |
+| Acceso inicial | Empresas y usuarios creados por invitación; sin registro público | Aprobado APR-01 |
 | Despliegue | Entorno de desarrollo y entorno de demostración separados | Propuesto |
 | Datos de demostración | Empresas y usuarios ficticios | Propuesto |
 | Diseño visual y tecnologías web | Se definirán después del alcance y los requerimientos | Pendiente |
@@ -166,7 +166,7 @@ Las cifras de capacidad, límites y recuperación son metas propuestas, no garan
 - Alcance y política de roles aprobados según APR-01 al final de este documento. El auditor no comenta en la primera versión; los comentarios quedan diferidos.
 - APR-02 aprueba criticidad por máximo, escala discreta, promedio por control, categorías de riesgo y residual documentado. Completar rúbricas, umbrales agregados y decisiones pendientes de la sección 11 del documento 4; no adoptar descuentos automáticos.
 - APR-02 aprueba mínimos de evidencia y cierre; concretar por criterio cuándo corresponde adjunto o referencia y la periodicidad de verificación.
-- Seleccionar tecnologías, alojamiento y mecanismo de invitación y recuperación de acceso.
+- PostgreSQL aprobado por APR-03; seleccionar su versión, las otras tecnologías, alojamiento y mecanismos de invitación/recuperación. Resolver DMP-04 antes de implementar aislamiento; DMP-07/DMP-08 siguen pendientes.
 - Definir retención de evidencias e historial, cuotas por empresa y procedimiento de retiro o eliminación de una empresa.
 - Confirmar metas de capacidad, respaldo y recuperación según los recursos disponibles.
 
@@ -202,5 +202,17 @@ Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat, al ac
 6. **Ciclos de vida:** mantener recorridos documentados y confirmar en particular activo archivado restaurado antes de edición, evaluación cerrada corregida con nueva revisión, tarea en revisión congelada/devolución previa y separación implementación/efectividad. Duraciones de sesiones, invitaciones, recuperación y conservación siguen pendientes de arquitectura; no se aprueban valores inexistentes.
 
 La aprobación es de comportamiento funcional, no de tecnologías, rúbricas todavía no escritas, periodicidades, umbrales globales de madurez o campos auxiliares no debatidos. EST-01 y los detalles técnicos de reintento/compensación siguen en revisión. DEC-11 y DEC-12 continúan pendientes. Las observaciones de fórmulas Excel se conservan como evidencia de origen y no se convierten en cálculos del software.
+
+## 16. Registro de aprobación APR-03
+
+Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat, al aceptar la recomendación de aprobar DMP-01, DMP-02, DMP-03, DMP-05 y DMP-06.
+
+- **DMP-01:** PostgreSQL como motor, con esquema común y esquemas empresariales en la base inicial. La versión y configuración todavía no se eligen.
+- **DMP-02:** distribución lógica del documento 7 y marca empresa_id en tablas empresariales, coincidente con una fila propietaria del esquema; pertenencia generada/controlada por servidor.
+- **DMP-03:** identidad técnica de ejecución limitada por empresa, separada de identidad común y aprovisionamiento/migración. El acceso A→B debe ser rechazado también por permisos de base de datos; la configuración física debe diseñarse y probarse.
+- **DMP-05:** identificadores opacos, tablas de unión para roles, códigos únicos locales y sin cascadas destructivas de registros históricos; formato y normalización aún pendientes.
+- **DMP-06:** separar versiones/verificaciones, entregas/decisiones y avisos; conservar referencias históricas inmutables e instantánea contextual mínima al cierre.
+
+**DMP-04 permanece pendiente y es una dependencia obligatoria antes de implementar DMP-03:** resolver referencias al esquema común, accesos mínimos y manejo de conexiones. DMP-07 y DMP-08 también permanecen pendientes; deben concretarse antes del despliegue y uso de datos reales. Esta aprobación no ejecuta SQL, crea credenciales ni fija cuotas, retención, metas de recuperación o detalles físicos no debatidos.
 
 Este documento es una base revisable y no inicia la implementación. Solo los puntos identificados como aprobados cambian de estado; las demás propuestas conservan sus pendientes.
