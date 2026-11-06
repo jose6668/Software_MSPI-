@@ -1,0 +1,2163 @@
+<!doctype html>
+<html lang="es" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://persistent.oaistatic.com/plugins/visualize/; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://persistent.oaistatic.com/plugins/visualize/charts/; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>MSPI - Panorama navegable</title>
+<style>:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 16px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans:
+    -apple-system-body, ui-sans-serif, -apple-system, system-ui, "Segoe UI",
+    Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 8px);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-weight: var(--font-weight-normal);
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  font-weight: inherit;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+.table {
+  font-family: var(--font-sans);
+}
+
+h1 {
+  font-size: calc(var(--font-size-base) * 1.5);
+  line-height: 1.3333333333;
+}
+
+h2 {
+  font-size: calc(var(--font-size-base) * 1.25);
+  line-height: 1.4;
+}
+h3 {
+  font-size: calc(var(--font-size-base) * 1.125);
+  line-height: 1.5555555556;
+}
+h4 {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+h5,
+h6 {
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong,
+th {
+  font-weight: 600;
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+pre,
+pre code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-family: var(--font-sans);
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+.table :is(th, td):not(:last-child) {
+  padding-inline-end: calc(var(--font-size-base) * 1.5);
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead :is(th, td) {
+  border-bottom-color: var(--border-strong, var(--input));
+  padding-block: calc(var(--font-size-base) / 2);
+  line-height: var(--font-size-base);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+.table tbody :is(th, td) {
+  padding-block: calc(var(--font-size-base) * 0.625);
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 8px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+.widget {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  box-shadow: 0 0 0 0.5px var(--border-strong, var(--border));
+  color: var(--foreground);
+  background: var(--background);
+}
+
+#widget > :not(.card, .widget, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  border: 1px solid var(--border);
+  corner-shape: var(--corner-shape);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-sans);
+  padding: 5px 12px;
+  border-color: color-mix(
+    in oklab,
+    light-dark(var(--primary-foreground), var(--foreground)) 5%,
+    transparent
+  );
+  border-radius: var(--radius-2xl);
+  color: light-dark(var(--primary-foreground), var(--foreground));
+  background: light-dark(var(--foreground), var(--popover));
+  box-shadow: 0 8px 18px rgb(15 23 42 / 20%);
+  letter-spacing: -0.15px;
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: color-mix(in srgb, var(--foreground) 40%, var(--muted-foreground));
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-family: var(--font-sans);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1;
+}
+
+small,
+.text-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+/* Match inline alignment without overriding a containing flex or grid layout. */
+.btn,
+.nav-link,
+.form-control,
+.form-select,
+.form-range,
+.form-check {
+  vertical-align: middle;
+}
+
+.btn,
+.nav-link {
+  --btn-size: calc(12px + 2 * var(--control-spacing, 12px));
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: inherit;
+  font-family: var(--font-sans);
+  height: fit-content;
+  min-height: var(--btn-size);
+  padding-inline: var(--control-spacing, 12px);
+  border-color: transparent;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.btn {
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+}
+
+/* Codex Button size="compact"; appearance stays with the button variant. */
+.btn-sm {
+  --btn-size: 24px;
+  padding-inline: 8px;
+  font-size: calc(var(--font-size-base) * 12 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 12 / 16), 1px);
+  line-height: 16px;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-link:not(:disabled):not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+.btn-primary {
+  border-color: var(--border);
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: border-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: border-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--muted-foreground);
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+/* Shared preview chrome; product styles stay inside each variant. */
+.viz-dotted-background {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--foreground) 14%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-position: center;
+  background-size: 16px 16px;
+}
+
+.viz-carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.viz-carousel:has(> .viz-carousel-controls) {
+  min-height: calc(60px + var(--viz-carousel-picker-height, 0px));
+  padding-bottom: 60px;
+}
+
+.viz-carousel > [data-variant][hidden] {
+  display: none !important;
+}
+
+.viz-carousel > [data-variant] {
+  isolation: isolate;
+}
+
+.viz-carousel-controls {
+  --viz-carousel-hover: light-dark(
+    color-mix(in srgb, var(--foreground) 5.4%, transparent),
+    color-mix(in srgb, var(--foreground) 7.8%, transparent)
+  );
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  /* Leave room for the host's design-controls launcher at the trailing edge. */
+  max-width: calc(100% - 96px);
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  /* Match the settings dropdown chrome independently of the content font size. */
+  font-size: 13px;
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+  transform: translateX(-50%);
+  user-select: none;
+}
+
+/* Keep authored mockup button styles out of the shared carousel chrome. */
+.viz-carousel-controls button,
+.viz-carousel-picker > summary {
+  display: flex !important;
+  height: auto !important;
+  min-height: 30px;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  padding: 0 6px !important;
+  -webkit-app-region: no-drag;
+  border: 0 !important;
+  border-radius: 14px !important;
+  color: inherit !important;
+  background: transparent !important;
+  font: inherit !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viz-carousel-controls > button,
+.viz-carousel-picker > summary {
+  position: relative;
+  isolation: isolate;
+}
+
+.viz-carousel-controls > button {
+  --icon-size: 16px;
+  width: 30px !important;
+  padding: 0 !important;
+}
+
+.viz-carousel-picker > summary {
+  padding-inline: 12px !important;
+}
+
+.viz-carousel-controls .viz-carousel-caret {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin: 0;
+  color: inherit;
+  transform: rotate(180deg);
+}
+
+.viz-carousel-controls > button > svg,
+.viz-carousel-controls .viz-carousel-caret,
+.viz-carousel-count {
+  opacity: 0.5;
+}
+
+.viz-carousel-controls > button::before,
+.viz-carousel-picker > summary::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border-radius: 12px;
+  content: "";
+  pointer-events: none;
+}
+
+.viz-carousel-controls > button:hover::before,
+.viz-carousel-picker > summary:hover::before {
+  background: var(--viz-carousel-hover);
+}
+
+.viz-carousel-controls > button,
+.viz-carousel-controls [data-lucide],
+.viz-carousel-controls .lucide {
+  flex-shrink: 0;
+}
+
+.viz-carousel-picker {
+  min-width: 0;
+}
+
+.viz-carousel-picker > summary {
+  min-width: 0;
+  list-style: none;
+}
+
+.viz-carousel-picker > summary::-webkit-details-marker {
+  display: none;
+}
+
+.viz-carousel-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viz-carousel-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viz-carousel-options {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  max-height: 240px;
+  flex-direction: column;
+  gap: 2px;
+  overflow: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+  box-shadow: 0 4px 12px light-dark(rgb(0 0 0 / 6%), rgb(0 0 0 / 25%));
+}
+
+.viz-carousel-options > button {
+  border-radius: max(0px, calc(var(--radius-lg) - 5px)) !important;
+  width: 100% !important;
+  min-height: 28px;
+  justify-content: flex-start !important;
+  padding: 4px 8px !important;
+  font-size: var(--font-size-small) !important;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.viz-carousel-options > [aria-current="true"],
+.viz-carousel-options > button:hover {
+  background: var(--viz-carousel-hover) !important;
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: calc(4px + var(--control-spacing, 12px) / 2);
+  border-color: var(--input);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--popover) 96%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.4285714286;
+}
+.form-control:is(
+  [type="file"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"],
+  [type="color"]
+) {
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  line-height: 18px;
+}
+.form-control:is(
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"]
+) {
+  padding-inline: var(--control-spacing, 12px);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+  padding: 0;
+}
+
+.form-control[type="file"]::file-selector-button {
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+  min-height: calc(10px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  margin-inline-end: var(--control-spacing, 12px);
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  resize: vertical;
+  min-height: 96px;
+  padding: 8px 10px;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: none;
+}
+.form-control:disabled {
+  color: var(--muted-foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  opacity: 1;
+}
+.form-control[aria-invalid="true"] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 20%, transparent);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  margin: 0;
+  /* The secondary icon role is 14px at compact density and 16px at web density. */
+  --icon-size: calc(10px + var(--control-spacing, 12px) / 2);
+  /* Settings dropdowns retain a 12px inset and a 4px text-to-chevron gap. */
+  padding: 0 calc(16px + var(--icon-size)) 0 12px;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    );
+  background-position:
+    calc(100% - 12px - var(--icon-size) / 2) 50%,
+    calc(100% - 12px - var(--icon-size) * 0.18) 50%;
+  background-repeat: no-repeat;
+  background-size: calc(var(--icon-size) * 0.32) calc(var(--icon-size) * 0.32);
+  cursor: var(--cursor-interaction, default);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.form-select :is(option, optgroup) {
+  color: var(--popover-foreground);
+  background-color: var(--popover);
+}
+
+.form-select :is(option, optgroup):disabled {
+  color: var(--muted-foreground);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.form-select:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+.form-select:disabled {
+  opacity: 0.4;
+}
+
+.form-check {
+  display: flex;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  corner-shape: round;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  width: calc(10px + var(--control-spacing, 12px) / 2);
+  height: calc(10px + var(--control-spacing, 12px) / 2);
+  border-color: var(--border-strong, var(--input));
+  border-radius: calc(var(--radius-sm) / 2);
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:is(:checked, :indeterminate) {
+  border-color: var(--border-strong, var(--input));
+  background-color: color-mix(in srgb, var(--popover) 96%, transparent);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+  background-color: var(--foreground);
+}
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:indeterminate::before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 65%;
+  height: 6.65%;
+  margin: auto;
+  border-radius: var(--radius-full);
+  background: var(--foreground);
+  mask: none;
+  content: "";
+}
+
+.form-check-input[type="radio"] {
+  border-radius: var(--radius-full);
+  width: 16px;
+  height: 16px;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--input);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 0;
+  background: radial-gradient(
+    circle,
+    var(--primary-foreground) 0 3px,
+    var(--foreground) 3px
+  );
+  box-shadow: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:focus-visible {
+  border-color: var(--ring);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+.form-check:not(.form-switch) .form-check-input[type="radio"]:disabled,
+.form-check:not(.form-switch)
+  .form-check-input[type="radio"]:disabled
+  + .form-check-label {
+  opacity: 0.5;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  border-color: #fff;
+  background: #fff;
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--blue);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+  outline: none;
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  accent-color: var(--primary);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  outline: none;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: transparent;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  margin-top: -9px;
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Outline the native track and thumb, preserving the larger input hit area. */
+.form-range:focus-visible::-webkit-slider-runnable-track {
+  outline: 2px auto Highlight;
+  outline-color: -webkit-focus-ring-color;
+}
+
+.form-range::-moz-range-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.form-range:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed="true"],
+  [aria-selected="true"],
+  .is-selected
+) {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--blue);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.viz-carousel-controls :is(button, summary):focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Web recipes are the default, including on renderers without inline style queries. */
+@supports (border-radius: if(style(--corner-shape: round): 1px; else: 2px)) {
+  /* Match the host's proportional text-sm scale at every text preference. */
+  .tooltip,
+  .viz-badge,
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 14 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 13 / 14), 1px)
+    );
+  }
+
+  .btn-sm {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 12 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 12 / 14), 1px)
+    );
+  }
+
+  .btn,
+  .nav-link,
+  .form-select {
+    border-radius: if(
+      style(--corner-shape: round): var(--radius-full); else: var(--radius-lg)
+    );
+  }
+
+  .form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+    border-radius: if(
+      style(--corner-shape: round): calc(var(--radius-sm) / 2);
+        else: calc(var(--radius-lg) * 0.4)
+    );
+  }
+
+  .tooltip {
+    font-weight: if(
+      style(--corner-shape: round): 600; else: var(--font-weight-normal)
+    );
+  }
+}
+
+@media (pointer: coarse) {
+  .viz-carousel:has(> .viz-carousel-controls) {
+    min-height: calc(76px + var(--viz-carousel-picker-height, 0px));
+    padding-bottom: 76px;
+  }
+
+  .btn,
+  .nav-link,
+  .viz-carousel-controls button,
+  .viz-carousel-picker > summary,
+  .form-control,
+  .form-select {
+    --btn-size: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+  .form-control:is(
+    [type="file"],
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="week"],
+    [type="time"],
+    [type="color"]
+  ) {
+    height: 44px;
+    min-height: 44px;
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+
+  .form-control[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type="color"] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="time"],
+    [type="week"]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html>body{padding:0}</style>
+<style>html,body{margin:0;padding:0}body{background:light-dark(#f3f6fa,#101a24)}#mspi-review .product{border-radius:0;min-height:100vh}#mspi-review .stage{min-height:0}</style></head>
+<body><style>
+#mspi-review { color-scheme:light dark; font-family:Inter,Segoe UI,Arial,sans-serif; color:light-dark(#182b40,#e6edf5); }
+#mspi-review * { box-sizing:border-box; }
+#mspi-review .stage { min-height:0; }
+#mspi-review .product { --paper:light-dark(#ffffff,#182430); --canvas:light-dark(#f3f6fa,#101a24); --ink:light-dark(#182b40,#e6edf5); --sub:light-dark(#52647a,#b3c2d4); --line:light-dark(#dce3eb,#38495a); --brand:light-dark(#2455ad,#a5c5ff); --tint:light-dark(#eaf0fc,#263e60); --warn:light-dark(#875700,#ffd58b); --warn-bg:light-dark(#fff4dc,#3d3020); --red:light-dark(#a32d42,#ffb2bd); --red-bg:light-dark(#fcecf0,#3f2631); --green:light-dark(#21664e,#a0ddc5); background:var(--canvas); color:var(--ink); border:1px solid var(--line); border-radius:16px; overflow:hidden; width:100%; font-size:14px; line-height:1.5; }
+#mspi-review .product h1, #mspi-review .product h2, #mspi-review .product h3, #mspi-review .product p { margin:0; }
+#mspi-review .product h1 { font-size:27px; line-height:1.25; font-weight:650; letter-spacing:-.7px; }
+#mspi-review .product h2 { font-size:17px; line-height:1.4; font-weight:650; }
+#mspi-review .product h3 { font-size:14px; font-weight:650; }
+#mspi-review .product button, #mspi-review .product select { font:inherit; color:inherit; }
+#mspi-review .product button { cursor:pointer; }
+#mspi-review .product button:focus-visible, #mspi-review .product select:focus-visible, #mspi-review .product summary:focus-visible { outline:3px solid var(--brand); outline-offset:3px; }
+#mspi-review .product button { min-height:44px; border:1px solid var(--line); border-radius:8px; padding:9px 14px; background:var(--paper); font-weight:600; }
+#mspi-review .product .primary { background:var(--brand); color:light-dark(#fff,#102344); border-color:transparent; }
+#mspi-review .product .quiet { border:0; background:transparent; color:var(--brand); padding:7px 0; text-align:left; }
+#mspi-review .product .sub { color:var(--sub); }
+#mspi-review .product .small { font-size:12px; }
+#mspi-review .product .eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:1.1px; font-weight:650; }
+#mspi-review .product .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+#mspi-review .product .between { justify-content:space-between; }
+#mspi-review .product .stack { display:grid; gap:18px; }
+#mspi-review .product .logo { display:flex; gap:10px; align-items:center; font-size:18px; font-weight:700; letter-spacing:.5px; }
+#mspi-review .product .logo-mark { background:var(--brand); color:light-dark(#fff,#102344); border-radius:9px; padding:7px; display:inline-flex; }
+#mspi-review .product i { width:18px; height:18px; }
+#mspi-review .product .company label { display:block; font-size:11px; color:var(--sub); }
+#mspi-review .product select { width:100%; min-height:44px; background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px; font-weight:600; }
+#mspi-review .product .pill { display:inline-flex; align-items:center; gap:5px; border-radius:5px; padding:3px 7px; background:var(--tint); color:var(--brand); font-size:12px; font-weight:600; }
+#mspi-review .product .warning { color:var(--warn); background:var(--warn-bg); }
+#mspi-review .product .danger { color:var(--red); background:var(--red-bg); }
+#mspi-review .product .neutral { color:var(--sub); background:var(--canvas); }
+#mspi-review .product .topbar { padding:14px 24px; background:var(--paper); border-bottom:1px solid var(--line); }
+#mspi-review .product .profile { display:flex; align-items:center; gap:10px; }
+#mspi-review .product .avatar { width:36px; height:36px; display:grid; place-items:center; border-radius:50%; background:var(--tint); color:var(--brand); font-size:12px; font-weight:700; }
+#mspi-review .product .shell { display:grid; grid-template-columns:180px minmax(0,1fr); }
+#mspi-review .product aside { background:var(--paper); border-right:1px solid var(--line); padding:24px 12px; }
+#mspi-review .product .nav-list { display:grid; gap:5px; margin-top:25px; }
+#mspi-review .product .nav-item { display:flex; gap:10px; align-items:center; padding:11px 12px; border-radius:8px; color:var(--sub); }
+#mspi-review .product .nav-item.active { color:var(--brand); background:var(--tint); font-weight:650; }
+#mspi-review .product .nav-label { margin:22px 12px 8px; }
+#mspi-review .product main { min-width:0; padding:26px; display:grid; gap:20px; }
+#mspi-review .product .intro { display:grid; gap:6px; }
+#mspi-review .product .panel { border:1px solid var(--line); border-radius:12px; background:var(--paper); padding:20px; min-width:0; }
+#mspi-review .product .score-layout { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:24px; margin-top:18px; }
+#mspi-review .product .score { font-size:45px; font-weight:650; letter-spacing:-1.7px; line-height:1.15; font-variant-numeric:tabular-nums; }
+#mspi-review .product .unit { font-size:15px; font-weight:400; color:var(--sub); letter-spacing:0; }
+#mspi-review .product .bar { background:var(--canvas); height:8px; border-radius:4px; overflow:hidden; margin:9px 0; }
+#mspi-review .product .bar span { display:block; height:100%; background:var(--brand); border-radius:4px; }
+#mspi-review .product .domain { display:grid; grid-template-columns:1fr auto; column-gap:10px; font-size:12px; margin:9px 0; }
+#mspi-review .product .domain .bar { grid-column:1/-1; height:5px; margin:5px 0 0; }
+#mspi-review .product .facts { display:flex; gap:6px 14px; flex-wrap:wrap; margin:11px 0; font-size:12px; color:var(--sub); }
+#mspi-review .product details { margin-top:12px; font-size:12px; }
+#mspi-review .product summary { cursor:pointer; color:var(--brand); min-height:36px; padding:8px 0; font-weight:600; }
+#mspi-review .product details p { margin:8px 0; }
+#mspi-review .product .overview { display:grid; grid-template-columns:1fr 1.4fr 1fr; gap:14px; }
+#mspi-review .product .metric { font-size:28px; line-height:1.35; font-weight:650; font-variant-numeric:tabular-nums; margin:8px 0; }
+#mspi-review .product .levels { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0; }
+#mspi-review .product .level { display:flex; align-items:center; gap:5px; font-size:12px; }
+#mspi-review .product .dot { width:8px; height:8px; border-radius:50%; background:var(--sub); }
+#mspi-review .product .dot.extreme { background:var(--red); }
+#mspi-review .product .dot.high { background:var(--warn); }
+#mspi-review .product .dot.low { background:var(--green); }
+#mspi-review .product .task { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; padding:16px 0; border-bottom:1px solid var(--line); }
+#mspi-review .product .task:last-child { border-bottom:0; padding-bottom:0; }
+#mspi-review .product .task h3 { margin:5px 0; }
+#mspi-review .product .task-meta { display:flex; flex-wrap:wrap; gap:6px 12px; font-size:12px; color:var(--sub); margin-top:5px; }
+#mspi-review .product .task-action { align-self:center; text-align:right; }
+#mspi-review .product .footer { display:flex; gap:8px 24px; flex-wrap:wrap; font-size:11px; color:var(--sub); }
+#mspi-review .product .notice { background:var(--tint); color:var(--brand); border-radius:8px; padding:11px 14px; font-size:12px; }
+#mspi-review .focus { --brand:light-dark(#14665f,#96dbd0); --tint:light-dark(#e4f2ef,#1c3f3b); }
+#mspi-review .focus .topbar { padding:18px 26px; }
+#mspi-review .focus .horizontal { background:var(--paper); border-bottom:1px solid var(--line); display:flex; gap:5px; padding:0 22px; flex-wrap:wrap; }
+#mspi-review .focus .horizontal .nav-item { border-radius:0; border-bottom:3px solid transparent; padding:12px; }
+#mspi-review .focus .horizontal .active { border-bottom-color:var(--brand); background:transparent; }
+#mspi-review .focus main { padding:26px; }
+#mspi-review .focus .workspace { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:20px; align-items:start; }
+#mspi-review .focus .score-layout { grid-template-columns:1fr; gap:8px; }
+#mspi-review .focus .task { grid-template-columns:1fr; }
+#mspi-review .focus .task-action { text-align:left; }
+#mspi-review .focus .overview { grid-template-columns:1fr 1fr; }
+#mspi-review .focus .overview .risk { grid-column:1/-1; }
+#mspi-review .product.mobile { max-width:390px; margin:auto; }
+#mspi-review .product.mobile .shell { grid-template-columns:1fr; }
+#mspi-review .product.mobile aside { border-right:0; border-bottom:1px solid var(--line); padding:14px; }
+#mspi-review .product.mobile aside>.logo,#mspi-review .product.mobile .nav-label { display:none; }
+#mspi-review .product.mobile .nav-list { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:0; gap:3px; }
+#mspi-review .product.mobile .nav-item { flex-direction:column; padding:8px 2px; gap:4px; font-size:12px; }
+#mspi-review .product.mobile main { padding:18px 14px; }
+#mspi-review .product.mobile .score-layout,#mspi-review .product.mobile .overview,#mspi-review .product.mobile .workspace { grid-template-columns:1fr; }
+#mspi-review .product.mobile .topbar { padding:14px; }
+#mspi-review .product.mobile .profile { width:100%; }
+#mspi-review .product.mobile .task { grid-template-columns:1fr; }
+#mspi-review .product.mobile .task-action { text-align:left; }
+#mspi-review .product.mobile .horizontal { padding:4px 10px; display:grid; grid-template-columns:repeat(3,1fr); }
+#mspi-review .product.mobile .horizontal .nav-item { flex-direction:row; justify-content:center; }
+#mspi-review .product.mobile .horizontal i { display:none; }
+#mspi-review .product.mobile .panel { padding:16px; }
+#mspi-review .product.mobile .focus-company { width:100%; }
+#mspi-review .product .demo-feedback { margin-top:6px; color:var(--brand); font-size:12px; }
+@media(max-width:760px) {
+ #mspi-review .product .shell { grid-template-columns:1fr; }
+ #mspi-review .product aside { padding:12px; border-right:0; border-bottom:1px solid var(--line); }
+ #mspi-review .product aside>.logo,#mspi-review .product .nav-label { display:none; }
+ #mspi-review .product .nav-list { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; margin:0; }
+ #mspi-review .product .nav-item { padding:9px 5px; font-size:12px; justify-content:center; }
+ #mspi-review .product main { padding:18px 14px; }
+ #mspi-review .product .score-layout,#mspi-review .product .overview,#mspi-review .product .workspace { grid-template-columns:1fr; }
+ #mspi-review .product .profile { width:100%; }
+ #mspi-review .product .task { grid-template-columns:1fr; }
+ #mspi-review .product .task-action { text-align:left; }
+ #mspi-review .focus .horizontal { display:grid; grid-template-columns:repeat(3,1fr); padding:4px 10px; }
+ #mspi-review .focus .horizontal .nav-item { padding:10px 3px; }
+ #mspi-review .focus .horizontal i { display:none; }
+ #mspi-review .product .panel { padding:16px; }
+ #mspi-review .stage { min-height:0; }
+}
+</style>
+<div id="mspi-review">
+  <section data-variant="Panorama" class="stage" aria-label="Panorama: resultados primero">
+   <div class="product panorama" aria-label="Panel Panorama">
+    <div class="topbar row between">
+     <div class="company"><label for="company-panorama">Empresa activa</label><select id="company-panorama" aria-label="Empresa activa en boceto Panorama"><option>Andina Servicios S.A.S.</option><option>Litoral Logística S.A.S.</option></select></div>
+     <div class="profile"><span class="avatar">LM</span><div><strong>Laura Méndez</strong><div class="small sub">Gestora de seguridad · Responsable de acciones</div></div></div>
+    </div>
+    <div class="shell">
+     <aside aria-label="Navegación empresarial propuesta">
+      <div class="logo"><span class="logo-mark"><span aria-hidden="true">◈</span></span>MSPI</div>
+      <div class="nav-list"><span class="nav-item active" aria-current="page"><span aria-hidden="true">▦</span>Panel</span><span class="nav-item"><span aria-hidden="true">▧</span>Activos</span><span class="nav-item"><span aria-hidden="true">▤</span>Evaluaciones</span><span class="nav-item"><span aria-hidden="true">△</span>Riesgos</span><span class="nav-item"><span aria-hidden="true">☷</span>Acciones</span><span class="nav-item"><span aria-hidden="true">▥</span>Reportes</span></div>
+      <div class="nav-label eyebrow sub">Contexto</div><div class="small sub" style="padding:0 12px">Datos de esta empresa<br>America/Bogota</div>
+     </aside>
+     <main>
+      <header class="row between"><div class="intro"><div class="eyebrow sub">Visión empresarial</div><h1>Panel de seguridad</h1><p class="sub small">Corte: 6 nov 2026, 10:00 · America/Bogota</p></div><button type="button" data-preview="Abriría la vista imprimible con empresa, fecha y filtros.">Reporte básico</button></header>
+      <div class="notice">BOCETO · Datos ficticios · Los resultados apoyan la gestión y no constituyen certificación.</div>
+      <section class="panel" aria-label="Resultados de evaluación Panorama">
+       <div class="row between"><div><div class="eyebrow sub">Evaluación seleccionada · En borrador</div><h2>Diagnóstico · noviembre 2026</h2></div><span class="pill warning">Resultado provisional</span></div>
+       <div class="score-layout">
+        <div><p class="sub small">Puntaje de controles evaluados</p><div class="score">64,00 <span class="unit">/ 100 puntos</span></div><div class="row between small" style="margin-top:17px"><strong>Avance de evaluación</strong><span>60 de 85 · 70,59 %</span></div><div class="bar" role="progressbar" aria-label="Avance de controles Panorama" aria-valuenow="70.59" aria-valuemin="0" aria-valuemax="100"><span style="width:70.59%"></span></div><div class="facts"><span>20 sin calificar</span><span>5 sin decidir aplicabilidad</span><span>8 no aplica justificados</span></div><button type="button" class="primary" data-preview="Continuaría el borrador de la evaluación seleccionada, con sus 25 pendientes.">Continuar evaluación</button></div>
+        <div><h3>Puntaje por dominio · provisional</h3><div class="domain"><span>Organizacionales · 24/34 evaluados</span><strong>70,00</strong><div class="bar"><span style="width:70%"></span></div></div><div class="domain"><span>Personas · 6/7 evaluados</span><strong>60,00</strong><div class="bar"><span style="width:60%"></span></div></div><div class="domain"><span>Físicos · 10/12 evaluados</span><strong>60,00</strong><div class="bar"><span style="width:60%"></span></div></div><div class="domain"><span>Tecnológicos · 20/32 evaluados</span><strong>60,00</strong><div class="bar"><span style="width:60%"></span></div></div><p class="small sub">Puntos / 100 · Cada control tiene el mismo peso.</p></div>
+       </div>
+       <details><summary>Base del cálculo y resultados por cláusula</summary><p>93 controles: 60 evaluados + 20 sin calificar + 5 sin decidir + 8 no aplica. Suma de notas: 3.840 / 60 = 64,00. Los 6 controles con nota 0 están incluidos entre los evaluados. Pendientes y no aplica no se convierten a cero.</p><p>Cláusulas, en puntos / 100: 4 → 60,00; 5 → 80,00; 6 → 40,00; 7 → 60,00; 8 → pendiente; 9 → pendiente; 10 → pendiente. Cada grupo mostrado con nota tiene sus respuestas completas. Sin global PHVA.</p><p>Referencia ilustrativa: catálogo DEMO-C1 · reglas DEMO-M1 basadas en APR-02. No representan una metodología publicada.</p></details>
+      </section>
+      <div class="overview">
+       <section class="panel"><h3>Activos vigentes</h3><div class="metric">48</div><p class="small sub">39 clasificados<br>9 pendientes de clasificación</p></section>
+       <section class="panel risk"><h3>Riesgos abiertos · residual</h3><div class="metric">18</div><div class="levels"><span class="level"><b class="dot extreme"></b>1 extremo</span><span class="level"><b class="dot high"></b>4 altos</span><span class="level"><b class="dot"></b>5 moderados</span><span class="level"><b class="dot low"></b>2 bajos</span></div><p class="small sub">12 con valoración vigente<br>3 pendientes · 3 requieren revisión</p></section>
+       <section class="panel"><h3>Acciones abiertas</h3><div class="metric">16</div><p class="small sub">5 pendientes · 7 en ejecución<br>4 en revisión</p><span class="pill danger" style="margin-top:10px">3 vencidas</span></section>
+      </div>
+      <section class="panel"><div class="row between"><h2>Prioridades de seguimiento</h2><span class="small sub">3 de 16 acciones abiertas</span></div>
+       <div class="task"><div><span class="pill danger">Vencida · 2 días</span><h3>AC-014 · Verificar restauración del respaldo</h3><div class="task-meta"><span>En ejecución</span><span>Diego Ruiz</span><span>Plazo: 4 nov</span></div></div><div class="task-action"><button type="button" data-preview="Abriría AC-014 en consulta. Solo Diego, su responsable actual, puede registrar avances.">Ver acción</button></div></div>
+       <div class="task"><div><span class="pill">En revisión</span><h3>AC-018 · Revisar accesos del ERP</h3><div class="task-meta"><span>Responsable: Camila Ríos</span><span>Plazo: 9 nov</span></div></div><div class="task-action"><button type="button" data-preview="Abriría la entrega y sus evidencias. Laura puede aprobar o devolver con motivo porque no es la responsable.">Revisar entrega</button></div></div>
+       <div class="task"><div><span class="pill neutral">En revisión · Tu entrega</span><h3>AC-021 · Actualizar el procedimiento de incidentes</h3><div class="task-meta"><span>Responsable: Laura Méndez</span><span>Plazo: 10 nov</span></div></div><div class="task-action small sub">Debe revisarla otra persona<br>con permiso de revisión</div></div>
+      </section>
+      <div class="footer"><span>Inventario, riesgos y acciones: vigentes al corte; no filtrados por evaluación.</span><span>0 = nota registrada · Pendiente = falta información · No aplica = exclusión justificada.</span></div>
+      <p class="demo-feedback" role="status" aria-live="polite"></p>
+     </main>
+    </div>
+   </div>
+  </section>
+</div>
+<style>
+#mspi-review [hidden] { display:none !important; }
+#mspi-review .product .nav-list button { text-align:left; border:0; background:transparent; font-weight:400; width:100%; }
+#mspi-review .product .nav-list button.active { background:var(--tint); color:var(--brand); font-weight:650; }
+#mspi-review .product .toolbar { display:flex; flex-wrap:wrap; gap:12px; align-items:end; }
+#mspi-review .product label.field { display:grid; gap:6px; color:var(--sub); font-size:12px; min-width:0; }
+#mspi-review .product .toolbar .search { flex:1; min-width:150px; }
+#mspi-review .product input,#mspi-review .product textarea,#mspi-review .product select { font:inherit; color:var(--ink); border:1px solid var(--line); background:var(--paper); border-radius:8px; padding:10px 12px; min-height:44px; width:100%; }
+#mspi-review .product textarea { min-height:100px; resize:vertical; }
+#mspi-review .product input:focus-visible,#mspi-review .product textarea:focus-visible { outline:3px solid var(--brand); outline-offset:2px; }
+#mspi-review .product .table-wrap { overflow-x:auto; }
+#mspi-review .product table { border-collapse:collapse; width:100%; text-align:left; font-size:13px; }
+#mspi-review .product th { color:var(--sub); font-size:12px; font-weight:600; background:var(--canvas); }
+#mspi-review .product th,#mspi-review .product td { padding:13px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+#mspi-review .product td small { display:block; margin-top:4px; font-size:12px; color:var(--sub); }
+#mspi-review .product td .quiet { min-height:36px; padding:0; }
+#mspi-review .product .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+#mspi-review .product .stats .metric { margin-bottom:0; }
+#mspi-review .product .pager { display:flex; gap:12px; justify-content:space-between; flex-wrap:wrap; align-items:center; margin-top:16px; font-size:12px; color:var(--sub); }
+#mspi-review .product .pager button { padding:6px 12px; }
+#mspi-review .product button:disabled { opacity:.55; cursor:not-allowed; }
+#mspi-review .product .success { background:light-dark(#e7f5ee,#1c3b30); color:var(--green); }
+#mspi-review .product .split { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:18px; align-items:start; }
+#mspi-review .product .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+#mspi-review .product .full { grid-column:1/-1; }
+#mspi-review .product .section-title { padding-bottom:12px; border-bottom:1px solid var(--line); }
+#mspi-review .product .details-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+#mspi-review .product .details-grid dt { font-size:12px; color:var(--sub); }
+#mspi-review .product .details-grid dd { margin:4px 0 0; font-weight:600; }
+#mspi-review .product dialog { --paper:light-dark(#fff,#182430); background:var(--paper); color:var(--ink); border:1px solid var(--line); border-radius:16px; padding:24px; width:760px; max-width:calc(100% - 28px); max-height:88vh; overflow:auto; }
+#mspi-review .product dialog::backdrop { background:#07172599; }
+#mspi-review .product dialog h2 { margin-bottom:8px; }
+#mspi-review .product dialog .dialog-body { margin:18px 0; }
+#mspi-review .product .steps { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0; color:var(--sub); font-size:12px; }
+#mspi-review .product .steps span { padding:6px 9px; border-radius:6px; background:var(--canvas); }
+#mspi-review .product .steps .current { background:var(--tint); color:var(--brand); }
+#mspi-review .product .empty { text-align:center; padding:40px 20px; }
+#mspi-review .product .matrix { display:grid; grid-template-columns:70px repeat(5,minmax(0,1fr)); gap:5px; margin:14px 0; font-size:11px; }
+#mspi-review .product .matrix>span { padding:9px 3px; text-align:center; align-content:center; }
+#mspi-review .product .matrix button { border:0; padding:9px 3px; min-height:56px; font-size:11px; font-weight:500; }
+#mspi-review .product .matrix button strong { display:block; font-size:17px; }
+#mspi-review .product .risk-low { background:light-dark(#e6f3ed,#1e3930); color:var(--green); }
+#mspi-review .product .risk-moderate { background:var(--tint); color:var(--brand); }
+#mspi-review .product .risk-high { background:var(--warn-bg); color:var(--warn); }
+#mspi-review .product .risk-extreme { background:var(--red-bg); color:var(--red); }
+#mspi-review .product .access { max-width:500px; margin:20px auto; }
+#mspi-review .product .access .logo { margin-bottom:20px; }
+#mspi-review .product.access-mode .shell { grid-template-columns:1fr; }
+#mspi-review .product.access-mode aside,#mspi-review .product.access-mode .topbar .company,#mspi-review .product.access-mode .topbar .profile { display:none; }
+#mspi-review .product .flow-note { font-size:12px; color:var(--sub); padding:12px 0; }
+#mspi-review .product .tag-row { display:flex; gap:8px; flex-wrap:wrap; }
+#mspi-review .product .tag-row button[aria-pressed=true] { background:var(--tint); border-color:var(--brand); color:var(--brand); }
+#mspi-review .product .report-page { padding:28px; background:var(--paper); border:1px solid var(--line); border-radius:12px; }
+#mspi-review .product .report-page h2 { margin:18px 0 8px; }
+@media(max-width:760px) {
+ #mspi-review .product .split,#mspi-review .product .form-grid,#mspi-review .product .stats { grid-template-columns:1fr; }
+ #mspi-review .product .records thead { display:none; }
+ #mspi-review .product .records tr { display:block; border-bottom:1px solid var(--line); padding:12px 0; }
+ #mspi-review .product .records td { display:block; border:0; padding:5px 0; overflow-wrap:anywhere; }
+ #mspi-review .product .records td[data-label]::before { content:attr(data-label) ': '; color:var(--sub); font-size:12px; }
+ #mspi-review .product .matrix { grid-template-columns:55px repeat(5,minmax(0,1fr)); gap:3px; }
+ #mspi-review .product .matrix button { padding:7px 0; overflow-wrap:anywhere; }
+ #mspi-review .product .matrix>span { overflow-wrap:anywhere; }
+ #mspi-review .product .report-page { padding:16px; }
+}
+@media print {
+ #mspi-review .product { --paper:#fff; --canvas:#fff; --ink:#111; --sub:#444; --line:#ccc; color-scheme:light; border:0; }
+ #mspi-review .product aside,#mspi-review .product .topbar,#mspi-review .product .notice,#mspi-review .product main>header,#mspi-review .product .no-print,#mspi-review .product dialog { display:none !important; }
+ #mspi-review .product .shell { display:block; }
+ #mspi-review .product main { display:block; padding:0; }
+ #mspi-review .product .report-page { border:0; padding:0; }
+ #mspi-review .product .report-page section { break-inside:avoid; }
+}
+</style>
+<template id="tpl-activos">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Inventario empresarial</div><h1>Activos de información</h1><p class="sub small">Procesos, responsables y clasificación C / I / D.</p></div><button class="primary" data-do="nuevo-activo">Registrar activo</button></header>
+ <div class="stats"><section class="panel"><h3>Activos vigentes</h3><div class="metric">48</div></section><section class="panel"><h3>Clasificación completa</h3><div class="metric">39</div></section><section class="panel"><h3>Pendientes de clasificación</h3><div class="metric">9</div></section></div>
+ <section class="panel stack"><div class="toolbar"><label class="field search">Buscar por código, nombre o proceso<input type="search" id="search" placeholder="Ej. servidor, ACT-001…"></label><label class="field">Clasificación<select id="filter"><option value="">Todas</option><option>Pendiente</option><option>Alta</option><option>Media</option><option>Baja</option></select></label></div><p class="small sub">Inventario vigente · C/I/D completas → criticidad por máximo · Archivados fuera de este ejemplo.</p><div id="list"></div></section>
+</template>
+<template id="tpl-evaluaciones">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Diagnóstico y seguimiento</div><h1>Evaluaciones</h1><p class="sub small">Cada evaluación conserva su alcance, catálogo y metodología.</p></div><button class="primary" data-do="nueva-evaluacion">Crear evaluación</button></header>
+ <section class="panel"><div class="row between"><div><span class="pill warning">Borrador · Provisional</span><h2 style="margin-top:10px">Diagnóstico · noviembre 2026</h2><p class="small sub">Fecha: 6 nov 2026 · Laura Méndez · DEMO-C1 / DEMO-M1</p></div><div class="score">64,00 <span class="unit">puntos / 100</span></div></div><div class="bar" role="progressbar" aria-label="Avance de evaluación" aria-valuenow="70.59" aria-valuemin="0" aria-valuemax="100"><span style="width:70.59%"></span></div><p class="small sub">60/85 evaluados · 70,59 % de avance · 20 sin calificar · 5 sin decidir aplicabilidad · 8 N justificados</p><div class="row" style="margin-top:15px"><button class="primary" data-do="respuestas">Continuar evaluación</button><button data-do="cierre-evaluacion">Revisar requisitos de cierre</button></div></section>
+ <section class="panel"><h2>Histórico</h2><div class="task"><div><span class="pill success">Cerrada · Inmutable</span><h3>Diagnóstico · agosto 2026</h3><p class="small sub">15 ago 2026 · 85/85 controles aplicables evaluados · 8 no aplica · 60,00 puntos · Misma referencia ilustrativa</p></div><button data-do="historico-evaluacion">Consultar histórico</button></div></section>
+</template>
+<template id="tpl-riesgos">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Análisis y tratamiento</div><h1>Riesgos</h1><p class="sub small">Nivel, estado y decisión de tratamiento son dimensiones diferentes.</p></div><button class="primary" data-do="nuevo-riesgo">Registrar riesgo</button></header>
+ <div class="stats"><section class="panel"><h3>Riesgos abiertos</h3><div class="metric">18</div></section><section class="panel"><h3>Residual vigente</h3><div class="metric">12</div></section><section class="panel"><h3>Fuera de la matriz vigente</h3><div class="metric">6</div><p class="small sub">3 pendientes · 3 requieren revisión</p></section></div>
+ <details class="panel"><summary>Matriz residual · 12 valoraciones vigentes</summary><p class="small sub">Probabilidad en filas · Impacto en columnas · Cada celda indica nivel y cantidad de riesgos. Selecciona una para consultar.</p><div id="matrix" class="matrix" aria-label="Matriz residual categórica de riesgos"></div></details>
+ <section class="panel stack"><div class="toolbar"><label class="field search">Buscar por código, descripción o activo<input type="search" id="search" placeholder="Ej. respaldo, R-001…"></label><label class="field">Residual<select id="filter"><option value="">Todos</option><option>Extremo</option><option>Alto</option><option>Moderado</option><option>Bajo</option><option>Pendiente</option><option>Requiere revisión</option></select></label></div><p id="matrix-selection" class="small sub"></p><div id="list"></div></section>
+</template>
+<template id="tpl-acciones">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Ejecución y revisión independiente</div><h1>Acciones de mejora</h1><p class="sub small">El responsable entrega; otra persona autorizada revisa.</p></div><button class="primary" data-do="nueva-accion">Crear acción</button></header>
+ <div class="stats"><section class="panel"><h3>Acciones abiertas</h3><div class="metric">16</div><p class="small sub">5 pendientes · 7 en ejecución</p></section><section class="panel"><h3>En revisión</h3><div class="metric">4</div><p class="small sub">Puedes revisar 3 · 1 es tu entrega</p></section><section class="panel"><h3>Vencidas</h3><div class="metric">3</div><p class="small sub">Subconjunto de las 16 abiertas</p></section></div>
+ <section class="panel stack"><div class="tag-row" aria-label="Alcance de acciones"><button data-scope="todas" aria-pressed="true">Todas</button><button data-scope="mias" aria-pressed="false">Mis tareas</button><button data-scope="revisar" aria-pressed="false">Para mi revisión</button><button data-scope="vencidas" aria-pressed="false">Vencidas</button></div><div class="toolbar"><label class="field search">Buscar por código, tarea o responsable<input type="search" id="search" placeholder="Ej. ERP, AC-018…"></label><label class="field">Estado<select id="filter"><option value="">Todos</option><option>Pendiente</option><option>En ejecución</option><option>En revisión</option></select></label></div><div id="list"></div></section>
+</template>
+<template id="tpl-reportes">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Información para revisión</div><h1>Reporte básico</h1><p class="sub small">Vista imprimible de los datos autorizados de Andina.</p></div><button class="primary" data-do="imprimir">Imprimir / guardar PDF</button></header>
+ <div class="notice no-print">Vista ilustrativa · Imprime con el navegador. Exportación Excel y reportes avanzados quedan fuera de la primera versión.</div>
+ <article class="report-page"><header><div class="eyebrow sub">MSPI · Datos ficticios</div><h1>Andina Servicios S.A.S.</h1><p class="sub">Reporte de gestión de seguridad de la información</p><p class="small sub" style="margin-top:12px">Referencia: 6 nov 2026, 10:00 · America/Bogota<br>Evaluación: Diagnóstico · noviembre 2026<br>Inventario, riesgos y acciones: registros vigentes al corte, sin filtro por evaluación.</p></header><section><h2>Resultados de controles · Provisionales</h2><p>64,00 puntos / 100 · Avance 70,59 % (60/85).</p><p class="small sub">93 en alcance: 60 evaluados, 20 sin calificar, 5 sin decidir aplicabilidad, 8 no aplica justificados. Las 6 notas cero están incluidas en los evaluados.</p><table><thead><tr><th>Dominio</th><th>Evaluados/aplicables</th><th>Puntos / 100</th></tr></thead><tbody><tr><td>Organizacionales</td><td>24/34</td><td>70,00</td></tr><tr><td>Personas</td><td>6/7</td><td>60,00</td></tr><tr><td>Físicos</td><td>10/12</td><td>60,00</td></tr><tr><td>Tecnológicos</td><td>20/32</td><td>60,00</td></tr></tbody></table></section><section><h2>Cláusulas · Resultados separados</h2><p class="small">4: 60,00 · 5: 80,00 · 6: 40,00 · 7: 60,00 puntos / 100. Cláusulas 8, 9 y 10: pendientes. Grupos con nota completos. Sin global PHVA.</p></section><section><h2>Inventario, riesgos y acciones</h2><p>48 activos vigentes: 39 clasificados, 9 pendientes.</p><p>18 riesgos abiertos: 1 extremo, 4 altos, 5 moderados y 2 bajos con residual vigente; 3 pendientes y 3 requieren revisión.</p><p>16 acciones abiertas: 5 pendientes, 7 en ejecución y 4 en revisión. 3 están vencidas.</p></section><section><h2>Metodología y límites</h2><p class="small sub">Referencias de demostración DEMO-C1 y DEMO-M1, basadas en APR-02; no son un catálogo o metodología publicados. Promedio de controles: 3.840/60 = 64,00; igual peso por control evaluado. Los pendientes y N justificados no suman ceros. No se asigna madurez agregada. Riesgo categórico por matriz, sin descuentos automáticos. Este reporte no constituye certificación. No incluye el registro administrativo de actividad.</p></section></article>
+</template>
+<template id="tpl-acceso">
+ <header class="intro"><div class="eyebrow sub">Recorrido de acceso · Boceto</div><h1>Acceso a tu espacio</h1><p class="sub small">Cuenta y membresía empresarial son condiciones diferentes.</p></header>
+ <section class="panel access"><div class="logo">MSPI</div><h2>Iniciar sesión</h2><p class="sub small" style="margin:10px 0 20px">Acceso por invitación. No hay registro público.</p><form id="login-form" class="stack"><label class="field">Correo<input name="correo" type="email" value="laura.mendez@example.com" autocomplete="off" required></label><label class="field">Contraseña<input name="clave" type="password" placeholder="Escribe una contraseña de ejemplo" autocomplete="off" required></label><button class="primary">Continuar · simulación</button></form><div class="row" style="margin-top:15px"><button class="quiet" data-do="recuperar">Recuperar acceso</button><button class="quiet" data-do="invitacion">Tengo una invitación</button></div><p class="flow-note">No se envían credenciales. Canal y vencimientos todavía por definir.</p></section>
+</template>
+<style>
+#mspi-review .design-lab { padding:10px 18px; background:light-dark(#edf1f8,#111e2c); color:light-dark(#243b5c,#c3d7f4); font-size:12px; border-bottom:1px solid light-dark(#d3dfef,#3b4c63); }
+#mspi-review .design-lab summary { cursor:pointer; min-height:28px; align-content:center; font-weight:600; }
+#mspi-review .lab-controls { display:flex; flex-wrap:wrap; gap:12px; padding:12px 0; }
+#mspi-review .lab-controls label { display:grid; gap:5px; flex:1; min-width:160px; }
+#mspi-review .lab-controls select { padding:9px; font:inherit; min-height:44px; color:inherit; background:light-dark(#fff,#182430); border:1px solid light-dark(#bac9de,#62768d); border-radius:6px; }
+#mspi-review .product .mobile-nav,#mspi-review .product .mobile-profile { display:none; }
+#mspi-review .product .detail-page { max-width:1040px; width:100%; margin:0 auto; display:grid; gap:20px; }
+#mspi-review .product .detail-page .page-body { display:grid; gap:20px; }
+#mspi-review .product .page-heading h1 { font-size:26px; overflow-wrap:anywhere; }
+#mspi-review .product .page-heading .quiet { min-height:36px; }
+#mspi-review .product .draft-indicator { color:var(--warn); font-size:12px; }
+#mspi-review .product .stats-fold { margin:0; }
+#mspi-review .product .stats-fold>summary { display:none; }
+#mspi-review .product .skeleton { background:var(--canvas); height:18px; width:80%; margin:14px 0; border-radius:5px; }
+#mspi-review .product .skeleton.short { width:45%; }
+#mspi-review .product .system-state { max-width:680px; margin:20px auto; padding:28px; }
+#mspi-review .product .system-state h1 { margin:12px 0; }
+#mspi-review .product .state-code { font-size:12px; color:var(--sub); }
+#mspi-review .product .roles-list { display:flex; flex-wrap:wrap; gap:5px; }
+#mspi-review .product .admin-nav { border-top:1px solid var(--line); margin-top:10px; padding-top:10px; }
+#mspi-review .product .context-block { border-left:3px solid var(--brand); padding:8px 14px; }
+#mspi-review .product .person-list { display:grid; gap:14px; }
+#mspi-review .product .person-item { padding:14px 0; border-bottom:1px solid var(--line); }
+#mspi-review .product .mobile-profile summary { cursor:pointer; padding:5px 0; min-height:32px; color:var(--sub); font-size:12px; }
+#mspi-review .product .disabled-context .nav-list { display:none; }
+@media(max-width:760px) {
+ #mspi-review .design-lab { padding:5px 12px; }
+ #mspi-review .design-lab summary { min-height:36px; }
+ #mspi-review .product .topbar { padding:10px 12px; gap:4px; }
+ #mspi-review .product .topbar .profile,#mspi-review .product .topbar>.quiet { display:none !important; }
+ #mspi-review .product .topbar .company { width:100%; }
+ #mspi-review .product .topbar .company label { display:none; }
+ #mspi-review .product .topbar .company select { min-height:40px; padding:7px 10px; }
+ #mspi-review .product .mobile-profile { display:block; width:100%; margin:0; }
+ #mspi-review .product .mobile-profile p { font-size:12px; }
+ #mspi-review .product .mobile-profile button { padding:6px 0; }
+ #mspi-review .product .mobile-nav { display:block; width:100%; }
+ #mspi-review .product .mobile-nav select { min-height:40px; padding:7px 10px; }
+ #mspi-review .product aside { display:none; }
+ #mspi-review .product main { padding:16px 12px; gap:14px; }
+ #mspi-review .product .notice { font-size:11px; padding:8px 10px; }
+ #mspi-review .product .stats-fold { border-bottom:1px solid var(--line); padding-bottom:8px; }
+ #mspi-review .product .stats-fold>summary { display:list-item; min-height:40px; font-size:13px; }
+ #mspi-review .product .stats-fold .stats { grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }
+ #mspi-review .product .stats-fold .panel { padding:10px 7px; }
+ #mspi-review .product .stats-fold h3 { font-size:11px; }
+ #mspi-review .product .stats-fold .metric { font-size:24px; }
+ #mspi-review .product .page-heading h1 { font-size:23px; }
+ #mspi-review .product .detail-page { gap:14px; }
+ #mspi-review .product .system-state { padding:20px 16px; margin:0; }
+}
+@media print { #mspi-review .design-lab,#mspi-review .product .mobile-nav,#mspi-review .product .mobile-profile { display:none !important; } }
+</style>
+<template id="tpl-miembros">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Administración de empresa</div><h1>Miembros y roles</h1><p class="sub small">Solo AE administra membresías e invitaciones de Andina.</p></div><button class="primary" data-do="invitar-miembro">Invitar miembro</button></header>
+ <section class="panel"><h2>Membresías activas · Ejemplo</h2><div class="person-list"><div class="person-item"><div class="row between"><strong>Camila Ríos</strong><span class="pill">AE · GS · RA</span></div><p class="small sub">Única membresía con AE en este ejemplo. No se puede revocar ni retirar AE sin otro administrador activo.</p></div><div class="person-item"><div class="row between"><strong>Laura Méndez</strong><span class="pill">GS · RA</span></div><p class="small sub">Gestión de seguridad y ejecución de tareas asignadas.</p></div><div class="person-item"><div class="row between"><strong>Diego Ruiz</strong><span class="pill">RA</span></div><p class="small sub">Sus tareas y contexto mínimo; sin inventario ni panel general.</p></div><div class="person-item"><div class="row between"><strong>Elena Torres</strong><span class="pill">AU</span></div><p class="small sub">Consulta empresarial sin edición.</p></div></div></section>
+ <section class="panel"><h2>Invitaciones pendientes</h2><p class="sub small">No hay invitaciones pendientes en esta muestra. El canal y la duración siguen por definir.</p></section>
+</template>
+<template id="tpl-empresa">
+ <header class="intro"><div class="eyebrow sub">Administración de empresa</div><h1>Configuración de Andina</h1><p class="small sub">Los parámetros técnicos y la metodología común no se editan aquí.</p></header>
+ <section class="panel"><form id="company-form" class="stack"><div class="form-grid"><label class="field">Nombre visible<input name="nombre" value="Andina Servicios S.A.S." required></label><label class="field">Zona horaria<select name="zona"><option>America/Bogota</option></select></label><label class="field full">Descripción<textarea name="descripcion">Empresa ficticia de servicios empresariales.</textarea></label></div><p class="small sub">Los plazos usan la zona empresarial. Los eventos conservan su marca temporal. No se muestran nombres de esquema, secretos o permisos de infraestructura.</p><button class="primary">Previsualizar cambios</button></form></section>
+</template>
+<template id="tpl-actividad">
+ <header class="intro"><div class="eyebrow sub">Administración de empresa</div><h1>Registro de actividad</h1><p class="sub small">Solo consulta por AE. Sin edición ni eliminación de eventos.</p></header>
+ <section class="panel"><div class="task"><div><h3>5 nov · 15:10 · Laura Méndez</h3><p class="small sub">Solicitud de revisión de AC-021 · Entrega registrada.</p></div></div><div class="task"><div><h3>5 nov · 11:40 · Camila Ríos</h3><p class="small sub">Asignación empresarial de RA a Diego Ruiz · Motivo: ejecución del plan de acciones.</p></div></div><div class="task"><div><h3>3 nov · 09:30 · Diego Ruiz</h3><p class="small sub">Avance de AC-014 · Evidencia contextual autorizada.</p></div></div></section>
+</template>
+<template id="tpl-plataforma">
+ <header class="row between"><div class="intro"><div class="eyebrow sub">Espacio de plataforma · AP</div><h1>Empresas del servicio</h1><p class="sub small">Metadatos y disponibilidad técnica. No hay acceso a activos, riesgos ni evidencias.</p></div><button class="primary" data-do="alta-empresa">Crear empresa</button></header>
+ <section class="panel"><div class="table-wrap"><table class="records"><thead><tr><th>Empresa</th><th>Estado</th><th>Compatibilidad técnica</th><th>Operación</th></tr></thead><tbody><tr><td>Andina Servicios S.A.S.</td><td>Activa</td><td>Compatible · DEM-EST-1</td><td><button data-do="suspender-demo">Revisar suspensión</button></td></tr><tr><td>Litoral Logística S.A.S.</td><td>Activa</td><td>Compatible · DEM-EST-1</td><td><button data-do="suspender-demo">Revisar suspensión</button></td></tr><tr><td>Nova Consultoría S.A.S.</td><td>Error de aprovisionamiento</td><td>Incompleta</td><td><button data-do="reintentar-alta">Ver pasos y reintento</button></td></tr></tbody></table></div></section>
+ <div class="notice">Samuel no tiene membresías empresariales en esta muestra. Administrar el servicio no le concede acceso operativo a ninguna empresa.</div>
+</template>
+
+
+<script>
+(() => {
+ const root=document.getElementById('mspi-review');
+ const app=root.querySelector('.product');
+ const main=app.querySelector('main');
+ const originalPanel=main.innerHTML;
+ const e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const pill=(text,kind='neutral')=>`<span class="pill ${kind}">${e(text)}</span>`;
+ const button=(text,action,id='',primary=false)=>`<button type="button" ${primary?'class="primary"':''} data-do="${action}" data-id="${id}">${text}</button>`;
+ const ctx={view:'panel',page:1,query:'',filter:'',scope:'todas',cell:null};
+ const assetNames=['Servidor de respaldos','ERP corporativo','Base de datos de clientes','Repositorio de contratos','Portal de proveedores','Directorio de usuarios','Plataforma de correo','Sistema de nómina','Archivo de compras','Red de oficina','Estación de tesorería','Gestor documental'];
+ const processes=['Tecnología','Finanzas','Servicio al cliente','Jurídica','Compras','Talento humano'];
+ const people=['Diego Ruiz','Camila Ríos','Laura Méndez'];
+ const assets=Array.from({length:48},(_,i)=>({id:`ACT-${String(i+1).padStart(3,'0')}`,name:assetNames[i%12]+(i>=12?` · sede ${Math.floor(i/12)+1}`:''),process:processes[i%6],owner:people[i%3],pending:i>=39,c:i>=39?5:i<18?5:i<32?3:1,i:i>=39?null:i<18?3:i<32?3:1,d:i>=39?1:i<18?5:i<32?1:1,personal:'Pendiente',critical:i>=39?'Pendiente':i<18?'Alta':i<32?'Media':'Baja'}));
+ const pairs=[[4,4],[3,3],[3,3],[4,2],[4,2],[2,2],[2,2],[1,1],[2,1],[2,2],[0,0],[1,0]];
+ const levels=[['Bajo','Bajo','Moderado','Alto','Extremo'],['Bajo','Moderado','Moderado','Alto','Extremo'],['Moderado','Moderado','Moderado','Alto','Extremo'],['Moderado','Moderado','Alto','Alto','Extremo'],['Alto','Alto','Alto','Alto','Extremo']];
+ const probs=['Muy baja','Baja','Media','Alta','Muy alta'], impacts=['Leve','Menor','Moderado','Mayor','Catastrófico'];
+ const riskNames=['Pérdida de respaldos recuperables','Acceso indebido al ERP','Exposición de datos de clientes','Alteración de contratos','Interrupción del portal','Cuentas sin revisión','Suplantación por correo','Acceso indebido a nómina','Pérdida de documentos de compra','Indisponibilidad de la red','Error en estación de tesorería','Acceso indebido al archivo'];
+ const risks=Array.from({length:18},(_,i)=>({id:`R-${String(i+1).padStart(3,'0')}`,name:riskNames[i%12]+(i>=12?' · análisis adicional':''),asset:assets[i%12],p:i<12?pairs[i][0]:null,impact:i<12?pairs[i][1]:null,level:i<12?levels[pairs[i][0]][pairs[i][1]]:i<15?'Pendiente':'Requiere revisión',state:i<12?'En tratamiento':'En análisis',owner:people[i%3]}));
+ const tasks=[
+ ['AC-001','Documentar matriz de accesos','Camila Ríos','Pendiente',false,1],['AC-002','Definir responsables de información','Diego Ruiz','Pendiente',true,2],['AC-003','Preparar guía de recuperación','Laura Méndez','Pendiente',false,0],['AC-004','Revisar contratos de proveedores','Camila Ríos','Pendiente',false,3],['AC-005','Inventariar cuentas de servicio','Diego Ruiz','Pendiente',false,5],
+ ['AC-006','Revisar procedimiento de copias','Laura Méndez','En ejecución',false,0],['AC-007','Aplicar revisión de permisos','Camila Ríos','En ejecución',false,1],['AC-008','Documentar prueba del portal','Diego Ruiz','En ejecución',false,4],['AC-009','Documentar controles de correo','Laura Méndez','En ejecución',false,6],['AC-010','Revisar disponibilidad de red','Diego Ruiz','En ejecución',true,9],['AC-011','Validar archivos de compras','Camila Ríos','En ejecución',false,8],['AC-014','Verificar restauración del respaldo','Diego Ruiz','En ejecución',true,0],
+ ['AC-018','Revisar accesos del ERP','Camila Ríos','En revisión',false,1],['AC-021','Actualizar el procedimiento de incidentes','Laura Méndez','En revisión',false,0],['AC-022','Revisar permisos de nómina','Diego Ruiz','En revisión',false,7],['AC-023','Documentar custodia del archivo','Camila Ríos','En revisión',false,11]
+ ].map((v,i)=>({id:v[0],name:v[1],owner:v[2],state:v[3],late:v[4],risk:risks[v[5]],due:v[4]?'4 nov 2026':v[0]==='AC-018'?'9 nov 2026':v[0]==='AC-021'?'10 nov 2026':`${9+i%9} nov 2026`}));
+ const responses=[];
+ [['Organizacionales',37,24,8,2,3],['Personas',8,6,1,0,1],['Físicos',14,10,2,0,2],['Tecnológicos',34,20,9,3,2]].forEach(([domain,total,evals,b,u,n],g)=>{
+  for(let j=0;j<total;j++) {
+   const status=j<evals?'Evaluado':j<evals+b?'Sin calificar':j<evals+b+u?'Sin decidir':'No aplica';
+   const note=status!=='Evaluado'?null:g===0?(j<4?0:j<20?80:100):g===2?(j<2?0:j<8?80:60):60;
+   responses.push({id:`DEM-${g+1}-${String(j+1).padStart(2,'0')}`,domain,status,note,name:['Gestión de accesos','Protección de información','Continuidad operativa','Revisión de responsabilidades','Seguimiento de controles'][j%5]+` · criterio ${j+1}`});
+  }
+ });
+ const navLabels=['panel','activos','evaluaciones','riesgos','acciones','reportes'];
+ app.querySelectorAll('.nav-item').forEach((node,i)=>{const b=document.createElement('button');b.type='button';b.className=node.className;b.innerHTML=node.innerHTML;b.dataset.nav=navLabels[i];node.replaceWith(b);});
+ const topbar=app.querySelector('.topbar');
+ const access=document.createElement('button'); access.type='button';access.textContent='Ver recorrido de acceso';access.dataset.nav='acceso';access.className='quiet';topbar.append(access);
+ const dlg=document.createElement('dialog');dlg.id='prototype-dialog';dlg.setAttribute('aria-labelledby','dialog-title');app.append(dlg);
+ let opener=null;
+ function close(){dlg.close();if(opener?.isConnected)opener.focus();}
+ function modal(title,body,actions='') {
+  if(dlg.open)dlg.close();opener=document.activeElement;
+  dlg.innerHTML=`<div class="row between"><h2 id="dialog-title">${title}</h2><button type="button" data-do="cerrar">Cerrar</button></div><div class="dialog-body stack">${body}</div>${actions?`<div class="row">${actions}</div>`:''}<p id="modal-status" class="flow-note" role="status" aria-live="polite"></p>`;
+  dlg.showModal();
+ }
+ function msg(text){const target=dlg.open?dlg.querySelector('#modal-status'):main.querySelector('#screen-status');if(target)target.textContent=text;}
+ const field=(label,name,value='',type='text',required=true)=>`<label class="field">${label}<input name="${name}" type="${type}" value="${e(value)}" ${required?'required':''}></label>`;
+ const select=(label,name,options,current='')=>`<label class="field">${label}<select name="${name}">${options.map(o=>`<option ${o===current?'selected':''}>${e(o)}</option>`).join('')}</select></label>`;
+ const area=(label,name,value='',required=true)=>`<label class="field full">${label}<textarea name="${name}" ${required?'required':''}>${e(value)}</textarea></label>`;
+ const form=(fields,submit='Previsualizar guardado',id='demo-form')=>`<form id="${id}" class="stack"><div class="form-grid">${fields}</div><button class="primary">${submit}</button></form>`;
+ function assetDetail(id) {
+  const a=assets.find(x=>x.id===id)||assets[0];
+  modal(`${a.id} · ${e(a.name)}`,`<div class="row">${pill('Activo')}${pill(a.critical,a.pending?'warning':'neutral')}</div><dl class="details-grid"><div><dt>Proceso</dt><dd>${a.process}</dd></div><div><dt>Propietario</dt><dd>${a.owner}</dd></div><div><dt>Confidencialidad</dt><dd>${classificationLabel(a.c)}</dd></div><div><dt>Integridad</dt><dd>${classificationLabel(a.i)}</dd></div><div><dt>Disponibilidad</dt><dd>${classificationLabel(a.d)}</dd></div><div><dt>Criticidad</dt><dd>${a.critical}</dd></div></dl><p class="small sub">${a.pending?'Falta integridad. Tener una dimensión alta no permite completar la clasificación.':'Resultado por máximo de las tres dimensiones completas.'} Ser propietario no concede acceso a la aplicación.</p><div><h3>Riesgos vinculados</h3><p class="small sub">${risks.filter(r=>r.asset.id===a.id).map(r=>r.id+' · '+r.name).join('<br>')||'Sin riesgos vinculados en este ejemplo.'}</p></div>`,button('Editar ficha','editar-activo',a.id)+button('Clasificar C / I / D','clasificar',a.id)+button('Ver riesgos del activo','riesgos-activo',a.id));
+ }
+ function assetForm(id) {
+  const a=assets.find(x=>x.id===id);
+  modal(a?'Editar ficha de activo':'Registrar activo',`<div class="steps"><span class="current">1 · Identificación</span><span>2 · Clasificación</span><span>3 · Riesgos</span></div>${form(field('Código único por empresa','codigo',a?.id||'ACT-049')+field('Nombre','nombre',a?.name||'')+select('Tipo','tipo',['Información','Hardware','Software','Servicio'])+select('Proceso','proceso',processes,a?.process)+select('Propietario de negocio','propietario',people,a?.owner)+field('Custodio (opcional)','custodio','', 'text',false)+area('Descripción','descripcion',a?'Activo de demostración utilizado en el proceso indicado.':''),'Previsualizar ficha')}<p class="small sub">Se permite proponer una ficha con clasificación pendiente. Guardado incompleto y catálogos auxiliares: detalle pendiente de revisión. No se modifica el inventario del boceto.</p>`);
+ }
+ function classificationLabel(value){return ({1:'Baja (1)',3:'Media (3)',5:'Alta (5)'})[value]||'Pendiente';}
+ function classify(id){const a=assets.find(x=>x.id===id)||assets[0];modal(`Clasificar · ${a.id}`,form(select('Confidencialidad','c',['Pendiente','Baja (1)','Media (3)','Alta (5)'],classificationLabel(a.c))+select('Integridad','i',['Pendiente','Baja (1)','Media (3)','Alta (5)'],classificationLabel(a.i))+select('Disponibilidad','d',['Pendiente','Baja (1)','Media (3)','Alta (5)'],classificationLabel(a.d))+select('¿Contiene datos personales?','datos',['Pendiente','Sí','No'],a.personal)+area('Fundamento de la clasificación','fundamento'),'Calcular vista previa','classification-form')+'<p class="small sub">Valores precargados del activo; no se propone una reclasificación por defecto. 1 / 3 / 5 · Criticidad por máximo solo si C/I/D están completas. No aplica no está disponible para estas dimensiones. Campos condicionales de datos personales se detallarán antes de aprobar el formulario.</p>');}
+ function riskDetail(id){const r=risks.find(x=>x.id===id)||risks[0];modal(`${r.id} · ${e(r.name)}`,`<div class="row">${pill(r.state)}${pill('Residual: '+r.level,r.level==='Extremo'?'danger':r.level==='Pendiente'||r.level==='Requiere revisión'?'warning':'neutral')}</div><dl class="details-grid"><div><dt>Activo principal</dt><dd>${r.asset.id} · ${e(r.asset.name)}</dd></div><div><dt>Responsable de negocio</dt><dd>${r.owner}</dd></div><div><dt>Inherente ilustrativo</dt><dd>${r.p===null?'Pendiente':'Extremo · Muy alta / Catastrófico'}</dd></div><div><dt>Residual</dt><dd>${r.p===null?r.level:probs[r.p]+' / '+impacts[r.impact]}</dd></div></dl><p class="small sub">Tratamiento propuesto: reducir. Las valoraciones vigentes del ejemplo consideran verificaciones documentadas. No se aplica descuento automático.</p><details><summary>Controles y evidencias consideradas</summary><p>Implementación DEM-IC-01 · versión 2 · implementada. Verificación ilustrativa: efectiva, 3 nov 2026, Diego Ruiz. Referencia DEM-PR-01, versión 2: registro de comprobación. No hay descarga real en este boceto.</p><p>Implementación, verificación y valoración residual son registros diferentes. Cambiar el fundamento requiere revisar el residual.</p></details><p class="small sub">Solo el administrador de empresa puede formalizar una aceptación. Laura tiene GS + RA; no puede aprobarla.</p>`,button('Ver activo','ver-activo',r.asset.id)+button('Valorar riesgo','valorar',r.id)+button('Crear acción vinculada','nueva-accion',r.id));}
+ function riskForm(){modal('Registrar riesgo',form(field('Código','codigo','R-019')+field('Nombre o descripción breve','nombre')+select('Activo principal','activo',assets.slice(0,12).map(a=>a.id+' · '+a.name))+select('Responsable de negocio','responsable',people)+area('Amenaza','amenaza')+area('Vulnerabilidad','vulnerabilidad')+area('Evento y consecuencias','descripcion')+select('Tratamiento propuesto','tratamiento',['Reducir','Compartir','Aceptar (requiere AE)','Evitar']),'Previsualizar riesgo identificado')+'<p class="small sub">Un riesgo nuevo puede tener valoraciones pendientes. Elegir aceptar no registra una aprobación ni cierra el riesgo.</p>');}
+ function valueRisk(id){modal(`Valoración · ${e(id)}`,`<div class="steps"><span>Inherente</span><span class="current">Residual conjunto</span><span>Fundamento y revisión</span></div>${form(select('Probabilidad residual','p',['Pendiente',...probs],'Alta')+select('Impacto residual','impact',['Pendiente',...impacts],'Mayor')+field('Periodo de referencia','periodo','Noviembre 2026')+field('Inherente de referencia','inherente',id+' · valoración DEM-V1')+area('Implementaciones y verificaciones consideradas','controles','DEM-IC-01 v2 / DEM-VER-02. Referencia documental DEM-PR-01 v2.')+area('Fundamento conjunto de probabilidad e impacto','fundamento'),'Consultar nivel de referencia','risk-value-form')}<p class="small sub">Las rúbricas y evidencia por criterio siguen pendientes. La vista previa cruza la matriz; no confirma una valoración real ni aplica porcentajes de mitigación.</p>`);}
+ function actionForm(origin){const r=risks.find(x=>x.id===origin)||risks[0];modal('Crear acción de mejora',form(select('Tipo de origen','tipo',['Riesgo','Hallazgo'])+field('Origen empresarial','origen',r.id+' · '+r.name)+field('Título de la acción','titulo')+select('Responsable con membresía elegible','responsable',people)+field('Fecha límite · America/Bogota','fecha','2026-11-16','date')+area('Trabajo y resultado esperado','resultado')+area('Evidencia requerida','evidencia')+area('Contexto mínimo visible para el responsable','contexto',r.asset.name+' · '+r.name),'Previsualizar acción pendiente')+'<p class="small sub">Un solo origen: riesgo o hallazgo. Compartir contexto requiere revisar qué información recibe el responsable. Alta de demostración sin persistencia.</p>');}
+ function taskDetail(id){const t=tasks.find(x=>x.id===id)||tasks[0];const own=t.owner==='Laura Méndez',review=t.state==='En revisión';modal(`${t.id} · ${e(t.name)}`,`<div class="row">${pill(t.state)}${t.late?pill('Vencida · 2 días','danger'):pill('Dentro del plazo')}${own?pill('Asignada a ti'):''}</div><dl class="details-grid"><div><dt>Responsable actual</dt><dd>${t.owner}</dd></div><div><dt>Fecha límite</dt><dd>${t.due}</dd></div><div><dt>Origen</dt><dd>${t.risk.id}</dd></div><div><dt>Activo relacionado</dt><dd>${e(t.risk.asset.name)}</dd></div></dl><h3>Resultado esperado</h3><p class="small sub">Documentar la comprobación, su resultado y la evidencia pertinente al alcance de la acción.</p><details open><summary>${review?'Entrega para revisión':'Contexto y seguimiento'}</summary><p>${review?'Entrega ilustrativa registrada el 5 nov 2026. Evidencia: referencia DEM-ENT-'+t.id+', versión 1. Resultado documentado; revisar pertinencia antes de decidir.':'Contexto mínimo: '+e(t.risk.name)+'. Referencia autorizada DEM-CONTEXTO-01, versión 1.'}</p></details>${review?`<div class="notice">${own?'Es tu entrega. Otra persona con AE o GS debe revisarla. Acumular roles no permite autoaprobar.':'Entrega congelada. Puedes revisar porque no eres la responsable. Aprobar no reduce automáticamente el riesgo.'}</div>`:!own?'<p class="small sub">Solo el responsable actual puede registrar avances o solicitar revisión. Puedes consultar y gestionar el plan por tu rol GS.</p>':''}`,button('Consultar riesgo','ver-riesgo',t.risk.id)+(review&&!own?button('Revisar entrega','revisar',t.id,true):!review&&own?button('Registrar avance / entregar','avanzar',t.id,true):''));}
+ function reviewTask(id){const t=tasks.find(x=>x.id===id);if(!t||t.owner==='Laura Méndez'||t.state!=='En revisión'){msg('No disponible: se requiere una entrega en revisión de otra persona.');return;}modal(`Revisar entrega · ${t.id}`,`<p class="small sub">Responsable: ${t.owner} · Revisor: Laura Méndez · Se conserva el motivo de la decisión.</p><p>Referencia ilustrativa DEM-ENT-${t.id}, versión 1. Comprueba accesibilidad, alcance y suficiencia antes de decidir.</p>${form(select('Decisión','decision',['Devolver a ejecución','Aprobar como completada'])+area('Motivo de la decisión','motivo'),'Previsualizar decisión','review-form')}<p class="small sub">El boceto no cambia estados. En la aplicación se revalidarán identidad, asignación, estado y concurrencia al confirmar.</p>`);}
+ function advanceTask(id){const t=tasks.find(x=>x.id===id);if(!t||t.owner!=='Laura Méndez'||t.state==='En revisión'){msg('Solo el responsable actual puede avanzar una tarea editable.');return;}modal(`Avance · ${t.id}`,form(select('Operación','operacion',['Registrar avance','Solicitar revisión'])+area('Avance o resultado de entrega','comentario')+select('Modalidad de evidencia','modalidad',['Referencia documental (si el criterio la admite)','Archivo (carga no habilitada en boceto)'])+field('Documento y versión','documento','')+field('Localizador verificable','localizador','','text',false),'Previsualizar avance','advance-form')+'<p class="small sub">No se suben archivos ni se consultan enlaces. La evidencia exigida debe estar disponible antes de solicitar revisión. En revisión se congela la entrega.</p>');}
+ function responsesView(){modal('Controles · Diagnóstico noviembre 2026',`<div class="row">${pill('Provisional','warning')}<span class="small sub">64,00 puntos · 60/85 evaluados</span></div><label class="field">Estado de respuesta<select id="response-filter"><option value="">Todos los controles (93)</option><option>Sin calificar</option><option>Sin decidir</option><option>No aplica</option><option>Evaluado</option></select></label><div id="response-list"></div><p class="small sub">Catálogo DEMO-C1: títulos ilustrativos, sin equivalencia normativa. Las cláusulas se consultan por separado en el reporte. Esta tabla conserva las 93 respuestas del ejemplo.</p>`);renderResponses();}
+ let responsePage=1;
+ function renderResponses(){const f=pageSurface().querySelector('#response-filter')?.value||'';const rows=responses.filter(r=>!f||r.status===f);const pages=Math.max(1,Math.ceil(rows.length/8));responsePage=Math.min(responsePage,pages);pageSurface().querySelector('#response-list').innerHTML=`<div class="table-wrap"><table class="records"><thead><tr><th>Control ilustrativo</th><th>Respuesta</th><th></th></tr></thead><tbody>${rows.slice((responsePage-1)*8,responsePage*8).map(r=>`<tr><td>${r.id}<small>${r.domain} · ${r.name}</small></td><td data-label="Respuesta">${r.note!==null?pill(r.note+' puntos'):pill(r.status,r.status==='No aplica'?'neutral':'warning')}</td><td>${button('Diligenciar','respuesta',r.id)}</td></tr>`).join('')}</tbody></table></div><div class="pager"><span>${rows.length} controles · Página ${responsePage}/${pages}</span><div class="row">${button('Anterior','responses-prev')}${button('Siguiente','responses-next')}</div></div>`;}
+ function responseEdit(id){const r=responses.find(x=>x.id===id);modal(`${r.id} · ${e(r.name)}`,form(select('Aplicabilidad','aplicabilidad',['Sin decidir','Aplica','No aplica'],r.status==='No aplica'?'No aplica':r.status==='Sin decidir'?'Sin decidir':'Aplica')+select('Calificación individual','nota',['Sin calificar','0','20','40','60','80','100'],r.note===null?'Sin calificar':String(r.note))+area('Fundamento / justificación de no aplica','fundamento',r.status==='No aplica'?'Criterio fuera del alcance ilustrativo, con justificación documentada.':'')+field('Referencia documental y versión (si el criterio admite referencia)','evidencia','','text',false),'Previsualizar respuesta','response-form')+'<p class="small sub">0 = inexistente evaluado. No aplica requiere justificación y deja nota vacía; sin decidir también carece de nota. La evidencia depende del criterio, aún por concretar.</p>');}
+ function navigate(view){if(!navLabels.includes(view)&&view!=='acceso')view='panel';if(dlg.open)close();ctx.view=view;ctx.page=1;ctx.query='';ctx.filter='';ctx.scope='todas';ctx.cell=null;app.classList.toggle('access-mode',view==='acceso');access.dataset.nav=view==='acceso'?'panel':'acceso';access.textContent=view==='acceso'?'Volver al panel de demostración':'Ver recorrido de acceso';main.innerHTML=view==='panel'?originalPanel:document.getElementById('tpl-'+view).innerHTML;main.insertAdjacentHTML('beforeend','<p id="screen-status" role="status" aria-live="polite" class="flow-note"></p>');if(view!=='panel')main.insertAdjacentHTML('afterbegin','<div class="notice no-print">BOCETO NAVEGABLE · Datos ficticios · Formularios y decisiones de demostración, sin guardar datos.</div>');app.querySelectorAll('[data-nav]').forEach(n=>{const active=n.dataset.nav===view;n.classList.toggle('active',active);if(active)n.setAttribute('aria-current','page');else n.removeAttribute('aria-current');});if(['activos','riesgos','acciones'].includes(view))renderList();if(view==='riesgos')renderMatrix();const h=main.querySelector('h1');if(h)main.querySelector('#screen-status').textContent='Vista actual: '+h.textContent;if(globalThis.lucide)lucide.createIcons();}
+ function renderMatrix(){const colors={Bajo:'low',Moderado:'moderate',Alto:'high',Extremo:'extreme'};let html='<span>P / I</span>'+impacts.map(s=>`<span>${s}</span>`).join('');for(let p=4;p>=0;p--){html+=`<span>${probs[p]}</span>`;for(let i=0;i<5;i++){const count=risks.filter(r=>r.p===p&&r.impact===i).length;html+=`<button type="button" data-cell="${p},${i}" class="risk-${colors[levels[p][i]]}" aria-label="${probs[p]}, ${impacts[i]}, ${levels[p][i]}, ${count} riesgos"><strong>${count}</strong>${levels[p][i]}</button>`;}}main.querySelector('#matrix').innerHTML=html;}
+ function listData(){const source=ctx.view==='activos'?assets:ctx.view==='riesgos'?risks:tasks;return source.filter(r=>{const q=(r.id+' '+r.name+' '+(r.process||r.asset?.name||r.owner||'')).toLocaleLowerCase('es');if(ctx.query&&!q.includes(ctx.query.toLocaleLowerCase('es')))return false;if(ctx.filter&&(r.critical||r.level||r.state)!==ctx.filter)return false;if(ctx.view==='riesgos'&&ctx.cell&&(r.p!==ctx.cell[0]||r.impact!==ctx.cell[1]))return false;if(ctx.view==='acciones'){if(ctx.scope==='mias'&&r.owner!==current().name)return false;if(ctx.scope==='revisar'&&(r.owner===current().name||r.state!=='En revisión'))return false;if(ctx.scope==='vencidas'&&!r.late)return false;}return true;});}
+ function renderList(){const rows=listData(),pages=Math.max(1,Math.ceil(rows.length/pageSize()));ctx.page=Math.min(ctx.page,pages);const slice=rows.slice((ctx.page-1)*pageSize(),ctx.page*pageSize());const columns=ctx.view==='activos'?['Activo / proceso','Propietario','Clasificación','Detalle']:ctx.view==='riesgos'?['Riesgo / activo','Estado','Residual','Detalle']:['Acción / origen','Responsable / plazo','Estado y vencimiento','Detalle'];const body=slice.map(r=>ctx.view==='activos'?`<tr><td><strong>${r.id} · ${e(r.name)}</strong><small>${r.process}</small></td><td data-label="Propietario">${r.owner}</td><td data-label="Clasificación">${pill(r.critical,r.pending?'warning':'neutral')}</td><td>${button('Ver ficha','ver-activo',r.id)}</td></tr>`:ctx.view==='riesgos'?`<tr><td><strong>${r.id} · ${r.name}</strong><small>${r.asset.id} · ${r.asset.name}</small></td><td data-label="Estado">${r.state}</td><td data-label="Residual">${pill(r.level,r.level==='Extremo'?'danger':r.p===null?'warning':'neutral')}</td><td>${button('Ver riesgo','ver-riesgo',r.id)}</td></tr>`:`<tr><td><strong>${r.id} · ${r.name}</strong><small>Origen: ${r.risk.id} · ${r.risk.asset.name}</small></td><td data-label="Responsable">${r.owner}<small>Plazo: ${r.due}</small></td><td data-label="Estado">${pill(r.state)}${r.late?'<br>'+pill('Vencida · 2 días','danger'):''}${r.owner===current().name?'<small>Tu tarea'+(r.state==='En revisión'?' · Revisor distinto requerido':'')+'</small>':''}</td><td>${button('Ver acción','ver-accion',r.id)}</td></tr>`).join('');main.querySelector('#list').innerHTML=rows.length?`<div class="table-wrap"><table class="records"><thead><tr>${columns.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="pager"><span>${(ctx.page-1)*pageSize()+1}–${Math.min(ctx.page*pageSize(),rows.length)} de ${rows.length} resultados · Página ${ctx.page}/${pages}</span><div class="row"><button data-do="prev" ${ctx.page===1?'disabled':''}>Anterior</button><button data-do="next" ${ctx.page===pages?'disabled':''}>Siguiente</button></div></div>`:'<div class="empty"><h2>Sin resultados para estos filtros</h2><p class="sub">Prueba otro nombre o cambia el filtro. No significa que el total sea cero.</p><button data-do="clear">Limpiar filtros</button></div>';}
+ root.addEventListener('input',event=>{if(event.target.id==='search'){ctx.query=event.target.value;ctx.page=1;renderList();}});
+ root.addEventListener('change',event=>{if(event.target.id==='filter'){ctx.filter=event.target.value;ctx.cell=null;ctx.page=1;renderList();const sel=main.querySelector('#matrix-selection');if(sel)sel.textContent='';}if(event.target.id==='response-filter'){responsePage=1;renderResponses();}if(event.target.id==='company-panorama'){event.target.selectedIndex=0;modal('Cambiar empresa',`<p>Andina y Litoral son membresías ficticias. Solo Andina tiene datos diseñados en este archivo.</p><p class="small sub">Al cambiar se validan membresía y empresa, se actualizan los roles y se retiran los datos anteriores. Si hay cambios sin guardar, se avisa antes de descartarlos. No se combinan roles de empresas distintas.</p>`,button('Permanecer en Andina','cerrar'));}});
+ root.addEventListener('click',event=>{
+  const n=event.target.closest('[data-nav]');if(n){navigate(n.dataset.nav);return;}
+  const scope=event.target.closest('[data-scope]');if(scope){ctx.scope=scope.dataset.scope;ctx.page=1;main.querySelectorAll('[data-scope]').forEach(b=>b.setAttribute('aria-pressed',b===scope));renderList();return;}
+  const cell=event.target.closest('[data-cell]');if(cell){ctx.cell=cell.dataset.cell.split(',').map(Number);ctx.filter='';main.querySelector('#filter').value='';ctx.page=1;renderList();main.querySelector('#matrix-selection').innerHTML=`${probs[ctx.cell[0]]} / ${impacts[ctx.cell[1]]} · ${button('Ver todos','clear')}`;return;}
+  const el=event.target.closest('[data-do]');if(el){const id=el.dataset.id,a=el.dataset.do;
+   const routes={'cerrar':close,'nuevo-activo':()=>assetForm(),'editar-activo':()=>assetForm(id),'ver-activo':()=>assetDetail(id),'clasificar':()=>classify(id),'nuevo-riesgo':riskForm,'ver-riesgo':()=>riskDetail(id),'valorar':()=>valueRisk(id),'nueva-accion':()=>actionForm(id),'ver-accion':()=>taskDetail(id),'revisar':()=>reviewTask(id),'avanzar':()=>advanceTask(id),'respuestas':responsesView,'respuesta':()=>responseEdit(id),'imprimir':()=>{if(typeof window.print==='function')window.print();},'responses-prev':()=>{responsePage=Math.max(1,responsePage-1);renderResponses();},'responses-next':()=>{responsePage++;renderResponses();}};
+   if(routes[a]){routes[a]();return;}
+   if(a==='prev'||a==='next'){ctx.page+=a==='prev'?-1:1;renderList();return;}
+   if(a==='clear'){ctx.query='';ctx.filter='';ctx.cell=null;ctx.page=1;main.querySelector('#search').value='';main.querySelector('#filter').value='';const selection=main.querySelector('#matrix-selection');if(selection)selection.textContent='';renderList();return;}
+   if(a==='riesgos-activo'){close();navigate('riesgos');ctx.query=id;main.querySelector('#search').value=id;ctx.query=(assets.find(x=>x.id===id)||assets[0]).name;main.querySelector('#search').value=ctx.query;renderList();return;}
+   if(a==='nueva-evaluacion'){modal('Crear evaluación',form(field('Nombre','nombre','Diagnóstico · diciembre 2026')+field('Fecha de referencia','fecha','2026-12-01','date')+select('Responsable','responsable',['Laura Méndez','Camila Ríos'])+select('Catálogo / metodología de demostración','catalogo',['DEMO-C1 / DEMO-M1'])+area('Alcance','alcance'),'Previsualizar nuevo borrador')+'<p class="small sub">No sobrescribe el diagnóstico anterior. Las respuestas nuevas inician sin evaluar; no se copian notas como evidencia actual.</p>');return;}
+   if(a==='cierre-evaluacion'){modal('Requisitos pendientes antes del cierre',`<span class="pill warning">El borrador permanece abierto</span><p>20 controles aplicables sin calificar y 5 con aplicabilidad sin decidir. Las cláusulas 8, 9 y 10 también están pendientes.</p><p class="small sub">Se requiere fundamento por respuesta y evidencia según criterio. Las rúbricas y la política detallada siguen por definir; el boceto no habilita un cierre definitivo. AE/GS puede cerrar una evaluación que diligenció, pero no aprobar sus propias acciones.</p>`,button('Volver a controles','respuestas'));return;}
+   if(a==='historico-evaluacion'){modal('Agosto 2026 · Evaluación cerrada',`<span class="pill success">Original inmutable</span><p>60,00 puntos de controles · 85/85 evaluados · 8 no aplica justificados · Sin pendientes en ese diagnóstico ilustrativo.</p><p class="small sub">La instantánea conserva alcance, entradas, cierre, catálogo y metodología. Una corrección crea un borrador vinculado y exige confirmar respuestas heredadas.</p>`,button('Crear revisión vinculada','revision-evaluacion'));return;}
+   if(a==='revision-evaluacion'){modal('Crear revisión vinculada',form(area('Motivo de corrección','motivo'),'Previsualizar borrador vinculado')+'<p class="small sub">Se conserva agosto cerrado. Las respuestas heredadas no cuentan como reevaluadas hasta confirmarlas o actualizarlas.</p>');return;}
+   if(a==='recuperar'){modal('Recuperar acceso',form(field('Correo de la cuenta','correo','','email'),'Previsualizar solicitud','recovery-form')+'<p class="small sub">La respuesta no revela si existe la cuenta. Canal verificado y vencimientos pendientes de definición.</p>');return;}
+   if(a==='invitacion'){modal('Invitación · Ejemplo',`<p>Andina Servicios S.A.S. te invita como <strong>Gestora de seguridad + Responsable de acciones</strong>.</p><p class="small sub">Destinatario ilustrativo: laura.mendez@example.com. Antes de aceptar se verifica identidad, vigencia y uso único. Los roles ofrecidos no son editables por el destinatario.</p>`,button('Simular identidad verificada y aceptación','aceptar-invitacion',null,true));return;}
+   if(a==='aceptar-invitacion'){modal('Selecciona una empresa',`<p class="small sub">Membresías ficticias vigentes. Entrar no concede permisos de otras empresas.</p><section><h3>Andina Servicios S.A.S.</h3><p class="small sub">Gestora de seguridad · Responsable de acciones</p></section><section><h3>Litoral Logística S.A.S.</h3><p class="small sub">Auditor o lector · Contexto sin pantallas en este boceto</p></section>`,button('Entrar a Andina','entrar',null,true));return;}
+   if(a==='entrar'){navigate('panel');return;}
+  }
+  const preview=event.target.closest('[data-preview]');if(preview){const text=preview.textContent.trim();if(text==='Reporte básico')navigate('reportes');else if(text==='Continuar evaluación')navigate('evaluaciones');else if(text==='Ver acción')taskDetail('AC-014');else if(text==='Revisar entrega')taskDetail('AC-018');}
+ });
+ root.addEventListener('submit',event=>{
+  event.preventDefault();const f=event.target;if(!f.reportValidity())return;const data=new FormData(f);
+  if(f.id==='login-form'){modal('Selecciona una empresa',`<p>Identidad simulada: Laura Méndez.</p><p><strong>Andina Servicios S.A.S.</strong><br>Gestora de seguridad · Responsable de acciones</p><p class="small sub">Litoral: Auditor o lector. Sin contenido diseñado. AP sin membresía empresarial tendría solo su espacio de plataforma, sin datos operativos.</p>`,button('Entrar a Andina','entrar',null,true));return;}
+  if(f.id==='recovery-form'){msg('Si existe una cuenta habilitada, recibirás instrucciones por el canal verificado definido para el servicio. Demostración: no se envió ningún mensaje.');return;}
+  if(f.id==='classification-form'){const values=['c','i','d'].map(k=>data.get(k));if(values.includes('Pendiente')){msg('Criticidad pendiente: completa las tres dimensiones. No se calcula usando solo los datos presentes.');return;}const max=Math.max(...values.map(x=>Number(x.match(/\d/)[0])));msg(`Vista previa: criticidad ${max===5?'alta':max===3?'media':'baja'} (${max}). ${data.get('datos')==='Pendiente'?'Falta resolver datos personales antes de confirmar. ':data.get('datos')==='Sí'?'Faltan los campos condicionales de datos personales, por diseñar. ':''}No se guardaron cambios.`);return;}
+  if(f.id==='risk-value-form'){const p=probs.indexOf(data.get('p')),i=impacts.indexOf(data.get('impact'));msg(p<0||i<0?'Valoración pendiente: selecciona probabilidad e impacto.':`Nivel de referencia: ${levels[p][i]}. No confirma vigencia ni suficiencia de evidencia. Sin descuentos automáticos y sin guardar cambios.`);return;}
+  if(f.id==='response-form'){const a=data.get('aplicabilidad'),n=data.get('nota');if(a!=='Aplica'&&n!=='Sin calificar'){msg('No aplica o sin decidir requiere nota vacía; selecciona «Sin calificar». Cero es una nota real.');return;}msg(a==='Aplica'&&n==='Sin calificar'?'Respuesta pendiente, sin convertirla a cero. Vista previa sin guardar.':a==='Sin decidir'?'Aplicabilidad pendiente. Vista previa sin guardar.':a==='No aplica'?'No aplica justificado, excluido del promedio. Vista previa sin guardar.':'Calificación válida. La suficiencia de evidencia depende del criterio. Vista previa sin guardar.');return;}
+  if(f.id==='review-form'){msg(data.get('decision')==='Devolver a ejecución'?'Vista previa: volvería a En ejecución con motivo e historial. No se cambió la tarea.':'Vista previa: pasaría a Completada, conservando responsable y revisor distintos. No cambia automáticamente el control ni el riesgo. No se guardó.');return;}
+  if(f.id==='advance-form'){msg(data.get('operacion')==='Solicitar revisión'?'Vista previa: comprobaría evidencia requerida y congelaría la entrega en revisión; otra persona debe decidir. No se cambió la tarea.':'Vista previa: registraría un avance de la persona asignada. No se guardaron cambios.');return;}
+  msg('Vista previa de formulario válida. No se guardaron datos ni se alteraron los totales ilustrativos.');
+ });
+// Design-only personas and system states. No identity, network or persistence operations.
+const personas={
+ laura:{name:'Laura Méndez',roles:['GS','RA'],label:'Laura · GS + RA',initials:'LM'},
+ diego:{name:'Diego Ruiz',roles:['RA'],label:'Diego · RA solo',initials:'DR'},
+ camila:{name:'Camila Ríos',roles:['AE','GS','RA'],label:'Camila · AE + GS + RA',initials:'CR'},
+ elena:{name:'Elena Torres',roles:['AU'],label:'Elena · AU solo',initials:'ET'},
+ nicolas:{name:'Nicolás Vega',roles:['AU','GS'],label:'Nicolás · AU + GS',initials:'NV'},
+ samuel:{name:'Samuel Pérez',roles:[],label:'Samuel · AP sin membresía',initials:'SP',platform:true}
+};
+const roleNames={AE:'Administración de empresa',GS:'Gestión de seguridad',RA:'Responsable de acciones',AU:'Auditor o lector'};
+let persona='laura',company='Andina',dirty=false,stack=[],blocked=false,savedState=null,pendingOperation=null;
+const current=()=>personas[persona];
+const roles=()=>company==='Litoral'?['AU']:current().roles;
+const has=role=>roles().includes(role);
+const manage=()=>!current().platform&&company==='Andina'&&(has('AE')||has('GS'));
+const raOnly=()=>!current().platform&&roles().length===1&&has('RA');
+const readOnly=()=>!current().platform&&!manage()&&!raOnly();
+const small=()=>window.matchMedia('(max-width:760px)').matches;
+const pageSize=()=>small()?5:10;
+const pageSurface=()=>dlg.open?dlg:main;
+const oldNavigate=navigate,oldModal=modal,oldAssetDetail=assetDetail,oldRiskDetail=riskDetail;
+navLabels.push('miembros','empresa','actividad','plataforma');
+const mutationActions=new Set(['nuevo-activo','editar-activo','clasificar','nuevo-riesgo','valorar','nueva-accion','nueva-evaluacion','revision-evaluacion','cierre-evaluacion','invitar-miembro','aceptar-riesgo']);
+const lab=document.createElement('details');lab.className='design-lab';lab.innerHTML=`<summary id="lab-title">Laboratorio de diseño · Laura · GS + RA</summary><div class="lab-controls"><label>Simular otra persona (no cambia roles reales)<select id="demo-persona">${Object.entries(personas).map(([key,p])=>`<option value="${key}">${p.label}</option>`).join('')}</select></label><label>Estado a revisar<select id="demo-state"><option value="normal">Normal</option><option value="loading">Carga</option><option value="error">Error de consulta</option><option value="conflict">Conflicto de edición</option><option value="revoked">Membresía revocada</option><option value="expired">Sesión vencida</option></select></label></div><p>Controles exclusivos del boceto. Las personas tienen permisos distintos; un usuario real no elige sus roles.</p>`;
+root.prepend(lab);
+const mobileNav=document.createElement('label');mobileNav.className='mobile-nav field';mobileNav.innerHTML='<span class="sr-only">Navegación</span><select id="mobile-nav" aria-label="Ir a una pantalla"></select>';topbar.append(mobileNav);
+const mobileProfile=document.createElement('details');mobileProfile.className='mobile-profile';topbar.append(mobileProfile);
+const listNav=app.querySelector('.nav-list');
+for(const [view,label] of [['miembros','Miembros y roles'],['empresa','Configuración'],['actividad','Actividad'],['plataforma','Plataforma']]){
+ const b=document.createElement('button');b.type='button';b.className='nav-item admin-nav';b.dataset.nav=view;b.textContent=label;listNav.append(b);
+}
+function allowedViews(){return current().platform?['plataforma']:raOnly()?['acciones']:['panel','activos','evaluaciones','riesgos','acciones','reportes',...(has('AE')?['miembros','empresa','actividad']:[])];}
+function labelView(view){return ({panel:'Panel',activos:'Activos',evaluaciones:'Evaluaciones',riesgos:'Riesgos',acciones:raOnly()?'Mis acciones':'Acciones',reportes:'Reportes',miembros:'Miembros y roles',empresa:'Configuración',actividad:'Actividad',plataforma:'Plataforma'})[view]||view;}
+function refreshChrome(){
+ const p=current(),allowed=allowedViews();
+ app.querySelector('.avatar').textContent=p.initials;
+ app.querySelector('.profile strong').textContent=p.name;
+ app.querySelector('.profile .sub').textContent=p.platform?'Administrador de plataforma · Sin membresía empresarial':roles().map(r=>roleNames[r]).join(' · ');
+ mobileProfile.innerHTML=`<summary>${p.name} · ${p.platform?'AP':roles().join(' + ')}</summary><p>${p.platform?'Administración del servicio, sin membresía empresarial.':roles().map(r=>roleNames[r]).join(' · ')}</p><button type="button" class="quiet" data-nav="acceso">Ver recorrido de acceso</button>`;
+ const companyField=app.querySelector('.company');companyField.hidden=!!p.platform;
+ const selector=companyField.querySelector('select');selector.innerHTML=`<option value="Andina">Andina Servicios S.A.S.</option>${persona==='laura'?'<option value="Litoral">Litoral Logística S.A.S.</option>':''}`;selector.value=company;
+ app.querySelectorAll('.nav-list [data-nav]').forEach(b=>{b.hidden=!allowed.includes(b.dataset.nav);if(b.dataset.nav==='acciones')b.lastChild.textContent=raOnly()?'Mis acciones':'Acciones';});
+ mobileNav.hidden=blocked||ctx.view==='acceso';mobileNav.querySelector('select').innerHTML=allowed.map(v=>`<option value="${v}">${labelView(v)}</option>`).join('');mobileNav.querySelector('select').value=allowed.includes(ctx.view)?ctx.view:allowed[0];
+ app.querySelectorAll('aside .small.sub').forEach(n=>{if(n.textContent.includes('Datos de esta empresa')||n.dataset.companyNote){n.dataset.companyNote='true';n.innerHTML=p.platform?'Metadatos del servicio':`${e(company)} · America/Bogota`;}});
+ lab.querySelector('#lab-title').textContent='Laboratorio de diseño · '+p.label;
+ lab.querySelector('#demo-persona').value=persona;
+}
+function snapshot(){const fragment=document.createDocumentFragment();while(main.firstChild)fragment.append(main.firstChild);return {fragment,ctx:{...ctx},dirty};}
+function restore(s){main.replaceChildren(s.fragment);Object.assign(ctx,s.ctx);dirty=s.dirty;refreshChrome();applyPermissions();}
+function setDirty(value){dirty=value;const status=main.querySelector('#draft-status');if(status)status.textContent=value?'Borrador modificado · Sin guardar':'Borrador sin cambios';}
+function guard(operation,title='Salir del borrador'){
+ if(!dirty){operation();return;}
+ pendingOperation=operation;
+ oldModal(title,'<p>Tienes cambios sin guardar en este formulario. Puedes permanecer y revisarlos o descartarlos antes de continuar.</p><p class="small sub">El boceto no guarda formularios. Permanecer conserva tus campos tal como los escribiste.</p>',button('Permanecer en el borrador','cancel-leave')+button('Descartar y continuar','discard-leave'));
+}
+function goBack(){guard(()=>{if(dlg.open)dlg.close();const prev=stack.pop();if(prev)restore(prev);else navigate(allowedViews()[0]);},'Volver sin guardar');}
+close=function(){if(dlg.open){dlg.close();if(opener?.isConnected)opener.focus();}else goBack();};
+modal=function(title,body,actions=''){
+ const long=body.includes('<form')||body.includes('id="response-list"')||/^R-\d|^AC-\d|^DEM-\d|^Clasificar|^Valoración|^Agosto|^Administrar aceptación/.test(title);
+ if(!long){oldModal(title,body,actions);return;}
+ if(dlg.open)dlg.close();stack.push(snapshot());dirty=false;
+ main.innerHTML=`<div class="detail-page"><header class="page-heading intro"><button class="quiet" type="button" data-do="page-back">← Volver a ${labelView(ctx.view)}</button><div class="eyebrow sub">${company} · ${labelView(ctx.view)}</div><h1>${title}</h1><p id="draft-status" class="draft-indicator">Borrador sin cambios</p></header><section class="panel page-body">${body}</section>${actions?`<div class="row">${actions}</div>`:''}<p id="modal-status" class="flow-note" role="status" aria-live="polite"></p></div>`;
+ applyPermissions();
+};
+msg=function(text){const target=pageSurface().querySelector('#modal-status')||main.querySelector('#screen-status');if(target)target.textContent=text;};
+function compactSummary(){const stats=main.querySelector('.stats');if(stats&&!stats.parentElement.classList.contains('stats-fold')){const d=document.createElement('details');d.className='stats-fold';d.open=!small();const summary=document.createElement('summary');summary.textContent='Resumen de '+labelView(ctx.view).toLowerCase();stats.before(d);d.append(summary,stats);}}
+function applyPermissions(){
+ if(current().platform)return;
+ main.querySelectorAll('[data-do]').forEach(b=>{if(mutationActions.has(b.dataset.do))b.hidden=!manage();if(b.dataset.do==='respuesta')b.textContent=manage()?'Diligenciar':'Consultar';});
+ if(readOnly())main.querySelectorAll('[data-preview]').forEach(b=>{if(b.textContent.trim()==='Continuar evaluación')b.textContent='Consultar evaluación';if(b.textContent.trim()==='Revisar entrega')b.textContent='Ver entrega';});
+ const evalButton=main.querySelector('[data-do="respuestas"]');if(evalButton&&readOnly())evalButton.textContent='Consultar controles';
+ const status=main.querySelector('#draft-status');if(status&&!main.querySelector('form'))status.textContent=readOnly()?'Solo consulta · Sin edición':'Consulta del registro';
+ compactSummary();
+}
+navigate=function(view){
+ if(blocked&&view!=='acceso'){showState('revoked');return;}
+ if(!allowedViews().includes(view)&&view!=='acceso')view=allowedViews()[0];
+ const destination=view;
+ guard(()=>{
+  dirty=false;stack=[];oldNavigate(destination);app.removeAttribute('aria-busy');
+  if(company==='Litoral'&&destination!=='acceso'){
+   main.innerHTML=`<header class="intro"><div class="eyebrow sub">Litoral Logística S.A.S. · AU</div><h1>${labelView(destination)}</h1></header><section class="panel empty"><h2>Sin datos de demostración para Litoral</h2><p class="sub">Se retiró la información de Andina. Tu membresía aquí permite solo consulta.</p><p class="small sub">Este estado indica ausencia de una muestra, no un resultado cero. No se recuperan datos reales.</p></section>`;
+  }else if(raOnly()&&destination==='acciones')renderMyActions();
+  else if(destination==='acciones'){
+   const ownReviews=tasks.filter(t=>t.state==='En revisión'&&t.owner===current().name).length;
+   const note=main.querySelectorAll('.stats .panel')[1]?.querySelector('.sub');if(note)note.textContent=`${manage()?'Puedes revisar '+(4-ownReviews):'Solo consulta'} · ${ownReviews} entregas propias`;
+  }
+  if(destination==='panel'&&company==='Andina'){
+   const section=Array.from(main.querySelectorAll('section')).find(s=>s.querySelector('h2')?.textContent==='Prioridades de seguimiento');
+   if(section)section.innerHTML=`<div class="row between"><h2>Prioridades de seguimiento</h2><span class="small sub">3 de 16 acciones abiertas</span></div>`+['AC-014','AC-018','AC-021'].map(id=>{const t=tasks.find(x=>x.id===id),own=t.owner===current().name;return `<div class="task"><div>${pill(t.state)} ${t.late?pill('Vencida · 2 días','danger'):''}<h3>${t.id} · ${t.name}</h3><p class="small sub">${t.owner} · ${t.due}${own&&t.state==='En revisión'?' · Tu entrega: requiere otra persona revisora':''}</p></div>${button('Ver acción','ver-accion',t.id)}</div>`;}).join('');
+  }
+  if(destination==='acceso'){const email=main.querySelector('input[type="email"]');if(email)email.value=persona+'@example.com';}
+  refreshChrome();applyPermissions();
+ });
+};
+const oldListData=listData;
+listData=function(){const rows=oldListData();return raOnly()?rows.filter(t=>t.owner===current().name):rows;};
+const oldAssetDetailForRole=assetDetail;
+assetDetail=function(id){oldAssetDetailForRole(id);if(readOnly())dlg.querySelectorAll('[data-do]').forEach(b=>{if(b.dataset.do!=='cerrar'&&b.dataset.do!=='riesgos-activo')b.hidden=true;});};
+riskDetail=function(id){oldRiskDetail(id);const note=main.querySelector('.page-body>.small.sub:last-of-type');if(note)note.textContent=has('AE')?'Puedes revisar una aceptación como AE, con justificación, valoración vigente y próxima revisión. Aceptar no cierra el riesgo.':'La aceptación formal está reservada a AE. Esta membresía no la concede.';if(has('AE'))main.querySelector('.detail-page').insertAdjacentHTML('beforeend',button('Administrar aceptación','aceptar-riesgo',id));applyPermissions();};
+taskDetail=function(id){
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const own=t.owner===current().name,review=t.state==='En revisión';
+ if(raOnly()&&!own){msg('Esta tarea no está asignada a tu membresía.');return;}
+ modal(`${t.id} · ${e(t.name)}`,`<div class="row">${pill(t.state)}${t.late?pill('Vencida · 2 días','danger'):pill('Dentro del plazo')}${own?pill('Asignada a ti'):''}</div><dl class="details-grid"><div><dt>Responsable actual</dt><dd>${t.owner}</dd></div><div><dt>Fecha límite</dt><dd>${t.due}</dd></div></dl><div class="context-block"><h3>Contexto ${raOnly()?'mínimo autorizado':'de trabajo'}</h3><p>Activo: ${e(t.risk.asset.name)}</p><p class="small sub">${e(t.risk.name)}. Objetivo: documentar la comprobación y su resultado.</p><p class="small sub">Referencia explícitamente visible en la tarea: DEM-CONTEXTO-01 v1. Sin descarga en el boceto.</p></div>${review?`<h3>Entrega congelada</h3><p class="small sub">5 nov 2026 · Referencia DEM-ENT-${t.id} v1.</p><div class="notice">${own?'Es tu entrega. Debe revisarla otra persona autorizada. No puedes editarla hasta que sea devuelta.':readOnly()?'Consulta de entrega; tu rol AU no permite aprobar ni devolver.':'Puedes revisar la entrega porque no eres su responsable. La decisión requiere motivo.'}</div>`:'<p class="small sub">Solo el responsable actual puede registrar avances y solicitar revisión.</p>'}`,
+  (!raOnly()?button('Consultar riesgo','ver-riesgo',t.risk.id):'')+(manage()&&review&&!own?button('Revisar entrega','revisar',t.id,true):own&&!review&&!readOnly()?button('Registrar avance / entregar','avanzar',t.id,true):''));
+};
+reviewTask=function(id){const t=tasks.find(x=>x.id===id);if(!t||!manage()||t.owner===current().name||t.state!=='En revisión'){msg('No se permite revisar esta entrega. Se requiere AE/GS y otra persona responsable.');return;}modal(`Revisar entrega · ${t.id}`,`<p>Responsable: ${t.owner} · Revisor: ${current().name}</p><p class="small sub">Referencia DEM-ENT-${t.id} v1. Verifica pertinencia y suficiencia antes de decidir.</p>${form(select('Decisión','decision',['Devolver a ejecución','Aprobar como completada'])+area('Motivo','motivo'),'Previsualizar decisión','review-form')}`);};
+advanceTask=function(id){const t=tasks.find(x=>x.id===id);if(!t||t.owner!==current().name||t.state==='En revisión'||readOnly()){msg('No puedes registrar un avance en esta tarea.');return;}modal(`Avance · ${t.id}`,form(select('Operación','operacion',['Registrar avance','Solicitar revisión'])+area('Avance o resultado de entrega','comentario')+field('Referencia documental y versión (según criterio)','documento')+field('Localizador verificable','localizador','','text',false),'Previsualizar avance','advance-form')+'<p class="small sub">Solo contexto autorizado. No se suben archivos ni se siguen enlaces. Solicitar revisión requiere evidencia disponible y congela la entrega.</p>');};
+const oldResponseEdit=responseEdit;
+responseEdit=function(id){if(manage()){oldResponseEdit(id);return;}const r=responses.find(x=>x.id===id);if(!r)return;modal(`${r.id} · ${e(r.name)}`,`<p>${r.domain}</p><p>${r.note===null?r.status:r.note+' puntos'}</p><p class="small sub">Solo consulta. No aplica tiene justificación ilustrativa; la evidencia detallada depende del criterio.</p>`);};
+const baseRenderResponses=renderResponses;
+renderResponses=function(){baseRenderResponses();applyPermissions();};
+function renderMyActions(){
+ const own=tasks.filter(t=>t.owner===current().name);
+ main.innerHTML=`<header class="intro"><div class="eyebrow sub">${current().name} · RA</div><h1>Mis acciones</h1><p class="small sub">Solo tareas actualmente asignadas y el contexto necesario para ejecutarlas.</p></header><section class="panel"><div class="row between"><strong>${own.length} tareas asignadas</strong><span class="small sub">${own.filter(t=>t.late).length} vencidas · ${own.filter(t=>t.state==='En revisión').length} en revisión</span></div></section><section class="panel stack"><label class="field">Buscar en mis tareas<input type="search" id="search" placeholder="Código o título"></label><label class="field">Estado<select id="filter"><option value="">Todos</option><option>Pendiente</option><option>En ejecución</option><option>En revisión</option></select></label><div id="list"></div></section><p id="screen-status" role="status" aria-live="polite" class="flow-note"></p>`;
+ ctx.scope='todas';renderList();
+}
+function showState(state){
+ if(dlg.open)dlg.close();
+ if(state==='normal'){
+  if(savedState){restore(savedState);savedState=null;}else if(blocked){blocked=false;navigate(allowedViews()[0]);}
+  app.removeAttribute('aria-busy');return;
+ }
+ if(state==='conflict'){
+  if(savedState){restore(savedState);savedState=null;}app.removeAttribute('aria-busy');
+  const input=main.querySelector('input[name="nombre"],input[name="titulo"],textarea');
+  oldModal('Hay una versión más reciente',`<p>Tu borrador no se sobrescribió. Revisa los cambios antes de volver a guardar.</p><div class="details-grid"><section><h3>Tu borrador</h3><p>${e(input?.value||'Texto editado de ejemplo')}</p></section><section><h3>Versión registrada por otra persona</h3><p>Referencia de demostración · revisión 8</p></section></div><p class="small sub">No se fusionan ni descartan cambios automáticamente. La aplicación deberá comprobar la revisión esperada.</p>`,button('Volver a mi borrador','state-close')+button('Consultar versión de referencia','conflict-reference'));return;
+ }
+ if(state==='revoked'||state==='expired'){
+  if(dlg.open)dlg.close();dlg.innerHTML='';main.replaceChildren();stack=[];savedState=null;pendingOperation=null;dirty=false;blocked=true;
+  main.innerHTML=`<section class="panel system-state"><span class="pill warning">${state==='expired'?'Sesión vencida':'Acceso retirado'}</span><h1>${state==='expired'?'Vuelve a iniciar sesión':'Tu membresía ya no permite continuar'}</h1><p class="sub">${state==='expired'?'La sesión terminó. No se guardó el borrador; no se muestran los datos empresariales anteriores.':'Se retiró el contenido de la empresa, incluyendo el borrador. No puedes consultar, guardar ni descargar con la membresía anterior.'}</p><div class="row" style="margin-top:18px">${state==='expired'?button('Ir al acceso','state-access',null,true):'<span class="small sub">Contacta al administrador por el canal acordado.</span>'}</div><p class="flow-note">Para continuar explorando este archivo, elige «Normal» en el laboratorio. Eso restablece solo la demostración.</p></section>`;
+  app.querySelectorAll('.nav-list button').forEach(b=>b.hidden=true);mobileNav.hidden=true;app.removeAttribute('aria-busy');return;
+ }
+ if(savedState)restore(savedState);
+ savedState=snapshot();
+ main.innerHTML=state==='loading'?`<section class="panel system-state" role="status"><span class="pill">Cargando</span><h1>Consultando ${company}</h1><p class="small sub">Sin mostrar datos de otra empresa ni convertir la carga en un resultado cero.</p><div class="skeleton"></div><div class="skeleton short"></div><button data-do="state-restore">Simular respuesta disponible</button></section>`:`<section class="panel system-state" role="alert"><span class="pill danger">Error de consulta</span><h1>No pudimos cargar la información</h1><p class="sub">El error no significa que no existan registros. Tu borrador, si lo había, se conserva en esta demostración.</p><p class="state-code">Referencia ilustrativa: DEM-CONSULTA-07 · Sin detalles internos</p><div class="row" style="margin-top:16px">${button('Reintentar','state-restore',null,true)}</div></section>`;
+ if(state==='loading')app.setAttribute('aria-busy','true');else app.removeAttribute('aria-busy');
+}
+root.addEventListener('input',event=>{if(main.contains(event.target)&&event.target.closest('form')&&!['login-form','recovery-form'].includes(event.target.closest('form').id))setDirty(true);},true);
+root.addEventListener('change',event=>{
+ if(main.contains(event.target)&&event.target.closest('form')&&!['login-form','recovery-form'].includes(event.target.closest('form').id))setDirty(true);
+ if(event.target.id==='demo-persona'){
+  const key=event.target.value;event.stopImmediatePropagation();event.target.value=persona;
+  guard(()=>{persona=key;company='Andina';dirty=false;stack=[];blocked=false;savedState=null;mobileNav.hidden=false;lab.querySelector('#demo-state').value='normal';navigate(allowedViews()[0]);refreshChrome();},'Cambiar persona de demostración');return;
+ }
+ if(event.target.id==='mobile-nav'){event.stopImmediatePropagation();const v=event.target.value;event.target.value=ctx.view;navigate(v);return;}
+ if(event.target.id==='demo-state'){event.stopImmediatePropagation();showState(event.target.value);return;}
+ if(event.target.id==='company-panorama'){
+  event.stopImmediatePropagation();const selected=event.target.value;event.target.value=company;
+  guard(()=>{company=selected;dirty=false;stack=[];navigate('panel');refreshChrome();},'Cambiar empresa con cambios sin guardar');return;
+ }
+},true);
+root.addEventListener('click',event=>{
+ const n=event.target.closest('[data-nav]');
+ if(n&&blocked&&n.dataset.nav!=='acceso'){event.preventDefault();event.stopImmediatePropagation();return;}
+ const preview=event.target.closest('[data-preview]');
+ if(preview&&['Consultar evaluación','Ver entrega'].includes(preview.textContent.trim())){event.preventDefault();event.stopImmediatePropagation();if(preview.textContent.trim()==='Consultar evaluación')navigate('evaluaciones');else taskDetail('AC-018');return;}
+ const b=event.target.closest('[data-do]');if(!b)return;
+ const action=b.dataset.do,id=b.dataset.id;
+ function handled(){event.preventDefault();event.stopImmediatePropagation();}
+ if(action==='cancel-leave'){handled();pendingOperation=null;dlg.close();return;}
+ if(action==='discard-leave'){handled();dlg.close();const operation=pendingOperation;pendingOperation=null;dirty=false;operation?.();return;}
+ if(action==='page-back'){handled();goBack();return;}
+ if(action==='demo-login'){handled();dlg.close();blocked=false;dirty=false;lab.querySelector('#demo-state').value='normal';navigate(allowedViews()[0]);return;}
+ if(action==='state-close'){handled();dlg.close();lab.querySelector('#demo-state').value='normal';return;}
+ if(action==='conflict-reference'){handled();oldModal('Versión registrada · Solo consulta','<p>Revisión 8, actualizada por otra persona. Referencia ilustrativa para comparar antes de resolver el conflicto.</p><p class="small sub">Tu borrador permanece en la página de fondo.</p>',button('Volver a mi borrador','state-close'));return;}
+ if(action==='state-restore'){handled();if(savedState){restore(savedState);savedState=null;}app.removeAttribute('aria-busy');lab.querySelector('#demo-state').value='normal';return;}
+ if(action==='state-access'){handled();blocked=false;navigate('acceso');return;}
+ if(blocked){handled();return;}
+ if(mutationActions.has(action)&&!manage()){handled();return;}
+ if(raOnly()&&['ver-activo','ver-riesgo','riesgos-activo','respuestas','respuesta','revisar'].includes(action)){handled();return;}
+ if(readOnly()&&['avanzar','revisar'].includes(action)){handled();return;}
+ if(action==='invitar-miembro'){
+  handled();if(!has('AE'))return;
+  modal('Invitar miembro a Andina',form(field('Correo del destinatario','correo','','email')+'<fieldset class="full"><legend>Roles empresariales ofrecidos</legend>'+['AE','GS','RA','AU'].map(r=>`<label class="row"><input style="width:18px;min-height:18px" type="checkbox" name="roles" value="${r}">${r} · ${roleNames[r]}</label>`).join('')+'</fieldset>','Previsualizar invitación','invite-form')+'<p class="small sub">Uno o varios roles, al menos uno. No se ofrece AP. Se conserva al menos un AE activo. Canal y vencimiento aún pendientes.</p>');return;
+ }
+ if(action==='aceptar-riesgo'){
+  handled();const r=risks.find(x=>x.id===id);if(!has('AE')||!r)return;
+  if(r.p===null){oldModal('Aceptación no disponible','<p>La valoración está pendiente o requiere revisión. No puede usarse como valoración vigente para aceptar.</p>');return;}
+  modal(`Administrar aceptación · ${r.id}`,form(area('Justificación de aceptación','justificacion')+field('Fecha de próxima revisión','revision','2026-12-06','date'),'Previsualizar aceptación','accept-risk-form')+'<p class="small sub">Decisión exclusiva de AE. Aceptar no reduce el nivel ni cierra el riesgo. No se registra una aprobación real.</p>');return;
+ }
+ if(['alta-empresa','suspender-demo','reintentar-alta'].includes(action)){
+  handled();if(!current().platform)return;
+  if(action==='alta-empresa')modal('Crear empresa del servicio',form(field('Nombre visible','nombre')+field('Correo de invitación del primer AE','correo','','email')+select('Zona horaria','zona',['America/Bogota']),'Previsualizar alta en preparación')+'<p class="small sub">Se activa solo después de verificar estructura, permisos y configuración y preparar la invitación recuperable. No se consulta contenido empresarial.</p>');
+  if(action==='suspender-demo')oldModal('Suspender empresa · Vista previa',form(area('Motivo de suspensión','motivo'),'Previsualizar suspensión')+'<p class="small sub">La siguiente solicitud empresarial quedaría bloqueada. No borra datos. No se modifica el servicio.</p>');
+  if(action==='reintentar-alta')oldModal('Alta incompleta · Nova','<ol><li>Identidad de empresa reservada.</li><li>Estructura incompleta: requiere reparación técnica.</li><li>Verificación e invitación inicial pendientes.</li></ol><p class="small sub">Reintentar usa la misma empresa. No se ofrece acceso operativo parcial.</p>',button('Previsualizar reintento','state-close'));
+  return;
+ }
+},true);
+root.addEventListener('submit',event=>{
+ const f=event.target;
+ if(f.id==='login-form'){event.preventDefault();event.stopImmediatePropagation();if(!f.reportValidity())return;oldModal('Acceso simulado',`<p>Persona de demostración: ${current().name}.</p><p>${current().platform?'AP sin membresías empresariales. Entrarás al espacio de plataforma.':`Membresía en ${company}: ${roles().join(' + ')}.`}</p><p class="small sub">No se envían ni guardan credenciales. El acceso real depende de sesión, membresía y permisos vigentes.</p>`,button('Entrar a la demostración','demo-login',null,true));return;}
+ if(current().platform||manage()||raOnly()&&f.id==='advance-form'||['login-form','recovery-form'].includes(f.id)){
+  if(f.id==='invite-form'){event.preventDefault();event.stopImmediatePropagation();if(!f.reportValidity())return;const data=new FormData(f);msg(data.getAll('roles').length?'Invitación válida como vista previa. Roles limitados a Andina. No se envió nada.':'Selecciona al menos un rol empresarial.');return;}
+  if(f.id==='accept-risk-form'){event.preventDefault();event.stopImmediatePropagation();if(!f.reportValidity())return;const date=new FormData(f).get('revision');msg(date>'2026-11-06'?'Vista previa: decisión AE con justificación y próxima revisión. No modifica nivel, estado ni acciones.':'La próxima revisión debe ser posterior a la fecha de aprobación ilustrativa (6 nov 2026).');return;}
+ }else{event.preventDefault();event.stopImmediatePropagation();msg('Esta membresía permite solo consulta en este contexto.');}
+},true);
+const viewport=window.matchMedia('(max-width:760px)');viewport.addEventListener('change',()=>{if(main.querySelector('#list')){ctx.page=1;renderList();}main.querySelectorAll('.stats-fold').forEach(d=>d.open=!small());});
+refreshChrome();
+
+ navigate('panel');
+})();
+</script>
+</body>
+</html>
