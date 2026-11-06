@@ -1,16 +1,18 @@
 # Estados y transiciones
 
-Versión: 0.1 — Especificación funcional para revisión
+Versión: 0.3 — Aprobaciones APR-01/APR-02; pendientes acotados
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md), [Diccionario de datos](05-diccionario-de-datos-y-validaciones.md).
 
 ## 1. Propósito y alcance
 
-Precisar cambios de estado permitidos, actores, condiciones y efectos. Se desarrollan los flujos ya propuestos; las precisiones nuevas se identifican en la sección 15 y no se consideran aprobadas por el hecho de documentarlas.
+Precisar cambios de estado, actores, condiciones y efectos. APR-02 aprueba mantener recorridos y ciertas precisiones destacadas; el estado por precisión se identifica en sección 15. Los detalles auxiliares no debatidos no se aprueban solo por documentarlos.
 
-Una transición no reemplaza un permiso ni aprueba una metodología. Todas las condiciones son acumulativas: una acción visible en pantalla puede ser rechazada por el servidor si cambió la membresía, el estado o la versión del registro. Los criterios de evidencia, pesos y vigencia todavía abiertos en DEC-01 a DEC-12 siguen pendientes.
+Una transición no reemplaza un permiso. Todas las condiciones son acumulativas: una acción visible puede rechazarse si cambió membresía, estado o revisión. APR-02 aprueba máximo de activos, notas y promedio por control, categorías de riesgo, residual documentado y mínimos de evidencia/cierre. Las rúbricas específicas, vigencia y otras partes todavía abiertas de DEC siguen pendientes; no hay PHVA ponderado ni descuentos automáticos en v1.
 
 Actores: AP = administrador de plataforma; AE = administrador de empresa; GS = gestor de seguridad; RA = responsable de acciones; AU = auditor/lector. «Responsable actual» significa usuario con membresía activa AE, GS o RA y asignación vigente a la tarea. «Sistema» ejecuta un proceso autorizado o deriva un estado del tiempo; no puede eludir las condiciones de negocio.
+
+APR-01 aprueba uno o varios roles por membresía: «AE/GS/RA» indica que al menos uno está presente en la empresa activa, no una membresía por rol. Las concesiones se combinan localmente; las restricciones de identidad, objeto y estado prevalecen. AU+GS puede editar por GS; AU solo no puede. No existe cambio de rol de pantalla que permita autoaprobar tareas.
 
 `Nuevo` indica ausencia de registro, no un estado persistido. «Sin cambio» indica una operación con efecto o un nuevo registro vinculado, no un salto de estado. Una transición no listada se deniega. Los diagramas ilustran recorridos principales; las tablas establecen las condiciones completas.
 
@@ -65,7 +67,7 @@ Repetir suspensión no elimina datos. No hay transición a eliminada en versión
 
 | ID | Origen → destino | Operación | Actor | Condiciones | Efectos |
 | --- | --- | --- | --- | --- | --- |
-| TR-INV-01 | Nuevo → Pendiente | Emitir | AE; AP para primer AE | Destinatario y rol empresarial válidos, vencimiento definido; emisión inicial ligada al alta | Guardar comprobante protegido y fecha límite; no conceder acceso aún |
+| TR-INV-01 | Nuevo → Pendiente | Emitir | AE; AP para primer AE | Destinatario y conjunto empresarial válido no vacío; AP inicial ofrece solo AE; vencimiento definido | Vincular comprobante al conjunto ofrecido y empresa; sin acceso aún |
 | TR-INV-02 | Pendiente → Aceptada | Aceptar | Destinatario verificado | Empresa activa, identidad coincidente, comprobante válido no consumido/revocado y hora actual anterior a vence_en | Consumir comprobante y crear membresía una sola vez |
 | TR-INV-03 | Pendiente → Revocada | Revocar | AE | Empresa operable, invitación de su empresa aún pendiente | Inutilizar comprobante y registrar actor |
 | TR-INV-04 | Pendiente → Vencida | Alcanzar vencimiento | Sistema | Hora actual mayor o igual a vence_en; no aceptada ni revocada antes | Denegar aceptación sin depender de una tarea programada |
@@ -80,8 +82,8 @@ La suspensión no detiene el reloj. Si el comprobante sigue vigente al reactivar
 
 | ID | Origen → destino | Operación | Actor | Condiciones | Efectos |
 | --- | --- | --- | --- | --- | --- |
-| TR-MEM-01 | Nuevo → Activa | Incorporar miembro | Sistema tras aceptación válida | TR-INV-02, usuario verificado, pareja empresa/usuario inexistente | Asignar únicamente rol de la invitación en esa empresa |
-| TR-MEM-02 | Activa → Activa | Cambiar rol | AE | Rol AE/GS/RA/AU válido, motivo, conservar al menos un AE activo | Cambiar autorización de solicitudes posteriores; señalar tareas incompatibles para reasignación |
+| TR-MEM-01 | Nuevo → Activa | Incorporar miembro | Sistema tras aceptación válida | TR-INV-02, identidad verificada, pareja empresa/usuario inexistente y conjunto ofrecido válido | Crear una membresía y asignar solo roles de la invitación en esa empresa |
+| TR-MEM-02 | Activa → Activa | Añadir o retirar roles | AE | Conjunto AE/GS/RA/AU sin duplicados ni vacío; motivo; conservar al menos una membresía activa con AE | Guardar conjuntos anterior/nuevo, recalcular permisos y señalar tareas si pierde todos los roles elegibles |
 | TR-MEM-03 | Activa → Revocada | Revocar pertenencia | AE | Motivo, pertenencia local y conservación del último AE activo | Retirar acceso en nuevas solicitudes, preservar autoría y tareas históricas |
 
 No se ofrece transición revocada → activa hasta especificar readmisión. Otra invitación no elude esta restricción. La excepción temporal de empresa recién creada sin AE aceptado pertenece al alta, no permite revocar al último AE después de incorporarlo.
@@ -100,7 +102,7 @@ Cambiar rol o revocar no borra ni completa tareas. Si el responsable deja de ser
 | TR-ARC-04 | Nuevo → Activo | Crear proceso o responsable | AE o GS | Datos mínimos locales y validaciones DD-09/DD-10 | Incorporar al catálogo empresarial |
 | TR-ARC-05 | Activo → Archivado | Archivar proceso o responsable | AE o GS | Revisar dependencias y registrar motivo | Impedir nuevas asignaciones; referencias existentes no desaparecen |
 
-Restaurar procesos o responsables no está previsto expresamente en los permisos/casos iniciales y se mantiene fuera del flujo hasta especificarlo. Los activos archivados permiten consulta y seguimiento de sus riesgos existentes; no se edita su ficha ni se crean riesgos nuevos hasta restaurarlos. Esta restricción de edición es una precisión propuesta. No hay borrado físico por estos estados.
+Restaurar procesos o responsables no está previsto expresamente y se mantiene fuera del flujo hasta especificarlo. Los activos archivados permiten consulta/seguimiento de riesgos existentes; no se edita su ficha ni se crean riesgos nuevos hasta restaurarlos. APR-02 aprueba restaurar antes de editar. No hay borrado físico por estos estados.
 
 ## 7. Evaluación y revisión vinculada
 
@@ -126,9 +128,9 @@ stateDiagram-v2
 | TR-EVA-04 | En revisión → Cerrada | Cerrar diagnóstico | AE o GS | Revalidar completitud, evidencia y metodología aprobada; sin conflictos de revisión | Registrar cierre/autor y conservar entradas, versiones y resultados reproducibles |
 | TR-EVA-05 | Cerrada → Cerrada, más nuevo Borrador | Crear corrección vinculada | AE o GS | Motivo, referencia a original local, sin ciclos | Original inmutable; nuevo registro marca respuestas heredadas pendientes de confirmar |
 
-AE/GS puede revisar una evaluación que diligenció, según política propuesta en la matriz. Esa posibilidad no aplica a autoaprobar acciones. No se admite borrador → cerrada ni cerrada → borrador sobre el mismo registro. Evidencias nuevas o cambios de respuesta en revisión requieren primero devolución; la descarga autorizada sigue disponible.
+AE/GS puede revisar una evaluación que diligenció, según política aprobada APR-01. Esa posibilidad no aplica a autoaprobar acciones aunque acumule roles. No se admite borrador → cerrada ni cerrada → borrador sobre el mismo registro. Evidencias nuevas o cambios de respuesta en revisión requieren primero devolución; la descarga autorizada sigue disponible.
 
-Un borrador puede guardarse incompleto sin enviarse. Las condiciones de envío propuestas no se habilitan hasta resolver criterios de evidencia y aplicabilidad; no se inventan requisitos normativos de cierre. Una corrección posterior no modifica el reporte histórico del original.
+Un borrador puede guardarse incompleto sin enviarse. APR-02 aprueba cierre con respuestas/aplicabilidad completas, fundamento y evidencia según criterio, admitiendo referencia verificable o archivo cuando corresponda. El detalle de cada criterio sigue pendiente; no se inventan requisitos normativos. Cláusulas no ofrecen libremente N y no se exige un puntaje PHVA ponderado para cerrar. Una corrección conserva el reporte original.
 
 ## 8. Clasificación de activos y valoración de riesgos
 
@@ -137,10 +139,10 @@ Un borrador puede guardarse incompleto sin enviarse. Las condiciones de envío p
 | ID | Origen → destino | Operación | Actor | Condiciones | Efectos |
 | --- | --- | --- | --- | --- | --- |
 | TR-VAL-01 | Nuevo → Pendiente | Iniciar clasificación de activo | AE o GS | Activo editable local y metodología identificada | Guardar entradas parciales sin criticidad definitiva |
-| TR-VAL-02 | Pendiente → Completo | Confirmar clasificación | AE o GS | Tres dimensiones válidas, fundamento, datos condicionales resueltos y metodología aprobada | Calcular criticidad y registrar fecha/autor; fijar versión histórica |
+| TR-VAL-02 | Pendiente → Completo | Confirmar clasificación | AE o GS | C/I/D completas 1/3/5, fundamento y datos condicionales resueltos | Calcular máximo C/I/D según APR-02 y fijar versión, fecha/autor |
 | TR-VAL-03 | Completo → Completo, más nuevo Pendiente | Reevaluar activo | AE o GS | Activo editable; motivo de revisión | Conservar anterior; nuevo registro editable; vigente no cambia hasta confirmar sucesor |
 | TR-VAL-04 | Nuevo → Borrador | Iniciar valoración de riesgo | AE o GS | Riesgo local no cerrado, clase inherente/residual y metodología identificadas | Permitir guardar fundamento y datos parciales |
-| TR-VAL-05 | Borrador → Confirmado | Confirmar valoración | AE o GS | Índices y fundamento válidos, metodología aprobada; residual con inherente base y controles verificados o ausencia de mitigación justificada | Calcular categorías/nivel y guardar autor, fecha y referencias de versiones |
+| TR-VAL-05 | Borrador → Confirmado | Confirmar valoración | AE o GS | Categorías y fundamento válidos según criterios; residual con inherente base y verificaciones o ausencia de mitigación justificada | Derivar equivalencias y nivel por matriz; no descontar por nota/tipo/modo; guardar versiones, autor/fecha |
 | TR-VAL-06 | Confirmado → Confirmado, más nuevo Borrador | Reevaluar riesgo | AE o GS | Riesgo no cerrado; motivo y referencias de origen | Crear sucesor sin reescribir índices o resultado anterior |
 
 La edición parcial permanece en pendiente/borrador y no constituye otra transición. Confirmar una versión nueva actualiza la referencia vigente de forma atómica; una anterior permanece histórica. Un resultado marcado «requiere revisión» no se presenta como vigente sin advertencia ni habilita aceptación/cierre hasta reevaluarse.
@@ -172,7 +174,7 @@ Propuesta: un control ya existente se registra pasando por los mismos hitos en u
 
 Las alternativas de cada fila representan resultados posibles, no una cadena automática. Se propone verificar solo cuando está implementado; pruebas durante implementación pueden registrarse como avances, pero no como efectividad vigente. Si no se ha definido vigencia temporal, no se inventa una caducidad automática.
 
-Efectivo no significa 100 % de mitigación, parcialmente efectivo no equivale a 50 %, y una tarea completada no cambia esta dimensión. Cualquier descuento exige metodología de riesgo aprobada por separado. La separación de personas entre implementador y verificador no es obligatoria en la política inicial; sí lo es entre responsable y aprobador de acción.
+Efectivo no significa 100 % de mitigación, parcialmente efectivo no equivale a 50 %, y tarea completada no cambia esta dimensión. APR-02 excluye descuentos automáticos en v1; el residual es categórico conjunto justificado. Separación implementador/verificador no obligatoria en política inicial; responsable/aprobador de acción sí deben ser personas distintas.
 
 ## 10. Riesgo y decisión de tratamiento
 
@@ -238,13 +240,13 @@ stateDiagram-v2
 
 | ID | Origen → destino | Operación | Actor | Condiciones | Efectos |
 | --- | --- | --- | --- | --- | --- |
-| TR-EVI-01 | Nuevo → Pendiente | Iniciar carga | AE/GS o responsable autorizado de su acción | Objeto local editable, permiso de carga, límites y tipo previstos | Reservar identificador privado; archivo aún no descargable ni válido para cierre |
-| TR-EVI-02 | Pendiente → Disponible | Validar y concluir carga | Sistema por carga autorizada | Archivo íntegro almacenado, tamaño/contenido aceptados; revalidar acceso y estado del destino antes de publicar | Guardar metadatos/huella; habilitar descarga solo autorizada |
-| TR-EVI-03 | Pendiente → Fallida | Rechazar o fallar carga | Sistema | Formato/tamaño inválido, fallo técnico o permiso/estado del destino ya incompatible | No publicar; guardar causa restringida y mensaje apropiado |
+| TR-EVI-01 | Nuevo → Pendiente | Iniciar archivo o referencia | AE/GS o responsable autorizado | Objeto local editable; modalidad admitida por criterio, permiso de evidencia | Reservar registro; aún no satisface evidencia requerida |
+| TR-EVI-02 | Pendiente → Disponible | Validar registro de evidencia | Sistema por operación autorizada | Archivo íntegro/contenido válido, o referencia con identificación/versión/localizador; revalidar acceso/estado de destino | Archivo descargable solo con permiso; referencia consultable sin acceso externo implícito; no certificar pertinencia automáticamente |
+| TR-EVI-03 | Pendiente → Fallida | Rechazar o fallar registro | Sistema | Archivo inválido, referencia incompleta/no admitida, fallo técnico o destino incompatible | No publicar; guardar causa restringida y mensaje apropiado |
 
 Fallida no se reusa como disponible mediante edición manual: una nueva carga crea otro registro. Un archivo ya disponible no cambia de contenido conservando el mismo identificador; una sustitución sería otra evidencia y queda pendiente la política de corrección/retención. No hay transición a eliminada en la interfaz inicial.
 
-Descargar no cambia estado. Seleccionar una evidencia disponible como contexto RA tampoco cambia su estado: crea DD-24 y exige acceso local, necesidad justificada y revisión de alcance de divulgación. Revocar asignación retira ese acceso aunque el archivo siga disponible.
+Descargar no cambia estado y solo corresponde a archivos locales. Una referencia no se descarga automáticamente ni concede acceso a un sistema externo; el revisor comprueba accesibilidad y pertinencia antes de aceptarla para cierre. Seleccionar evidencia como contexto RA crea DD-24, con necesidad y alcance justificados; revocar asignación retira acceso aunque evidencia siga disponible.
 
 Si se requiere análisis adicional, solo disponible tras pasar las comprobaciones aprobadas; no introducir nuevos estados técnicos sin actualizar diccionario y arquitectura. La compensación de archivos incompletos debe ejecutarse sobre el identificador de carga de la misma empresa, sin borrar evidencias disponibles ni información de otras empresas.
 
@@ -279,24 +281,24 @@ Deshabilitar una cuenta o revocar una membresía no equivale a borrar la sesión
 | Control efectivo | Resultado de una verificación versionada | No concede mitigación de 100 % ni completa tareas |
 | Evidencia disponible | Carga validada técnicamente y privada | No demuestra por sí sola pertinencia o suficiencia |
 
-## 15. Precisiones propuestas y dependencias abiertas
+## 15. Estado de precisiones y dependencias abiertas
 
-No se cambian silenciosamente documentos previos. Las siguientes precisiones desarrollan puntos amplios o vacíos y deben revisarse como parte de esta versión:
+APR-02 aprueba recorridos y las condiciones destacadas de ciclo de vida. Se conserva trazabilidad de precisiones y se identifica lo aún no resuelto:
 
 | ID | Precisión | Referencia anterior | Efecto en diseño posterior |
 | --- | --- | --- | --- |
 | EST-01 | Alta no concluye sin emisión inicial recuperable; fallo mantiene acceso bloqueado | CU-01, DD-01/DD-04 | Definir aprovisionamiento e invitación sin duplicación |
-| EST-02 | Aplicar mínimos de completitud para presentar evaluación a revisión | CU-16, DD-13/DD-14 | Configurar criterios con DEC-02/DEC-06; permitir guardar borradores incompletos |
-| EST-03 | Ficha de activo archivado se consulta, pero no se edita hasta restaurar | CU-12, PER-15/PER-17 | Añadir condición de estado a edición |
-| EST-04 | Clasificación confirmada y valoración confirmada crean sucesores, sin editar instantáneas | DD-12/DD-19, CAL-GEN-03 | Modelar versiones y referencias vigentes por clase |
-| EST-05 | Separar implementación y verificación; verificar vigencia solo sobre implementado | DD-16, CU-19 | Dos dimensiones y versiones de verificación; sin descuento implícito |
-| EST-06 | Cierre de riesgo solo desde seguimiento y sin acciones abiertas; nuevo evento crea otro riesgo | CU-21, DD-17 | Estados no se saltan para cerrar; cancelación exige fundamento |
-| EST-07 | Congelar cambios de asignación/alcance/plazo/contexto en revisión de tarea; devolver antes | CU-22 a CU-24, PER-30/PER-31 | Evitar alteración de entrega y autoaprobación indirecta |
-| EST-08 | Terminales de acción no reabren; cancelación no equivale a cumplimiento | CU-22, DD-21 | Nueva acción vinculada para trabajo posterior |
+| EST-02 | Mínimos para revisión de evaluación | CU-16, DD-13/DD-14 | APR-02 aprueba completitud/cierre; criterios de evidencia por elemento aún por concretar |
+| EST-03 | Archivado se consulta y se restaura antes de editar | CU-12, PER-15/PER-17 | Aprobado APR-02 |
+| EST-04 | Versiones confirmadas se corrigen con sucesores | DD-12/DD-19, CAL-GEN-03 | Aprobada conservación histórica APR-02; representación física pendiente |
+| EST-05 | Implementación y verificación separadas | DD-16, CU-19 | Aprobado APR-02; detalle de vigencia/rúbrica pendiente |
+| EST-06 | Cierre desde seguimiento, acciones resueltas y nuevo riesgo posterior | CU-21, DD-17 | Recorrido y mínimos de cierre aprobados APR-02; cancelación requiere fundamento |
+| EST-07 | Congelar tarea en revisión y devolver antes de modificar | CU-22 a CU-24, PER-30/PER-31 | Aprobado APR-02; nunca habilita autoaprobación |
+| EST-08 | Terminales no reabren; nueva acción vinculada | CU-22, DD-21 | Recorrido e historial aprobados APR-02; cancelar no equivale a cumplir |
 | EST-09 | Fallo de carga es terminal para ese intento; reintento crea otro registro | CU-25, DD-23 | Estado técnico coherente con almacenamiento privado |
 | EST-10 | Sesión/comprobante se rechaza por tiempo en cada solicitud | CU-03/CU-04, DD-05/DD-06 | No depender de tareas programadas para aplicar vencimientos |
 
-Quedan abiertos: aprobación de metodología (DEC-01 a DEC-12), evidencia mínima y vigencia, duraciones de invitaciones/sesiones/comprobantes, canales, readmisión de membresías, retiro definitivo de implementaciones y corrección/retención de archivos. No se habilita una transición que dependa de una política inexistente. La primera versión no introduce eliminación de empresas, borrado físico operativo ni nuevos privilegios de soporte.
+Quedan abiertos: partes aún pendientes de DEC, rúbricas y evidencia por criterio, vigencia, duraciones/canales, readmisión de membresías, retiro de implementaciones y corrección/retención de archivos. EST-01 y detalles técnicos EST-09/EST-10 no reciben valores/políticas nuevos por APR-02. No se habilita transición que requiera una política inexistente; no se introduce borrado físico ni privilegios de soporte.
 
 ## 16. Escenarios de aceptación
 
@@ -330,8 +332,11 @@ Son criterios para pruebas futuras. Esta documentación no afirma que exista un 
 | ET-24 | Cambiar ID o empresa para ejecutar transición sobre objeto ajeno | Rechazo sin revelar estado/contenido del objeto ajeno |
 | ET-25 | Cambiar empresa en otra pestaña y confirmar operación anterior | Mantener contexto explícito autorizado o rechazar; nunca aplicar a otra empresa |
 | ET-26 | Tarea supera plazo mientras está en ejecución | Indicador vencida, mismo estado y posibilidad de avanzar autorizadamente |
-| ET-27 | Aprobación de evaluación por su autor AE/GS | Permitida según política inicial; no extender excepción a tareas |
+| ET-27 | Aprobación de evaluación por su autor AE/GS | Permitida por APR-01; no extender excepción a tareas |
 | ET-28 | Aceptación de riesgo llega a fecha de revisión sin reevaluar | Señal de revisión pendiente, aprobación histórica conservada y cierre bloqueado hasta resolver vigencia |
+| ET-29 | Retirar GS de AU+GS mientras edita | Siguiente operación de edición rechazada; consulta permitida por AU |
+| ET-30 | Usuario GS+RA intenta TR-ACC-05 sobre su propia entrega | Rechazo por identidad, sin selector de rol que lo eluda |
+| ET-31 | Retirar último rol de membresía activa o AE del último administrador | Rechazo atómico; conjunto no vacío y al menos un AE activo |
 
 ## 17. Trazabilidad y siguiente etapa
 

@@ -1,6 +1,6 @@
 # Parámetros y requerimientos del sistema
 
-Versión: 0.1 — Propuesta inicial para revisión
+Versión: 0.3 — Aprobaciones APR-01 y APR-02 incorporadas
 Fecha: 6 de noviembre de 2026
 Nombre provisional: Sistema de Gestión de Seguridad de la Información
 
@@ -38,15 +38,15 @@ Los estados «propuesto» y «pendiente» no representan decisiones aprobadas po
 
 Antes de programar los cálculos se documentarán las escalas, fórmulas, redondeos, límites y casos sin datos. Se revisará la correspondencia entre las versiones y referencias de controles utilizadas en los archivos. Los valores ya diligenciados no se asumirán como datos reales de una empresa ni como reglas universales.
 
-## 4. Alcance propuesto de la primera versión
+## 4. Alcance aprobado de la primera versión
 
 Incluye empresas, usuarios y membresías; procesos y responsables; inventario de activos; evaluaciones de cláusulas y controles; riesgos y controles asociados; acciones de mejora; evidencias; panel de resultados; reporte básico y registro de actividad.
 
 Quedan para etapas posteriores: importación automática de Excel, reportes avanzados, integración con servicios externos, inicio de sesión corporativo, notificaciones por correo, simulaciones y un módulo NIST independiente. La primera versión no ejecutará escaneos de vulnerabilidades ni implementará controles técnicos sobre los sistemas de las empresas.
 
-## 5. Roles y permisos propuestos
+## 5. Roles y política de acceso aprobados
 
-Los roles pertenecen a una membresía dentro de una empresa. Un mismo usuario podrá tener roles distintos en empresas diferentes. No se admitirán roles personalizados en la primera versión.
+Existe una membresía única por usuario y empresa, asociada a uno o varios roles empresariales. Los permisos concedidos se combinan solo dentro de la empresa activa; las restricciones de objeto, estado y separación de personas prevalecen. Un mismo usuario puede tener conjuntos de roles diferentes en empresas distintas. No se admitirán roles personalizados en la primera versión.
 
 | Rol | Permisos principales | Límites |
 | --- | --- | --- |
@@ -54,7 +54,9 @@ Los roles pertenecen a una membresía dentro de una empresa. Un mismo usuario po
 | Administrador de empresa | Gestionar miembros, procesos, configuración y todos los módulos de su empresa | No puede administrar otras empresas ni asignar privilegios de plataforma |
 | Gestor de seguridad | Gestionar activos, evaluaciones, riesgos, acciones y revisiones | No administra membresías ni privilegios |
 | Responsable de acciones | Consultar sus tareas y el contexto mínimo necesario; registrar avances y evidencias | No consulta el inventario completo ni aprueba sus propias tareas |
-| Auditor o lector | Consultar información y reportes de su empresa | Sin modificaciones de registros operativos |
+| Auditor o lector | Consultar información y reportes de su empresa | Este rol no concede edición; si se combina con otro, puede recibir permisos de ese otro rol |
+
+Política aprobada: acceso por invitación sin registro público; solo AE administra asignaciones de roles empresariales; aceptación formal de riesgos reservada a AE. AE/GS puede cerrar una evaluación que diligenció, pero nadie aprueba una acción de la que sea responsable, aunque acumule roles. El rol RA no es requisito adicional para que un AE o GS ejecute una tarea asignada: cualquiera de esos tres roles es suficiente, manteniendo la asignación como condición. AP permanece separado de los roles empresariales.
 
 El acceso de emergencia o soporte al contenido de una empresa queda excluido de la primera versión. Los privilegios de infraestructura y base de datos se administrarán por separado de estos roles de aplicación. Sus operadores pueden tener acceso técnico y requieren controles operativos específicos.
 
@@ -69,16 +71,16 @@ El acceso de emergencia o soporte al contenido de una empresa queda excluido de 
 | RF-05 | Suspender empresas o revocar membresías | Las solicitudes posteriores a la suspensión o revocación se rechazan, incluso con una sesión previamente iniciada |
 | RF-06 | Registrar procesos y responsables | Un activo puede asociarse a un proceso y responsable válidos de su empresa |
 | RF-07 | Gestionar activos | Crear, consultar, actualizar y archivar activos con código único por empresa, nombre, tipo, proceso, responsable y descripción |
-| RF-08 | Clasificar activos | Registrar confidencialidad, integridad, disponibilidad y campos aplicables de datos personales; calcular criticidad con reglas documentadas y distinguir datos faltantes |
+| RF-08 | Clasificar activos | Escala 1/3/5 en C/I/D y criticidad por máximo de las tres dimensiones completas; faltantes dejan clasificación pendiente; registrar datos personales aplicables |
 | RF-09 | Consultar el catálogo de controles y cláusulas | Cada elemento tiene identificador, versión, descripción y dominio o categoría; las referencias históricas conservan su versión |
 | RF-10 | Crear evaluaciones periódicas | Una empresa puede tener varias evaluaciones con fecha, responsable y estado; una nueva evaluación no sobrescribe la anterior |
 | RF-11 | Diligenciar y cerrar evaluaciones | Guardar calificación, aplicabilidad, justificación y evidencia por elemento; los pendientes quedan visibles y una evaluación cerrada no se edita directamente |
 | RF-12 | Gestionar riesgos | Registrar un activo principal, amenaza, vulnerabilidad, descripción, responsable y tratamiento por riesgo; todas las relaciones pertenecen a la misma empresa |
-| RF-13 | Calcular y registrar valoraciones del riesgo | Mostrar probabilidad, impacto y nivel inherente y residual según una metodología identificada; los campos incompletos producen un estado pendiente, no un resultado válido de cero |
-| RF-14 | Asociar controles a riesgos | Permitir varios controles por riesgo y varios riesgos por control, registrando implementación, evidencia y efectividad; proponer un control no modifica automáticamente el residual |
+| RF-13 | Calcular y registrar valoraciones del riesgo | Seleccionar cinco categorías justificadas de probabilidad/impacto, inherentes y residuales; calcular nivel con matriz inicial aprobada; faltantes producen pendiente, no cero |
+| RF-14 | Asociar controles a riesgos | Varios controles por riesgo y riesgos por control; documentar implementación/verificación y residual conjunto justificado, sin descuentos automáticos por nota, tipo o modo |
 | RF-15 | Gestionar acciones de mejora | Crear tareas con responsable autorizado, fecha límite, descripción y vínculo al riesgo o hallazgo; mostrar vencimiento separado del estado de ejecución |
 | RF-16 | Revisar acciones | El responsable solicita revisión; un gestor o administrador distinto del responsable aprueba o devuelve la tarea con motivo |
-| RF-17 | Adjuntar y consultar evidencias | Vincular archivos a evaluaciones, controles o acciones; validar formato y tamaño; exigir autorización en carga y descarga |
+| RF-17 | Adjuntar y consultar evidencias | Vincular archivos privados o referencias documentales verificables cuando el criterio lo admita; validar archivos y exigir autorización; la referencia no concede acceso automático a su destino |
 | RF-18 | Mostrar panel y matriz de riesgos | Presentar resultados de la empresa activa, evaluaciones pendientes, riesgos por nivel y acciones vencidas; los totales coinciden con los registros accesibles |
 | RF-19 | Buscar y filtrar | Filtrar registros por campos relevantes y paginar resultados sin incluir datos de otra empresa |
 | RF-20 | Generar un reporte básico | Producir una vista imprimible con empresa, fecha, filtros y metodología; respetar los mismos permisos de consulta |
@@ -114,7 +116,7 @@ Se propone un esquema común para identidades, empresas, membresías y versiones
 - RN-06: Una acción completada requiere revisión y evidencia cuando corresponda; no supone por sí sola que el control sea efectivo ni que el riesgo haya disminuido.
 - RN-07: Las valoraciones conservan fecha, autor y versión de la metodología. Las actualizaciones del catálogo no alteran silenciosamente resultados históricos.
 - RN-08: Los registros referenciados se archivan en lugar de eliminarse físicamente en los flujos habituales. El archivado no destruye su historial.
-- RN-09: Un riesgo puede aceptarse únicamente con justificación, aprobador autorizado y fecha de revisión. Se propone reservar esa aprobación al administrador de empresa.
+- RN-09: Un riesgo puede aceptarse únicamente con justificación, aprobador autorizado y fecha de revisión. Esa aprobación está reservada al administrador de empresa.
 - RN-10: Las escalas y fórmulas iniciales serán versionadas y comunes; personalizarlas por empresa queda fuera de la primera versión.
 - RN-11: Las fechas límite se interpretan según la zona horaria empresarial; los eventos del sistema conservan una marca temporal uniforme.
 
@@ -161,9 +163,9 @@ Las cifras de capacidad, límites y recuperación son metas propuestas, no garan
 
 ## 12. Decisiones pendientes antes del diseño técnico
 
-- Confirmar el alcance y los cinco roles propuestos; determinar si el auditor necesita comentar en una etapa posterior.
-- Acordar la metodología exacta de criticidad, promedios, riesgo residual y combinación de varios controles; resolver discrepancias entre los Excel.
-- Definir campos obligatorios y evidencias requeridas para cerrar evaluaciones, acciones y riesgos.
+- Alcance y política de roles aprobados según APR-01 al final de este documento. El auditor no comenta en la primera versión; los comentarios quedan diferidos.
+- APR-02 aprueba criticidad por máximo, escala discreta, promedio por control, categorías de riesgo y residual documentado. Completar rúbricas, umbrales agregados y decisiones pendientes de la sección 11 del documento 4; no adoptar descuentos automáticos.
+- APR-02 aprueba mínimos de evidencia y cierre; concretar por criterio cuándo corresponde adjunto o referencia y la periodicidad de verificación.
 - Seleccionar tecnologías, alojamiento y mecanismo de invitación y recuperación de acceso.
 - Definir retención de evidencias e historial, cuotas por empresa y procedimiento de retiro o eliminación de una empresa.
 - Confirmar metas de capacidad, respaldo y recuperación según los recursos disponibles.
@@ -177,4 +179,28 @@ Las cifras de capacidad, límites y recuperación son metas propuestas, no garan
 5. Seleccionar tecnologías y organizar la implementación por módulos.
 6. Implementar y verificar cada etapa con los criterios acordados.
 
-Este documento define una base revisable. No inicia la implementación ni convierte sus propuestas en decisiones confirmadas.
+## 14. Registro de aprobación APR-01
+
+Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat del proyecto, al aceptar la recomendación de alcance/roles con la modificación de permitir varios roles por empresa.
+
+- Se aprueban los módulos de la sección 4 y su desarrollo por etapas; funciones avanzadas y módulo NIST independiente se mantienen diferidos.
+- Se aprueban los cinco roles, una membresía por usuario/empresa con uno o varios roles empresariales y su combinación local de permisos; se sustituye la propuesta anterior de un solo rol.
+- Se aprueban invitación sin registro público, auditor sin edición por ese rol, aceptación de riesgos por AE, cierre de evaluación propia por AE/GS y aprobación de tareas por persona distinta del responsable.
+- Solo AE gestiona roles empresariales; AP no obtiene acceso operativo automático. Auditor combinado con GS/AE puede editar por esos otros roles, sin presentarse como un usuario de solo lectura.
+- Se conservan prohibiciones y condiciones aunque haya varios roles. No se concede a un rol permiso nuevo por aparecer junto a otro.
+- La aprobación no resuelve DEC-01 a DEC-12, EST-01 a EST-10, tecnologías, políticas de seguridad, límites, conservación o metas operativas pendientes. Los detalles funcionales ajenos a este alcance siguen sujetos a revisión.
+
+## 15. Registro de aprobación APR-02
+
+Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat, al aceptar los bloques 1, 3, 4, 5 y 6 y confirmar después la opción 2 mediante la imagen de la recomendación inicial.
+
+1. **Activos:** bajo=1, medio=3, alto=5; criticidad por la dimensión más alta, solo con las tres dimensiones completas. Faltantes/no clasificado quedan pendientes. Sustituye el criterio de dos dimensiones altas del Excel.
+2. **Evaluaciones:** notas individuales 0/20/40/60/80/100; separar cero, sin evaluar y N justificado; promedio sobre controles aplicables evaluados, todos con igual peso, con avance y resultados por dominio. Conservar decimales y mostrar dos. Controles y cláusulas se muestran por separado; N en cláusulas no se habilita libremente. Pesos PHVA 14/16 diferidos, mostrando resultados por cláusula.
+3. **Riesgos:** cinco categorías seleccionables de probabilidad/impacto con criterios y justificación, usando las 25 combinaciones de la matriz inicial. No derivar categorías automáticamente de horas, frecuencia o dinero ni presentar equivalencias numéricas como probabilidades estadísticas medidas.
+4. **Residual:** AE/GS registra valoración conjunta justificada considerando implementaciones verificadas, con uno o varios controles. La matriz calcula nivel; no se descuentan porcentajes automáticamente por nota, tipo, modo o cantidad de controles.
+5. **Evidencia y cierres:** fundamento por respuesta, evidencia pertinente según criterio; implementación verificada con comprobación, evidencia, resultado, autor y fecha; tareas aprobadas por otra persona; cierre de riesgo con valoraciones vigentes, justificación y acciones resueltas. Una referencia documental verificable puede sustituir adjunto cuando el criterio lo admita; falta especificar esa política por criterio. Corregir cierres conserva original y crea revisión/registro relacionado.
+6. **Ciclos de vida:** mantener recorridos documentados y confirmar en particular activo archivado restaurado antes de edición, evaluación cerrada corregida con nueva revisión, tarea en revisión congelada/devolución previa y separación implementación/efectividad. Duraciones de sesiones, invitaciones, recuperación y conservación siguen pendientes de arquitectura; no se aprueban valores inexistentes.
+
+La aprobación es de comportamiento funcional, no de tecnologías, rúbricas todavía no escritas, periodicidades, umbrales globales de madurez o campos auxiliares no debatidos. EST-01 y los detalles técnicos de reintento/compensación siguen en revisión. DEC-11 y DEC-12 continúan pendientes. Las observaciones de fórmulas Excel se conservan como evidencia de origen y no se convierten en cálculos del software.
+
+Este documento es una base revisable y no inicia la implementación. Solo los puntos identificados como aprobados cambian de estado; las demás propuestas conservan sus pendientes.

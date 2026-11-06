@@ -1,6 +1,6 @@
 # Casos de uso
 
-Versión: 0.1 — Especificación inicial para revisión
+Versión: 0.3 — Flujos ajustados a APR-01 y APR-02
 Fecha: 6 de noviembre de 2026
 Base: [Parámetros y requerimientos](01-parametros-y-requerimientos.md)
 Autorización: [Matriz de permisos](02-matriz-de-permisos.md)
@@ -9,9 +9,13 @@ Autorización: [Matriz de permisos](02-matriz-de-permisos.md)
 
 Actores: AP = administrador de plataforma; AE = administrador de empresa; GS = gestor de seguridad; RA = responsable de acciones; AU = auditor o lector. El sistema ejecuta validaciones y cálculos; no reemplaza al usuario que decide o aporta evidencia.
 
+Una persona puede reunir varios roles en una membresía de la empresa activa (APR-01). Los actores indican qué rol concede la operación, no roles exclusivos. Las limitaciones descritas para AU o RA solos no anulan concesiones válidas de otro rol empresarial; las prohibiciones personales, especialmente autoaprobar tareas, prevalecen siempre. Un GS puede ejecutar su tarea asignada sin añadir RA.
+
 Salvo los casos de identidad y administración de plataforma, todos los flujos requieren sesión válida, empresa activa y membresía vigente. El servidor comprueba permiso y acceso al objeto en cada operación. Rechazar el acceso no revela datos empresariales ajenos. Listados y búsquedas usan paginación y los mismos permisos que el detalle. Las mutaciones conservan historial y rechazan conflictos de edición sin sobrescribir silenciosamente.
 
 Las validaciones se completan antes de confirmar la operación. Los pasos y excepciones son criterios funcionales, no una elección de interfaz ni de tecnología. Cada caso incluye un escenario mínimo que servirá de base a pruebas posteriores; todavía no representa una prueba ejecutada.
+
+APR-02 fija criticidad por máximo, evaluación de igual peso por control y riesgo categórico con residual conjunto justificado, sin descuentos automáticos. Evidencia puede ser adjunto o referencia verificable cuando lo permita el criterio; sus requisitos detallados deben definirse antes de habilitar cierres definitivos.
 
 ## 2. Plataforma y acceso
 
@@ -61,7 +65,7 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 - **Previas:** sesión válida y al menos una membresía operable.
 - **Flujo:** 1) Consulta sus empresas disponibles. 2) Selecciona una. 3) El servidor valida membresía y estado y resuelve el esquema interno. 4) La interfaz actualiza contexto, permisos, listas y formularios.
 - **Alternativas:** una empresa no autorizada o suspendida se rechaza; avisar antes de descartar cambios locales sin guardar. Una solicitud conserva su contexto explícito aunque se cambie de empresa en otra pestaña.
-- **Resultado:** nuevas operaciones se realizan en la empresa seleccionada con su rol correspondiente.
+- **Resultado:** nuevas operaciones usan el conjunto de roles y restricciones de la empresa seleccionada, sin incorporar roles de otras empresas.
 - **Verificación:** AE en A y AU en B no puede editar en B, ni se guardan formularios de A accidentalmente en B.
 - **Trazabilidad:** RF-04; SEG-01 a SEG-04, SEG-07; PER-05; PA-02, PA-08.
 
@@ -78,10 +82,10 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 ### CU-07. Invitar miembro y aceptar invitación
 
 - **Actor y objetivo:** AE incorpora un miembro; el destinatario acepta su propia invitación. CU-01 cubre la emisión inicial por AP.
-- **Previas:** AE autorizado; destinatario y rol empresarial válidos; canal de invitación pendiente de definición técnica.
-- **Flujo:** 1) AE registra destinatario y rol. 2) El sistema genera invitación de un solo uso con vencimiento. 3) El destinatario verifica su identidad y acepta. 4) El sistema crea o utiliza su identidad y establece la membresía en la empresa de la invitación.
+- **Previas:** AE autorizado; destinatario y conjunto empresarial de roles válidos; canal de invitación pendiente de definición técnica.
+- **Flujo:** 1) AE registra destinatario y uno o varios roles AE/GS/RA/AU sin duplicados. 2) El sistema genera invitación de un solo uso vinculada al conjunto ofrecido. 3) El destinatario verifica su identidad y acepta. 4) El sistema crea o utiliza su identidad y establece una membresía con esos roles en la empresa invitante.
 - **Alternativas:** otro destinatario no puede aceptar; invitación usada, vencida o revocada falla; empresa suspendida bloquea aceptación hasta reactivarse si sigue vigente. Una membresía existente no cambia de rol por aceptar un enlace antiguo; se usa CU-08.
-- **Resultado:** miembro con el rol concedido únicamente en la empresa invitante.
+- **Resultado:** miembro con los roles ofrecidos únicamente en la empresa invitante; una invitación inicial de plataforma ofrece AE sin privilegios operativos de otras empresas.
 - **Verificación:** modificar el rol o empresa del formulario no amplía la invitación; la segunda aceptación no duplica membresías.
 - **Trazabilidad:** RF-03; PER-08, PER-09, PER-11; PA-11.
 
@@ -89,10 +93,10 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 
 - **Actor y objetivo:** AE consulta miembros, cambia roles o revoca membresías e invitaciones.
 - **Previas:** condiciones comunes; miembro o invitación de su empresa.
-- **Flujo:** 1) Selecciona registro y operación. 2) Confirma cambio y motivo. 3) El sistema verifica rol permitido y existencia de al menos un AE activo. 4) Guarda el cambio e historial y aplica permisos a solicitudes posteriores.
+- **Flujo:** 1) Selecciona membresía/invitación y operación. 2) Indica roles que añade/retira o revocación y motivo. 3) El sistema comprueba conjunto no vacío para membresía activa, roles empresariales válidos y al menos una membresía activa con AE. 4) Guarda conjunto anterior/nuevo y recalcula permisos efectivos para solicitudes posteriores.
 - **Alternativas:** no revoca ni degrada al último AE; no asigna AP; controla cambios simultáneos. Si el miembro tiene tareas abiertas, las señala para reasignación, pero no conserva acceso revocado ni pierde el historial.
 - **Resultado:** membresía o invitación actualizada solo en esa empresa; otras membresías siguen intactas.
-- **Verificación:** dos revocaciones simultáneas no dejan la empresa sin AE; la sesión del revocado pierde acceso.
+- **Verificación:** dos retiradas/revocaciones simultáneas no dejan empresa sin AE; retirar GS de AU+GS conserva lectura pero retira edición; una membresía activa no queda sin roles.
 - **Trazabilidad:** RF-03, RF-05; RN-02; PER-08 a PER-10; PA-06, PA-07.
 
 ## 3. Inventario y catálogos
@@ -120,11 +124,11 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 ### CU-11. Clasificar activo y determinar criticidad
 
 - **Actor y objetivo:** AE o GS valora confidencialidad, integridad y disponibilidad y registra atributos de información aplicables.
-- **Previas:** activo editable; metodología de criticidad versionada y definida antes de implementar.
-- **Flujo:** 1) Selecciona valoraciones y completa clasificación y campos aplicables de datos personales. 2) El sistema valida escalas. 3) Calcula criticidad mediante reglas identificadas. 4) Guarda entradas, resultado, fecha y autor.
+- **Previas:** activo editable; metodología versionada por máximo C/I/D aprobada en APR-02.
+- **Flujo:** 1) Selecciona bajo/medio/alto para C/I/D y completa campos aplicables. 2) El sistema valida las tres dimensiones. 3) Calcula máximo de sus equivalencias 1/3/5; si falta una, deja pendiente. 4) Guarda entradas, resultado, fecha y autor.
 - **Alternativas:** faltantes producen clasificación pendiente; valores fuera de escala se rechazan; no se inventan valores para completar el cálculo.
 - **Resultado:** clasificación trazable sin convertir ausencia de información en un nivel bajo.
-- **Verificación:** casos límite y combinaciones de la metodología coinciden con resultados de referencia; el cálculo queda bloqueado como pendiente si falta un dato requerido.
+- **Verificación:** (5,1,1) produce alta; (3,1,1) media; faltar una dimensión produce pendiente, incluso si otra es alta.
 - **Trazabilidad:** RF-08; RN-07, RN-10; PER-16.
 
 ### CU-12. Archivar o restaurar activo
@@ -163,7 +167,7 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 
 - **Actor y objetivo:** AE o GS registra valoraciones de cláusulas y controles y documenta brechas para su seguimiento.
 - **Previas:** evaluación en borrador y elementos versionados disponibles.
-- **Flujo:** 1) Selecciona elemento. 2) Registra aplicabilidad, calificación, observaciones, evidencia y, cuando corresponda, brecha y recomendación. 3) El sistema valida y guarda. 4) Actualiza avance y resultados con la metodología de agregación definida.
+- **Flujo:** 1) Selecciona elemento. 2) Registra aplicabilidad, nota 0/20/40/60/80/100, fundamento, evidencia pertinente y brecha/recomendación si corresponde. 3) El sistema valida y guarda. 4) Actualiza media de evaluados y avance; global de controles con igual peso por control, resultados por dominio y por cláusula separados, sin PHVA ponderado en v1.
 - **Alternativas:** «no aplica» exige motivo; «sin evaluar» no equivale a cero; faltantes permanecen visibles. Una evaluación en revisión o cerrada no permite edición directa. Una brecha se conserva vinculada al elemento para crear una acción con CU-22.
 - **Resultado:** respuestas y hallazgos empresariales trazables; AU puede consultar mediante CU-26.
 - **Verificación:** distinguir cero, pendiente y no aplicable al calcular y mostrar resultados.
@@ -195,10 +199,10 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 
 - **Actor y objetivo:** AE o GS registra y compara valoraciones mediante una metodología común versionada.
 - **Previas:** riesgo accesible; reglas de escalas y combinación de controles acordadas antes de implementar.
-- **Flujo:** 1) Registra probabilidad e impacto inherentes y su fundamento. 2) El sistema calcula el nivel. 3) El usuario registra controles efectivamente implementados y su evaluación. 4) Calcula o registra el residual de acuerdo con la metodología. 5) Guarda entradas, resultado, autor, fecha y versión.
-- **Alternativas:** si falta información el residual queda pendiente; controles propuestos no reducen el nivel. La combinación de varios controles no se asume como una suma automática de porcentajes. Un cambio posterior conserva valoraciones anteriores y marca la necesidad de revisión sin reescribirlas.
+- **Flujo:** 1) Selecciona categorías inherentes de probabilidad e impacto y su fundamento. 2) El sistema cruza la matriz inicial. 3) Registra implementaciones y verificaciones consideradas. 4) Selecciona categorías residuales y justifica su valoración conjunta. 5) El sistema deriva equivalencias de referencia, cruza matriz residual y guarda entradas, autor, fecha y versión.
+- **Alternativas:** faltantes dejan residual pendiente; no hay descuentos automáticos con uno o varios controles. Nota 80 no implica reducción de 80 %. Un cambio conserva valoraciones anteriores y señala revisión. Sin mitigación puede justificar categorías residuales iguales a las inherentes.
 - **Resultado:** valoraciones justificadas y matriz de riesgo alimentada con resultados vigentes identificables.
-- **Verificación:** límites de probabilidad e impacto coinciden con casos de referencia; agregar una propuesta de control no disminuye por sí sola el riesgo.
+- **Verificación:** las 25 parejas categóricas coinciden con la matriz; no se aceptan porcentajes libres como entrada; una propuesta de control no disminuye por sí sola el riesgo.
 - **Trazabilidad:** RF-13, RF-14; RN-06, RN-07, RN-10; PER-25.
 
 ### CU-19. Asociar y evaluar implementación de controles
@@ -267,7 +271,7 @@ Las validaciones se completan antes de confirmar la operación. Los pasos y exce
 
 - **Actor y objetivo:** AE o GS adjunta evidencia a objetos editables; responsable actual aporta evidencia de su acción; usuarios con lectura autorizada la consultan.
 - **Previas:** acceso al objeto y estado compatible con carga; reglas de archivo acordadas. Descarga exige autorización vigente independientemente de conocer el ID o enlace.
-- **Flujo:** 1) Solicita carga o consulta desde objeto autorizado. 2) Para carga, el servidor valida tamaño, formato, contenido y destino. 3) Guarda archivo privado y metadatos de empresa, objeto y autor. 4) Para consulta o descarga, revalida permisos y entrega el archivo sin enlace público permanente.
+- **Flujo:** 1) Desde objeto autorizado elige archivo o referencia documental según criterio. 2) Para archivo, valida tamaño/contenido y guarda en privado; para referencia, registra identificador, versión/fecha y localizador verificable. 3) Valida destino y autoría. 4) Consulta/descarga exige permisos; una referencia no concede acceso externo ni dispara descarga automática.
 - **Alternativas:** formato o tamaño inválidos se rechazan; fallo de guardado no deja evidencia disponible incompleta. RA solo descarga su evidencia y contexto explícitamente autorizado. Un rechazo no revela existencia o nombre de archivo ajeno.
 - **Resultado:** evidencia trazable y protegida; no existe borrado físico en esta versión.
 - **Verificación:** AU descarga evidencia operativa autorizada, pero no puede cargarla; usuario de otra empresa no puede descargar con el mismo identificador.
@@ -336,7 +340,7 @@ CU-06 desarrolla configuración empresarial incluida en el alcance, pendiente de
 
 ## 9. Pendientes antes de implementar
 
-1. Resolver metodología de criticidad, agregación, no aplicables, riesgo residual y combinación de controles.
+1. APR-02 resuelve máximo de activos, agregación por control y residual documentado. Completar rúbricas categóricas, umbrales agregados y política de no aplica en cláusulas; no implementar ponderación PHVA ni descuentos automáticos en v1.
 2. Definir campos obligatorios y evidencia exigida por transición de evaluación y riesgo; CU-16 y CU-21 no habilitan cierres sin esa definición.
 3. Elegir canal de invitaciones y recuperación y fijar vencimientos y reglas de sesión.
 4. Definir retención y corrección de evidencias, límites y cuotas de almacenamiento.

@@ -1,6 +1,6 @@
 # Diccionario de datos y validaciones
 
-Versión: 0.1 — Especificación conceptual para revisión
+Versión: 0.3 — Datos y validaciones ajustados a APR-01 y APR-02
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md).
 
@@ -8,7 +8,11 @@ Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02
 
 Definir los datos de la primera versión, su significado, origen, obligatoriedad y validaciones. Las entidades son conceptos funcionales: no representan todavía tablas, nombres SQL, tipos físicos, índices ni contratos definitivos de API.
 
-La separación por esquema empresarial es una decisión confirmada. La distribución de entidades, longitudes, catálogos y restricciones adicionales de este documento es una propuesta de diseño para revisión. Las decisiones DEC-01 a DEC-12 del documento 4 continúan abiertas: describir un campo calculado no aprueba su fórmula.
+La separación por esquema empresarial es una decisión confirmada. La distribución de entidades, longitudes, tipos físicos y restricciones adicionales no aprobadas siguen en revisión. APR-02 resuelve parte de DEC-01 a DEC-12; su estado individual está en la sección 11 del documento 4. Describir un campo calculado no aprueba otra fórmula por asociación.
+
+APR-01 del documento 1 aprueba alcance y política de roles, actualizados aquí para admitir varios roles por membresía. Esa aprobación no confirma las demás propuestas de datos, límites o metodologías.
+
+APR-02 aprueba criticidad por máximo, escala discreta y promedio por control, riesgo categórico y residual conjunto documentado, mínimos de evidencia/cierre y conservación histórica. Rúbricas detalladas, duraciones y límites operativos continúan pendientes.
 
 No se necesita copiar cada columna de los Excel como campo de la primera versión. Se incluyen los datos necesarios para los flujos acordados y se identifica el detalle documental pendiente de alcance.
 
@@ -48,7 +52,7 @@ Todo registro empresarial tiene una **pertenencia empresarial verificable** deri
 | Esquema de cada empresa | DD-09 a DD-25 | Relaciones locales dentro de la empresa; referencias al catálogo o identidad común pasan controles explícitos |
 | Solicitud o vista derivada | DD-26 | Reportes y filtros conservan contexto empresarial; no se presupone persistencia del reporte |
 
-Los permisos se heredan de PER-01 a PER-38, no de un campo «rol» enviado con el formulario. «Lectura operativa» significa AE, GS y AU de la empresa; RA solo accede a proyecciones mínimas de sus tareas y evidencias autorizadas. AP no obtiene lectura operativa por administrar la plataforma.
+Los permisos se heredan de PER-01 a PER-38, no de campos de roles enviados con formularios operativos. «Lectura operativa» la conceden AE, GS y AU de la empresa; RA por sí solo concede proyecciones mínimas de tareas y evidencias autorizadas. Si se combina con otros roles, se agregan sus concesiones, manteniendo las restricciones transversales. AP no obtiene lectura operativa por administrar la plataforma.
 
 Los identificadores de usuario de la plataforma no habilitan enumerar personas de otras empresas. Selectores de responsables entregan únicamente identidad mínima y elegibilidad local, sin credenciales, invitaciones o membresías de otras empresas.
 
@@ -95,12 +99,14 @@ La política de longitud y complejidad de contraseña y el mecanismo de autentic
 | --- | --- | --- | --- |
 | empresa | REF(empresa) | M/S | Empresa a la que se concede pertenencia |
 | usuario | REF(usuario) | M/S | Identidad global verificada; pareja empresa/usuario única |
-| rol | Código | M/U | AE, GS, RA o AU; uno por membresía, según propuesta de la matriz |
+| roles | Relación de códigos | M/U por AE autorizado | Uno o varios entre AE, GS, RA y AU; sin duplicados; conjunto no vacío para membresía activa; no incluye AP |
 | estado | Código | M/S | Activa o revocada; no reutilizar una invitación para cambiar rol existente |
 | revocada_en | Instante | C/S | Obligatorio si revocada; no destruye autoría histórica |
-| motivo_cambio | Texto(1000) | C/U | Obligatorio al cambiar rol o revocar; conservar evento y actor |
+| motivo_cambio | Texto(1000) | C/U | Obligatorio al añadir/retirar roles o revocar; conservar actor y conjuntos anterior/nuevo |
 
 Revalidar cambios de forma atómica para conservar al menos un AE activo, exceptuando la fase inicial de preparación con invitación pendiente de CU-01. Suspender empresa no revoca necesariamente membresías, pero bloquea su uso. Reactivar una membresía revocada exige un flujo explícito por definir; no ocurre por aceptar enlaces antiguos.
+
+La pareja empresa/usuario sigue siendo única: no crear una membresía por rol. «AE activo» significa membresía activa cuyo conjunto incluye AE. La asignación conceptual de roles es una relación, no una cadena separada por comas; su representación física se definirá en el modelo de datos. Retirar un rol no retira permisos concedidos por otro válido; impedir cero roles activos y autoaprobación aun con varios roles. La elegibilidad de un responsable se comprueba por presencia de al menos uno de AE/GS/RA, sin exigir RA adicional.
 
 ### DD-04. Invitación
 
@@ -110,7 +116,7 @@ Revalidar cambios de forma atómica para conservar al menos un AE activo, except
 | --- | --- | --- | --- |
 | empresa | REF(empresa) | M/S | Fijada al emitir, inmutable durante aceptación |
 | correo_destinatario | Correo | M/U | Propiedad verificada al aceptar; no invita por nombre solamente |
-| rol_ofrecido | Código | M/U | AE, GS, RA o AU; invitación inicial ofrece AE |
+| roles_ofrecidos | Relación de códigos | M/U por AE autorizado | Conjunto no vacío y sin duplicados entre AE/GS/RA/AU; la invitación inicial emitida por AP ofrece solo AE; inmutable para el destinatario |
 | huella_token | Secreto derivado | M/S | Comprobante de un solo uso; no persistir token en claro ni mostrarlo en listados |
 | vence_en | Instante | M/S | Posterior a creación; duración pendiente de política |
 | aceptada_en | Instante | C/S | Si fue aceptada; consumo atómico para impedir reutilización |
@@ -246,11 +252,11 @@ Se propone permitir guardar el activo antes de resolver su clasificación; queda
 | --- | --- | --- | --- |
 | activo | REF(activo) | M/S | Activo local, uno por valoración |
 | metodologia | REF(metodología/version) | M/S | Identifica reglas CAL-ACT-01/02 aprobadas para resultados definitivos |
-| confidencialidad | Código | C/U | Resolver para completar valoración; equivalencias 1/3/5 propuestas, no escala ya aprobada |
+| confidencialidad | Código | C/U | Bajo/medio/alto; equivalencias aprobadas 1/3/5; resolver para completar |
 | integridad | Código | C/U | Misma condición; catálogo de dimensión |
 | disponibilidad | Código | C/U | Misma condición; catálogo de dimensión |
 | fundamento | Texto largo | C/U | Justificación propuesta para confirmar valoración completa |
-| criticidad | Código | D | Baja, media o alta según metodología; nula si no puede calcularse |
+| criticidad | Código | D | APR-02: máximo de C/I/D completas, 1 baja, 3 media, 5 alta; nula si falta alguna |
 | estado_resultado | Código | M/S | Pendiente o completo; completo exige entradas y metodología válidas |
 | valorada_en | Instante | C/S | Al confirmar; no aceptar fecha arbitraria como prueba de evaluación |
 
@@ -288,11 +294,11 @@ Una evaluación nueva no sobrescribe otra. Grupos, medias, nivel y cobertura son
 | elemento | REF(elemento de catálogo) | M/S | Debe pertenecer a versión y alcance fijados; único por evaluación/elemento |
 | aplicabilidad | Código | M/U | Sin decidir, aplica o no aplica; sin decidir al crear |
 | justificacion_aplicabilidad | Texto(2000) | C/U | Obligatoria para no aplica; restringida por política de cláusulas pendiente |
-| calificacion | Decimal en puntos | C/U | Si aplica y está evaluada; propuesta discreta 0,20,40,60,80,100, sujeta a DEC-02 |
+| calificacion | Número en puntos | C/U | Si aplica y evaluada: solo 0,20,40,60,80,100 aprobados; no nota individual 50 |
 | observaciones | Texto largo | O/U | Fundamento de la valoración; requisitos de cierre por decidir |
 | confirmacion_heredada | Código | C/U | Si proviene de revisión: pendiente de confirmar o confirmada; no contar copia como reevaluación |
 
-No aplica implica calificación nula, no cero; sin decidir también mantiene calificación nula. Si aplica y no tiene calificación, es pendiente. Cero cuenta como evaluado. Puntaje, cobertura y pendientes son derivados, no editables. El cierre requiere responder todos los elementos según política y evidencias aprobadas (DEC-02/DEC-06).
+No aplica implica calificación nula, no cero; sin decidir también mantiene calificación nula. Si aplica sin nota, es pendiente; cero cuenta como evaluado. N requiere motivo y no se habilita libremente en cláusulas. Puntaje y avance son derivados separados; global de controles con igual peso por control evaluado, no por dominio, y provisional con pendientes. Cláusulas separadas sin PHVA ponderado en v1. Cierre exige fundamento por respuesta y evidencia según criterio, cuya especificación detallada sigue pendiente.
 
 ### DD-15. Hallazgo de evaluación
 
@@ -318,8 +324,8 @@ Puede originar varias acciones locales. Al cerrar evaluación, hallazgo queda in
 | nombre | Texto(250) | M/U | Distingue implementaciones concretas del mismo control |
 | descripcion_implementacion | Texto largo | M/U | Cómo se aplica realmente en la empresa |
 | responsable | REF(responsable de negocio) | M/U | Responsable local; no otorga acceso por sí mismo |
-| tipo_control | Código | C/U | Preventivo, detectivo o correctivo propuestos; resolver para valoración nominal, sin inferir efecto real |
-| modo_implementacion | Código | C/U | Manual o automático propuestos; peso manual pendiente DEC-09 |
+| tipo_control | Código | C/U | Preventivo, detectivo o correctivo; atributo descriptivo, no coeficiente de descuento en v1 |
+| modo_implementacion | Código | C/U | Manual o automático; atributo descriptivo sin pesos de mitigación automática |
 | estado_implementacion | Código | M/U | Propuesto, en implementación o implementado; catálogo inicial propuesto, distinto de estado de tarea |
 | fecha_implementacion | Fecha | C/U | Si implementado; no futura al confirmar implementación |
 | resultado_verificacion | Código | M/U | Sin verificar, efectivo, parcialmente efectivo o no efectivo; catálogo propuesto, sin porcentajes implícitos |
@@ -328,7 +334,7 @@ Puede originar varias acciones locales. Al cerrar evaluación, hallazgo queda in
 | verificado_en | Instante | C/S | Si se confirma verificación |
 | proxima_revision | Fecha | C/U | Según política de vigencia aún pendiente DEC-06 |
 
-Evidencias se relacionan mediante DD-23. «Implementado» o «efectivo» no concede descuento automático mientras DEC-06/DEC-09/DEC-10 estén abiertas. Los cambios conservan eventos e identifican valoraciones relacionadas que requieren revisión.
+Evidencias por DD-23: comprobación descrita, evidencia pertinente, resultado, autor y fecha. Implementado y efectivo son dimensiones separadas; no conceden descuento automático en v1 según APR-02. Rúbricas y vigencia siguen pendientes. Los cambios conservan eventos y señalan valoraciones relacionadas para revisión.
 
 ### DD-17. Riesgo
 
@@ -374,24 +380,24 @@ Una implementación puede vincularse a varios riesgos y un riesgo a varias imple
 | clase_valoracion | Código | M/U | Inherente o residual |
 | metodologia | REF(metodología/version) | M/U | Reglas y matriz identificadas; resultados definitivos requieren aprobación |
 | periodo_referencia | Texto(150) | M/U | Ventana a la que corresponde fundamento, no frecuencia sin unidad |
-| probabilidad_indice | Decimal normalizado | C/U o D | Entre 0 y 1; completar para confirmar; origen manual/fórmula debe quedar registrado |
-| impacto_indice | Decimal normalizado | C/U o D | Entre 0 y 1; no aceptar 65 como si fuera 0,65 |
+| probabilidad_indice | Decimal de referencia | D | Equivalente categórico 0,20/0,40/0,60/0,80/1,00, no probabilidad estadística medida ni entrada editable |
+| impacto_indice | Decimal de referencia | D | Equivalente categórico 0,20/0,40/0,60/0,80/1,00; no porcentaje libre |
 | frecuencia_valor | Decimal no negativo | O/U | Solo informativo mientras DEC-07 esté abierta |
 | frecuencia_unidad | Código | C/U | Obligatoria con frecuencia; ejecuciones/año, horas/año u otra unidad documentada; no intercambiables |
 | fundamento | Texto largo | C/U | Obligatorio para confirmar; evidencia y supuestos |
 | inherente_base | REF(valoración de riesgo) | C/U | Si residual: misma empresa y riesgo, clase inherente, confirmada; no ciclos |
-| modo_obtencion | Código | M/S | Manual documentada o fórmula aprobada; no permitir autodeclarar una fórmula como aprobada |
+| modo_obtencion | Código | M/S | Selección categórica documentada en v1; sin fórmula automática de descuentos |
 | controles_considerados | Relación de versiones | C/U | En residual con mitigación: implementaciones y verificaciones consideradas; fijar versión/instantánea para reproducibilidad |
 | sin_mitigacion_confirmada | Booleano | C/U | Residual sin controles: confirmación explícita y fundamento; no valor por defecto |
-| categoria_probabilidad | Código | D | CAL-RIE-01, nulo si faltan entradas |
-| categoria_impacto | Código | D | CAL-RIE-01, nulo si faltan entradas |
+| categoria_probabilidad | Código | C/U | Muy baja/baja/media/alta/muy alta; obligatoria para confirmar; fundamento y periodo requeridos |
+| categoria_impacto | Código | C/U | Leve/menor/moderado/mayor/catastrófico; obligatoria para confirmar con fundamento |
 | nivel | Código | D | Bajo, moderado, alto o extremo mediante matriz aprobada; nulo si pendiente |
 | estado_resultado | Código | M/S | Borrador o confirmado; confirmación exige datos, fundamento y política válidos |
 | requiere_revision | Booleano | S | Señal de desactualización; no reescribe valor histórico |
 | motivo_revision | Texto(2000) | C/S | Si requiere revisión |
 | valorada_en | Instante | C/S | Al confirmar valoración |
 
-Una confirmada se conserva inmutable en sus entradas/resultados; el aviso de revisión se registra por separado con historial. Por riesgo se identifica una valoración vigente por clase, sin usar simplemente la última modificación de pantalla. q nominal, reducciones y valores residuales calculados solo se definen con una metodología aprobada; no asignar pesos provisionales por defecto. La selección manual de un residual no elimina la exigencia de justificación.
+Una confirmada conserva entradas/resultados inmutables; revisión por separado. Se identifica valoración vigente por clase. En v1 no se usa q nominal ni descuento por tipo, modo o nota del control, tampoco con un solo control. AE/GS justifica categorías residuales conjuntas, con implementaciones verificadas consideradas o ausencia de mitigación explícita. El sistema calcula nivel mediante matriz aprobada y equivalencias internas; las rúbricas específicas aún deben completarse.
 
 ### DD-20. Decisión de aceptación de riesgo
 
@@ -449,23 +455,25 @@ Propuesta: registros append-only para avances y decisiones, sin edición silenci
 
 ## 10. Evidencias y trazabilidad
 
-### DD-23. Evidencia privada
+### DD-23. Evidencia privada o referencia documental verificable
 
-**Acceso:** PER-34/PER-35 según objeto y estado; RA no accede por conocer una ruta. Almacenamiento privado fuera de las tablas, metadatos dentro de empresa.
+**Acceso:** PER-34/PER-35 según objeto/estado; RA no accede por conocer ruta. Archivos en almacenamiento privado y metadatos dentro de empresa. APR-02 admite referencia en lugar de archivo cuando el criterio lo permita; las condiciones siguientes distinguen ambas modalidades.
 
 | Campo | Tipo | Obligación/origen | Significado y validación |
 | --- | --- | --- | --- |
 | tipo_objeto | Código | M/S | Respuesta, implementación de control o acción |
 | objeto | REF(según tipo_objeto) | M/S | Un único destino local; se valida tipo y pertenencia, no referencia polimórfica sin control |
-| nombre_original | Texto(255) | M/U | Solo etiqueta; no usar para construir rutas; sanitizar presentación |
-| clave_almacenamiento | Identificador interno | M/S | Generada, privada, con separación por empresa; no ruta enviada por cliente ni URL pública permanente |
-| tipo_detectado | Código MIME | M/S | Detectado/validado en servidor, no confiar en extensión o cabecera del cliente |
-| tamano_bytes | Entero positivo | M/S | Medido por servidor; propuesta hasta 10 MB según RNF-06, unidad exacta por acordar |
-| huella_contenido | Hash | M/S | Propuesta SHA-256 para integridad; no sustituye autorización ni análisis de contenido |
+| modalidad | Código | M/U | Archivo o referencia documental; permitida por criterio; nunca ambos incompletos |
+| referencia_documental | Texto(2000) | C/U | Para referencia: identificador de documento, versión/fecha y localizador verificable sin credenciales; no solo texto «existe» |
+| nombre_original | Texto(255) | C/U | Para archivo; etiqueta, no ruta de almacenamiento |
+| clave_almacenamiento | Identificador interno | C/S | Para archivo disponible: generada, privada, separada por empresa; nunca ruta del cliente |
+| tipo_detectado | Código MIME | C/S | Para archivo disponible: validar en servidor, no solo extensión/cabecera |
+| tamano_bytes | Entero positivo | C/S | Para archivo: medido en servidor; límite propuesto 10 MB, unidad por acordar |
+| huella_contenido | Hash | C/S | Para archivo: propuesta SHA-256; no sustituye autorización ni pertinencia |
 | descripcion | Texto(1000) | O/U | Qué demuestra el archivo |
-| estado_carga | Código | M/S | Pendiente, disponible o fallida; solo disponible permite descarga |
+| estado_carga | Código | M/S | Pendiente, disponible o fallida; disponibilidad técnica, no aprobación del fundamento; referencia no tiene descarga local |
 
-Formatos propuestos PDF, PNG y JPEG, sujetos a política final de tamaño/contenido. Una carga parcial no satisface evidencia de cierre. No copiar claves ni comprobantes temporales de descarga al reporte. Los contenidos deben validarse antes de quedar disponibles; el mecanismo técnico y análisis adicional se definirán en arquitectura. No se introduce eliminación física en la interfaz inicial.
+Formatos propuestos PDF/PNG/JPEG sujetos a política final. Carga parcial no satisface cierre. La referencia disponible exige metadatos completos y modalidad permitida; quien revisa el objeto debe comprobar accesibilidad, versión y pertinencia antes de usarla para cierre. No se afirma que una URL cargada sea evidencia verificada. No descargar referencias externas automáticamente, ni almacenar credenciales o enlaces públicos permanentes a archivos privados. Retención/corrección de evidencias sigue pendiente y no hay borrado físico en la interfaz inicial.
 
 ### DD-24. Evidencia de contexto autorizada para una acción
 
@@ -530,7 +538,7 @@ La interfaz orienta al usuario, el servidor toma la decisión y la base de datos
 | DVAL-07 | Revisión esperada y concurrencia | Servidor y base mediante estrategia por diseñar | Conflicto; no sobrescritura silenciosa |
 | DVAL-08 | Vigencia y consumo único de invitación/recuperación | Servidor y operación atómica de base | No reutilizar comprobante |
 | DVAL-09 | Último AE activo y separación de revisor de tarea | Servidor y transacción | Rechazar operación incluso bajo concurrencia |
-| DVAL-10 | Faltantes, cero y no aplica; metodología aprobada | Servidor y representación coherente en base | Pendiente/no aplicable/error distintos de cero |
+| DVAL-10 | Faltantes, cero, N, categorías e igual peso por control según APR-02 | Servidor y representación coherente en base | Pendiente/N/error distintos de cero; equivalencias derivadas y sin descuento automático |
 | DVAL-11 | Coherencia condicional de campos y fechas | Interfaz/servidor y restricciones viables de base | Ej.: no aceptar N con calificación ni revisión anterior a aprobación |
 | DVAL-12 | Validación y disponibilidad de archivos privados | Servidor y almacenamiento | Rechazar archivo inválido; no publicar carga parcial |
 | DVAL-13 | Protección de secretos y minimización de vistas | Serialización, servidor y registros técnicos | No incluir secretos o datos completos en vista RA |
@@ -550,7 +558,7 @@ Los mensajes no incluyen SQL, rutas internas, tokens o nombres de objetos de otr
 | Guardar respuesta | Estado editable y consistencia de aplicabilidad/calificación; no exige completar otras respuestas |
 | Cerrar evaluación | Sin aplicabilidad pendiente ni respuestas aplicables pendientes, evidencias según DEC-06; metodología aprobada |
 | Registrar riesgo | Activo, amenaza, vulnerabilidad, descripción y responsable; valoraciones pueden quedar pendientes |
-| Confirmar valoración | Índices, metodología aprobada y fundamento; residual identifica base y controles o ausencia confirmada |
+| Confirmar valoración | Categorías, metodología aprobada y fundamento; residual identifica inherente base y verificaciones o ausencia de mitigación confirmada |
 | Aceptar riesgo | AE, valoración vigente, justificación y fecha de revisión |
 | Crear acción | Un origen local, resultado esperado, responsable elegible, plazo y evidencia requerida |
 | Solicitar revisión de acción | Responsable vigente, estado permitido, entrega y evidencia requerida disponibles |
@@ -584,11 +592,11 @@ Estos escenarios son especificaciones para pruebas futuras, no resultados de una
 | DAT-04 | Respuesta no aplica con calificación 0 | Rechazo de combinación; N tiene calificación nula y motivo |
 | DAT-05 | Clasificación sin disponibilidad | Guardado pendiente si corresponde; sin criticidad ficticia |
 | DAT-06 | Cambiar riesgo_origen y hallazgo_origen ambos a no nulos o ambos a nulos | Rechazo; exactamente un origen |
-| DAT-07 | RA envía nuevo plazo, revisa tarea ajena o solicita ficha completa | Denegación; proyección mínima únicamente |
+| DAT-07 | Usuario con solo RA envía plazo, revisa tarea ajena o pide ficha completa | Denegación; proyección mínima únicamente |
 | DAT-08 | AE responsable intenta aprobar su propia entrega | Denegación por identidad, no solo por rol |
 | DAT-09 | Dos cambios simultáneos con misma revisión esperada | Uno detecta conflicto; no pérdida silenciosa de cambios |
 | DAT-10 | Dos consumos simultáneos de un mismo token | Máximo un consumo exitoso |
-| DAT-11 | Probabilidad enviada como 65 para representar 65 % | Rechazo de índice fuera de rango; representación normalizada correcta 0,65 |
+| DAT-11 | Cliente envía probabilidad_indice=0,65 o 65 para sustituir categoría | Rechazo de campo derivado editable; seleccionar categoría y derivar equivalencia en servidor |
 | DAT-12 | Actualización de catálogo o control tras valoración confirmada | Historial intacto, referencia de versión preservada y revisión señalada |
 | DAT-13 | Extensión PDF con contenido no admitido, o carga parcial | No disponible como evidencia ni válida para cierre |
 | DAT-14 | Revocar último AE mediante cambios simultáneos | Conserva al menos un AE activo |
@@ -596,6 +604,14 @@ Estos escenarios son especificaciones para pruebas futuras, no resultados de una
 | DAT-16 | Membresía revocada conserva avances históricos | Autoría consultable según permiso, acceso revocado en nuevas solicitudes |
 | DAT-17 | Recuperar contraseña y reutilizar sesión anterior | Sesión anterior invalidada; membresías no se reactivan |
 | DAT-18 | Reporte operativo solicita eventos administrativos por parámetros | No entrega historial restringido |
+| DAT-19 | Guardar roles duplicados, AP o conjunto vacío en membresía activa | Rechazo; solo conjunto empresarial válido gestionado por AE |
+| DAT-20 | Usuario AU+GS edita y después pierde GS | Edición concedida inicialmente por GS; al retirar GS conserva solo lectura por AU |
+| DAT-21 | Usuario GS+RA responsable intenta aprobar su entrega | Rechazo por identidad aunque combine permisos |
+| DAT-22 | Aceptar invitación con varios roles o añadir roles no ofrecidos | Conceder solo conjunto ofrecido; rechazar manipulación y no duplicar membresía |
+| DAT-23 | C/I/D=(5,1,1), o (5,vacío,1) | Alta y pendiente respectivamente; no regla anterior de dos altos |
+| DAT-24 | Dominio con un 100 y otro con tres 0 | Global 25, no media de dominios 50 |
+| DAT-25 | Nota 80 de control y riesgo con un control | No derivar reducción de 80 %; categorías residuales justificadas por AE/GS |
+| DAT-26 | Referencia documental sin versión/localizador o no admitida por criterio | No satisface evidencia requerida; no fingir archivo o verificación |
 
 ## 15. Trazabilidad y pendientes
 
@@ -613,7 +629,7 @@ Estos escenarios son especificaciones para pruebas futuras, no resultados de una
 
 Pendientes específicos antes del modelo físico:
 
-1. Revisar decisiones DEC del documento 4 y no fijar fórmulas provisionales como restricciones definitivas.
+1. Aplicar decisiones APR-02 y completar solo los puntos aún pendientes de DEC: rúbricas, umbrales de madurez, política de cláusulas, vigencia y catálogo; sin PHVA ponderado ni descuentos automáticos en v1.
 2. Confirmar límites de texto, normalización de correos/códigos, identificador institucional y tipos físicos de números y fechas.
 3. Definir políticas de contraseña, sesiones, invitaciones, recuperación y procedimiento de aprobación de metodología común.
 4. Confirmar datos personales y campos documentales de inventario necesarios para la primera versión, evitando recopilar información innecesaria.
