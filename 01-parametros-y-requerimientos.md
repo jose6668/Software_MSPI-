@@ -1,6 +1,6 @@
 # Parámetros y requerimientos del sistema
 
-Versión: 0.5 — Aprobaciones APR-01 a APR-04 incorporadas
+Versión: 0.6 — Referencias de arquitectura y secuencia backend APR-08 incorporadas
 Fecha: 6 de noviembre de 2026
 Nombre provisional: Sistema de Gestión de Seguridad de la Información
 
@@ -226,3 +226,11 @@ Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat median
 Quedan aprobadas las ocho DMP en sus principios de diseño. Siguen pendientes versión/configuración, método de autenticación y canales, límites de conexiones, cuotas, retención, compensación concreta de fallos y coherencia técnica de copias. Respaldos diarios, pérdida máxima 24 horas y recuperación en 8 horas continúan como metas propuestas hasta elegir infraestructura; APR-04 no las confirma ni demuestra pruebas de restauración ejecutadas.
 
 Este documento es una base revisable y no inicia la implementación. Solo los puntos identificados como aprobados cambian de estado; las demás propuestas conservan sus pendientes.
+
+## 18. Continuidad de aprobaciones técnicas y acuerdo APR-08
+
+APR-05, APR-06 y APR-07 están registrados en [Arquitectura y decisiones técnicas](08-arquitectura-y-decisiones-tecnicas.md): tecnologías, modularidad/persistencia y principios de sesión, API, conexiones, migraciones, pruebas y frontend, respectivamente. Las salvedades históricas de APR-01 a APR-04 se interpretan junto con estas aprobaciones posteriores; no se consideran pendientes los principios que ya fueron aprobados.
+
+El 6 de noviembre de 2026, el usuario acepta las recomendaciones para implementar progresivamente el backend. APR-08, en la sección 19 del documento 08, ratifica modularidad, aislamiento por empresa, sesión/permisos, API, migraciones y pruebas/CI, y acuerda esta secuencia: diagnóstico → estructura modular → migraciones y aislamiento con dos empresas → sesión y permisos → primera funcionalidad completa. Las pruebas y CI acompañan las entregas desde el inicio.
+
+El acuerdo no modifica los requerimientos funcionales ni aprueba valores operativos todavía inexistentes. Versiones y configuración pendientes, tiempos de sesión, políticas de recuperación, límites y detalles metodológicos conservan su estado individual. Una aprobación de diseño no acredita implementación ni pruebas ejecutadas; el detalle de entregables y condiciones de avance se mantiene en el documento 08.

@@ -1,6 +1,6 @@
 # Modelo de datos y aislamiento por esquemas
 
-Versión: 0.3 — Ocho decisiones DMP aprobadas por APR-03/APR-04
+Versión: 0.4 — Coordinación con arquitectura y secuencia backend APR-08
 Fecha: 6 de noviembre de 2026
 Base: [Requerimientos y aprobaciones](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Cálculos](04-reglas-de-calculo-y-valoracion.md), [Diccionario](05-diccionario-de-datos-y-validaciones.md), [Estados](06-estados-y-transiciones.md).
 
@@ -359,11 +359,17 @@ Siguiente etapa: arquitectura/diseño físico y configuración de PostgreSQL, au
 ## 15. Detalles técnicos y funcionales todavía abiertos
 
 - Versión/configuración de PostgreSQL, formato de ID, tipos numéricos, timestamps, normalización y longitudes, índices físicos y concurrencia. El motor ya está aprobado.
-- Autenticación local/proveedor y políticas de contraseñas, sesiones, invitaciones y recuperación; no emitir tokens reales en esta etapa.
+- Mecanismo de identidad local/proveedor y políticas de contraseñas, duración de sesiones, invitaciones y recuperación. APR-07 del documento 08 ya aprueba sesión de servidor con cookie protegida y CSRF; no se reabre ese principio ni se emiten tokens reales mediante este documento.
 - Mecanismo exacto de permisos por esquema, operaciones mínimas de identidad común, almacén de secretos, conexiones y acceso de infraestructura.
 - Publicación/aprobación de metodología, rúbricas por categoría, evidencia por criterio, madurez agregada y vigencia de verificaciones.
 - Catálogos de versiones de controles (DEC-11) y cobertura de procesos (DEC-12); NIST independiente y ponderación PHVA siguen diferidos.
 - Retención, cuotas, corrección de archivos, procedimiento de retiro empresarial y coherencia de copias de base/almacenamiento.
 - Estrategia de reparación de migraciones, readmisión de membresías y desactivación de asociaciones para futuros análisis sin modificar historia.
 
-El siguiente documento desarrollará arquitectura y decisiones técnicas; diseño físico/SQL requiere seleccionar versión y concretar los mecanismos aprobados de PostgreSQL. Migraciones y recuperación requieren procedimientos operativos verificables antes de ejecutarse en entorno de uso. Este archivo no implementa ni demuestra aislamiento en ejecución.
+La arquitectura está desarrollada en el [documento 08](08-arquitectura-y-decisiones-tecnicas.md). El diseño físico/SQL requiere seleccionar versión y concretar los mecanismos aprobados de PostgreSQL. Migraciones y recuperación requieren procedimientos operativos verificables antes de ejecutarse en entorno de uso. Este archivo no implementa ni demuestra aislamiento en ejecución.
+
+## 16. Coordinación de implementación con APR-08
+
+El acuerdo APR-08 del documento 08 ratifica DMP-01 a DMP-04 y DMP-07 y sitúa las migraciones y la demostración de aislamiento después del diagnóstico y estructura modular, antes de ampliar funcionalidades. Deben prepararse dos empresas ficticias, accesos común/empresariales separados y credenciales de migración distintas de las ordinarias; comprobar rechazo entre esquemas en el motor y ausencia de mezcla de conexiones/contextos. Al integrar sesión y permisos se verifica además la autorización empresarial por solicitud y la revocación efectiva.
+
+La recuperación de altas y migraciones fallidas debe contemplarse desde el inicio, con reintentos sobre la misma empresa y sin activación parcial. Los escenarios AIS y AT del documento 08 se incorporan a las pruebas según el alcance de cada entrega; no se declaran superados por esta aprobación. Las ocho decisiones DMP conservan el alcance aprobado y sus detalles físicos pendientes, sin nuevas cifras ni políticas operativas.

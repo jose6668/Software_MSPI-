@@ -1,6 +1,6 @@
 # Arquitectura y decisiones técnicas
 
-Versión: 0.4 — Principios ARQ-09 a ARQ-14 y bibliotecas frontend aprobados
+Versión: 0.5 — Secuencia de implementación backend acordada en APR-08
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos y aprobaciones](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Cálculos](04-reglas-de-calculo-y-valoracion.md), [Diccionario](05-diccionario-de-datos-y-validaciones.md), [Estados](06-estados-y-transiciones.md), [Modelo y aislamiento](07-modelo-de-datos-y-aislamiento-por-esquemas.md).
 
@@ -96,11 +96,11 @@ Las declaraciones anteriores se comprobaron en el POM del commit indicado. Falta
 
 | Componente | Recomendación | Estado |
 | --- | --- | --- |
-| Spring MVC | Contratos, validaciones y manejo de errores REST | Dependencia presente; contrato ARQ-10 pendiente |
+| Spring MVC | Contratos, validaciones y manejo de errores REST | Dependencia presente; principio ARQ-10 aprobado APR-07; contratos concretos pendientes |
 | Spring Data JPA | Aislamiento de identidad común y contexto empresarial | Uso aprobado ARQ-08; diseño físico y prueba técnica pendientes |
-| Flyway para PostgreSQL | Ejecución técnica separada por ámbito y permisos | Dependencias presentes; ejecución/recuperación ARQ-13 pendiente |
+| Flyway para PostgreSQL | Ejecución técnica separada por ámbito y permisos | Principio ARQ-13 aprobado APR-07; configuración, ejecución y recuperación pendientes |
 | Pruebas de módulos | Comprobar límites mediante Spring Modulith | Dependencia de pruebas presente; pruebas aún no ejecutadas |
-| Pruebas de integración | Pruebas de seguridad, API y PostgreSQL real mediante Testcontainers | Propuesto; versiones y ejecución a definir |
+| Pruebas de integración | Pruebas de seguridad, API y PostgreSQL real mediante Testcontainers | Aprobadas APR-07; versiones, entorno y ejecución a definir |
 | Documentación API | Contrato OpenAPI compatible con Boot 4 | Aprobado APR-07; biblioteca/integración y versión pendientes |
 
 Boot publica starters y gestión de versiones para su plataforma; se propone respetar sus versiones gestionadas y comprobar el BOM generado para Modulith en lugar de mezclar versiones manualmente. [Dependencias de Spring Boot](https://docs.spring.io/spring-boot/reference/using/build-systems.html). Spring documenta el módulo específico de Flyway para PostgreSQL y recomienda una estrategia única de inicialización. [Inicialización y migraciones](https://docs.spring.io/spring-boot/how-to/data-initialization.html).
@@ -380,3 +380,34 @@ Fecha: 6 de noviembre de 2026. El usuario aprueba las recomendaciones para ARQ-0
 - **ARQ-14:** desarrollo/demostración separados, objetivo de origen común cuando viable, almacenamiento privado, integración continua en ambos repositorios y pruebas con PostgreSQL real mediante Testcontainers.
 
 Esta aprobación no fija proveedor, costes, cuotas, retención, tiempos de sesión/invitación/recuperación, tamaño de pools, versiones frontend/PostgreSQL o metas de recuperación. No instala dependencias, modifica código o workflows, ni acredita pruebas ejecutadas. El registro y los cambios se limitan a este Markdown.
+
+## 19. Registro de acuerdo APR-08: implementación progresiva del backend
+
+Fecha: 6 de noviembre de 2026. El usuario acepta las recomendaciones de implementación tras revisar seis grupos de funcionalidades ausentes señaladas en el diagnóstico del backend. Se ratifican los principios ya aprobados en APR-01, APR-03, APR-04, APR-06 y APR-07; no se registran como decisiones nuevas ni como funcionalidades implementadas. Se acuerda el orden de trabajo y los criterios siguientes.
+
+| Grupo | Alcance ratificado y recomendación aceptada | Referencias |
+| --- | --- | --- |
+| Modularidad | Preparar desde el comienzo los doce límites funcionales, sus contratos públicos y comprobación de dependencias; desarrollar las capacidades por etapas, sin exigir completar todos los módulos en la primera entrega | ARQ-07; AT-02 |
+| Aislamiento empresarial | Separar esquema común, esquemas empresariales y credenciales limitadas; resolver la empresa solo después de autorizarla y fijarla durante la transacción. Demostrar el rechazo entre dos empresas antes de ampliar las funcionalidades | DMP-01 a DMP-04; SEG-01 a SEG-10; ARQ-12; AT-03/AT-04 |
+| Sesión y permisos | Implementar sesión de servidor, membresías con varios roles, autorización por empresa y revocación efectiva en solicitudes posteriores; conservar las restricciones personales, incluida la prohibición de revisar la entrega propia | RF-02 a RF-05; ARQ-09; AT-05/AT-06/AT-14 |
+| API | Aplicar /api/v1, DTO separados de entidades, errores uniformes y revisión esperada desde la primera operación que corresponda; definir su contrato OpenAPI y comprobar compatibilidad con el frontend | ARQ-10; AT-08/AT-13 |
+| Migraciones y altas | Usar Flyway como único mecanismo de evolución, separar ámbitos y privilegios y preparar registro de fallos y reintentos sin duplicación; no activar una empresa parcialmente preparada | DMP-07; ARQ-13; AT-09 |
+| Pruebas y CI | Incorporar compilación, verificación modular y pruebas PostgreSQL/Testcontainers junto con las primeras funcionalidades; automatizar su ejecución en CI según el entorno disponible | ARQ-14; AT-01 a AT-06, AT-09 y AT-14 |
+
+### 19.1. Secuencia acordada y evidencia por etapa
+
+| Etapa | Trabajo y resultado revisable | Condición para continuar |
+| --- | --- | --- |
+| 1. Diagnóstico | Inspeccionar documentación, rama y cambios existentes, POM, estructura, configuración y pruebas; intentar compilar y ejecutar las pruebas disponibles. Registrar versiones reales, resultados y bloqueos | Diferencias y dependencias identificadas; primera entrega delimitada. Ningún intento fallido se presenta como verificación superada |
+| 2. Estructura modular | Establecer los límites y contratos necesarios para la primera entrega; añadir verificación de dependencias e internos con Spring Modulith | Compilación y verificación modular satisfactorias; sin implementar todos los dominios de una vez |
+| 3. Migraciones y aislamiento | Concretar diseño físico mínimo, credenciales y migraciones por ámbito; preparar dos empresas ficticias y probar separación en PostgreSQL y contexto transaccional. El arnés técnico de esta etapa no se expone como acceso empresarial sin autenticación | AT-03/AT-04 y escenarios AIS pertinentes demostrados; fallos de alta/migración contemplados y probados según AT-09 |
+| 4. Sesión y permisos | Integrar identidad, membresía, empresa activa, sesión/cookie/CSRF y permisos vigentes. Probar acceso permitido, acceso ajeno y revocación | AT-05/AT-06/AT-14 y escenarios PER aplicables superados; el aislamiento previo se conserva al integrar las solicitudes HTTP |
+| 5. Primera funcionalidad completa | Elegir y delimitar un caso de uso operativo, implementar su contrato API, reglas, persistencia e historial requeridos y pruebas de aceptación | Requisitos/CU y pruebas trazados, contrato documentado y resultados registrados. El caso de uso concreto todavía debe seleccionarse |
+
+Pruebas y CI acompañan las etapas; no son una fase que se pospone hasta el final. DTO, validaciones, errores y control de revisión se incorporan desde las primeras operaciones a las que apliquen. Cada entrega identifica requisito/caso de uso, cambios, pruebas ejecutadas y limitaciones. Un escenario AIS o AT permanece pendiente hasta disponer de evidencia de ejecución.
+
+### 19.2. Límites del acuerdo y decisiones pendientes
+
+No se requiere nueva aprobación de los seis principios ratificados. Este acuerdo no fija versión de PostgreSQL, proveedor, biblioteca/versión de OpenAPI, tiempos de sesión o recuperación, políticas de credenciales, tamaños de pools, cuotas, retención ni metas de recuperación. Se concretarán antes de las etapas que dependan de ellos, conservando las restricciones aprobadas. Tampoco resuelve pendientes metodológicos o de evidencia de los documentos 04 a 07.
+
+La aprobación autoriza documentar la secuencia; esta actualización no modifica código, configuración, migraciones ni CI, y no acredita compilación, pruebas o aislamiento del backend. Los resultados posteriores se registrarán con la revisión del repositorio y el entorno correspondientes.

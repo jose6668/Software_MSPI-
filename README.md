@@ -13,10 +13,12 @@ Repositorio de documentación para una aplicación web de gestión de seguridad 
 | 5 | [Diccionario de datos y validaciones](05-diccionario-de-datos-y-validaciones.md) | 26 entidades conceptuales, campos y condiciones, 15 validaciones transversales y 26 escenarios de aceptación |
 | 6 | [Estados y transiciones](06-estados-y-transiciones.md) | Ciclos de vida, condiciones, actores, efectos, concurrencia, diagramas y 31 escenarios de aceptación |
 | 7 | [Modelo de datos y aislamiento por esquemas](07-modelo-de-datos-y-aislamiento-por-esquemas.md) | Modelo lógico, integridad, permisos técnicos y 22 escenarios; ocho decisiones DMP aprobadas en principios, detalles físicos pendientes |
+| 8 | [Arquitectura y decisiones técnicas](08-arquitectura-y-decisiones-tecnicas.md) | Stack, monolito modular, sesión/API, conexiones, migraciones, pruebas y secuencia backend acordada en APR-08 |
+| 9 | [Diseño de pantallas](09-diseno-de-pantallas.md) | Flujos, perfiles, estados y boceto navegable; distingue propuestas visuales de requisitos aprobados |
 
 ## Estado del proyecto
 
-Etapa de especificación. No hay implementación de la aplicación en este repositorio. Los documentos distinguen decisiones confirmadas, propuestas y pendientes; las metodologías de cálculo y las tecnologías todavía requieren definición.
+Documentación de especificación y preparación de la implementación. Este repositorio contiene documentos y un boceto HTML; el código de aplicación corresponde a los repositorios separados de backend y frontend. Los documentos distinguen decisiones aprobadas, detalles pendientes y verificaciones aún no ejecutadas.
 
 El usuario aprobó alcance y roles de la primera versión en APR-01 del documento 1: una membresía por usuario/empresa con varios roles posibles, permisos combinados solo en la empresa activa y restricciones personales que prevalecen. Auditor solo es de lectura por sí mismo; combinado con gestor recibe sus permisos de edición. No se permite autoaprobar tareas, y AP no obtiene acceso operativo automático. Esta aprobación no cierra decisiones metodológicas DEC ni precisiones EST pendientes.
 
@@ -38,4 +40,6 @@ Los tres Excel revisados son fuentes funcionales del proyecto; actualmente está
 - Mantener los identificadores al revisar documentos y actualizar sus enlaces y versiones cuando cambie el alcance.
 - Los escenarios documentados son criterios para pruebas futuras, no resultados de pruebas ejecutadas.
 
-La siguiente etapa es arquitectura, versión/configuración de PostgreSQL y diseño físico para materializar los principios aprobados. El diccionario/modelo son documentos, no tablas implementadas; los escenarios son pruebas futuras. APR-01 a APR-04 están registradas con alcance explícito y los pendientes metodológicos/operativos conservan su estado individual.
+APR-05 a APR-07, registrados en el documento 08, confirman el stack y aprueban los principios de modularidad/persistencia, autenticación por sesión, API, conexiones, migraciones, frontend y pruebas/CI. APR-08 ratifica los seis grupos de trabajo backend y acuerda el orden: diagnóstico → estructura modular → migraciones y aislamiento con dos empresas → sesión y permisos → primera funcionalidad completa. Pruebas y CI acompañan las entregas desde el inicio.
+
+La siguiente actividad del backend es el diagnóstico del proyecto real y delimitación de su primera entrega; los entregables y condiciones de avance están en la sección 19 del documento 08. No se requiere volver a aprobar principios ya aceptados. Versiones/configuración, políticas operativas y pendientes metodológicos conservan su estado individual. El modelo y los escenarios documentados no acreditan tablas implementadas ni pruebas superadas.
