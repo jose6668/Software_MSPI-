@@ -1,6 +1,6 @@
 # Estados y transiciones
 
-Versión: 0.3 — Aprobaciones APR-01/APR-02; pendientes acotados
+Versión: 0.4 — Aprobaciones APR-01 a APR-04; pendientes acotados
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md), [Diccionario de datos](05-diccionario-de-datos-y-validaciones.md).
 
@@ -287,7 +287,7 @@ APR-02 aprueba recorridos y las condiciones destacadas de ciclo de vida. Se cons
 
 | ID | Precisión | Referencia anterior | Efecto en diseño posterior |
 | --- | --- | --- | --- |
-| EST-01 | Alta no concluye sin emisión inicial recuperable; fallo mantiene acceso bloqueado | CU-01, DD-01/DD-04 | Definir aprovisionamiento e invitación sin duplicación |
+| EST-01 | Alta verificada e invitación inicial recuperable; fallo mantiene acceso bloqueado | CU-01, DD-01/DD-04 | APR-04 aprueba principio de alta por pasos/reintentos; canal, emisión/entrega y compensación concreta aún por definir |
 | EST-02 | Mínimos para revisión de evaluación | CU-16, DD-13/DD-14 | APR-02 aprueba completitud/cierre; criterios de evidencia por elemento aún por concretar |
 | EST-03 | Archivado se consulta y se restaura antes de editar | CU-12, PER-15/PER-17 | Aprobado APR-02 |
 | EST-04 | Versiones confirmadas se corrigen con sucesores | DD-12/DD-19, CAL-GEN-03 | Aprobada conservación histórica APR-02; representación física pendiente |
@@ -298,7 +298,7 @@ APR-02 aprueba recorridos y las condiciones destacadas de ciclo de vida. Se cons
 | EST-09 | Fallo de carga es terminal para ese intento; reintento crea otro registro | CU-25, DD-23 | Estado técnico coherente con almacenamiento privado |
 | EST-10 | Sesión/comprobante se rechaza por tiempo en cada solicitud | CU-03/CU-04, DD-05/DD-06 | No depender de tareas programadas para aplicar vencimientos |
 
-Quedan abiertos: partes aún pendientes de DEC, rúbricas y evidencia por criterio, vigencia, duraciones/canales, readmisión de membresías, retiro de implementaciones y corrección/retención de archivos. EST-01 y detalles técnicos EST-09/EST-10 no reciben valores/políticas nuevos por APR-02. No se habilita transición que requiera una política inexistente; no se introduce borrado físico ni privilegios de soporte.
+Quedan abiertos: partes pendientes de DEC, rúbricas/evidencia por criterio, vigencia, duraciones/canales, readmisión, retiro de implementaciones y corrección/retención de archivos. APR-04 aprueba principios de alta/migración/recuperación, sin resolver entrega de invitación o compensación física; detalles EST-09/EST-10 tampoco reciben valores nuevos por esa aprobación. No se habilita transición que requiera política inexistente; no se introduce borrado físico ni privilegios de soporte.
 
 ## 16. Escenarios de aceptación
 

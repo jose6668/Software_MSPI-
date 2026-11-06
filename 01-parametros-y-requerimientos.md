@@ -1,6 +1,6 @@
 # Parámetros y requerimientos del sistema
 
-Versión: 0.4 — Aprobaciones APR-01, APR-02 y APR-03 incorporadas
+Versión: 0.5 — Aprobaciones APR-01 a APR-04 incorporadas
 Fecha: 6 de noviembre de 2026
 Nombre provisional: Sistema de Gestión de Seguridad de la Información
 
@@ -166,7 +166,7 @@ Las cifras de capacidad, límites y recuperación son metas propuestas, no garan
 - Alcance y política de roles aprobados según APR-01 al final de este documento. El auditor no comenta en la primera versión; los comentarios quedan diferidos.
 - APR-02 aprueba criticidad por máximo, escala discreta, promedio por control, categorías de riesgo y residual documentado. Completar rúbricas, umbrales agregados y decisiones pendientes de la sección 11 del documento 4; no adoptar descuentos automáticos.
 - APR-02 aprueba mínimos de evidencia y cierre; concretar por criterio cuándo corresponde adjunto o referencia y la periodicidad de verificación.
-- PostgreSQL aprobado por APR-03; seleccionar su versión, las otras tecnologías, alojamiento y mecanismos de invitación/recuperación. Resolver DMP-04 antes de implementar aislamiento; DMP-07/DMP-08 siguen pendientes.
+- PostgreSQL aprobado por APR-03 y principios DMP-04/DMP-07/DMP-08 por APR-04; concretar versión, permisos/conexiones, migraciones, recuperación, otras tecnologías, alojamiento y canales. Las ocho DMP están aprobadas como decisiones de diseño, con detalles técnicos aún abiertos.
 - Definir retención de evidencias e historial, cuotas por empresa y procedimiento de retiro o eliminación de una empresa.
 - Confirmar metas de capacidad, respaldo y recuperación según los recursos disponibles.
 
@@ -213,6 +213,16 @@ Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat, al ac
 - **DMP-05:** identificadores opacos, tablas de unión para roles, códigos únicos locales y sin cascadas destructivas de registros históricos; formato y normalización aún pendientes.
 - **DMP-06:** separar versiones/verificaciones, entregas/decisiones y avisos; conservar referencias históricas inmutables e instantánea contextual mínima al cierre.
 
-**DMP-04 permanece pendiente y es una dependencia obligatoria antes de implementar DMP-03:** resolver referencias al esquema común, accesos mínimos y manejo de conexiones. DMP-07 y DMP-08 también permanecen pendientes; deben concretarse antes del despliegue y uso de datos reales. Esta aprobación no ejecuta SQL, crea credenciales ni fija cuotas, retención, metas de recuperación o detalles físicos no debatidos.
+Estado histórico al registrar APR-03: DMP-04, DMP-07 y DMP-08 quedaron pendientes. Su aprobación posterior está en APR-04; configurar y verificar las referencias/conexiones sigue siendo obligatorio antes de implementar DMP-03. APR-03 no ejecutó SQL, creó credenciales ni fijó cuotas, retención o metas de recuperación.
+
+## 17. Registro de aprobación APR-04
+
+Fecha: 6 de noviembre de 2026. Estado: aprobado por el usuario en el chat mediante «listo apruébalos», respecto a los principios recomendados para DMP-04, DMP-07 y DMP-08.
+
+- **DMP-04 — Referencias y conexiones:** comprobar pertenencia empresarial de membresías mediante referencias que incluyan empresa; separar acceso de identidad común y ejecución empresarial; reutilizar conexiones solo dentro de su contexto autorizado, con límites configurables; comprobar permisos vigentes por operación; acceso común mínimo a catálogos publicados y selectores autorizados, sin directorio global para empresas. Los permisos y límites concretos de PostgreSQL se diseñarán y probarán antes de implementar aislamiento.
+- **DMP-07 — Alta y migraciones:** proceso por pasos con progreso/errores y reintentos sobre la misma empresa; activación tras verificar esquema, permisos y configuración y preparar invitación inicial según el canal elegido; migraciones inicialmente una empresa a la vez, con bloqueo de operaciones incompatibles y recuperación documentada de fallos. Probar estructura en entorno separado antes del entorno de uso. No se exige interfaz avanzada de migraciones en v1.
+- **DMP-08 — Archivos y recuperación:** archivos privados separados por empresa con autorización en descarga; metadatos/relaciones en BD y referencias documentales en su modalidad propia; respaldo coordinado de base común, esquemas y archivos. Demostrar restauración completa en entorno separado; restauración selectiva empresarial diferida hasta diseñarla/probarla, preservando separación desde el inicio.
+
+Quedan aprobadas las ocho DMP en sus principios de diseño. Siguen pendientes versión/configuración, método de autenticación y canales, límites de conexiones, cuotas, retención, compensación concreta de fallos y coherencia técnica de copias. Respaldos diarios, pérdida máxima 24 horas y recuperación en 8 horas continúan como metas propuestas hasta elegir infraestructura; APR-04 no las confirma ni demuestra pruebas de restauración ejecutadas.
 
 Este documento es una base revisable y no inicia la implementación. Solo los puntos identificados como aprobados cambian de estado; las demás propuestas conservan sus pendientes.

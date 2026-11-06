@@ -1,6 +1,6 @@
 # Modelo de datos y aislamiento por esquemas
 
-Versión: 0.2 — DMP-01/02/03/05/06 aprobadas por APR-03
+Versión: 0.3 — Ocho decisiones DMP aprobadas por APR-03/APR-04
 Fecha: 6 de noviembre de 2026
 Base: [Requerimientos y aprobaciones](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Cálculos](04-reglas-de-calculo-y-valoracion.md), [Diccionario](05-diccionario-de-datos-y-validaciones.md), [Estados](06-estados-y-transiciones.md).
 
@@ -10,7 +10,7 @@ Definir entidades persistentes, claves, relaciones y controles para implementar 
 
 Ya están aprobados: aplicación multiempresa con esquema empresarial separado; una membresía por usuario/empresa con varios roles; aislamiento de permisos, historial, criticidad por máximo, evaluación por control y residual categórico justificado sin descuentos automáticos (APR-01/APR-02). Esos acuerdos se conservan.
 
-APR-03 aprueba PostgreSQL, distribución lógica, redundancia controlada de empresa, separación de identidades técnicas, principios de integridad y persistencia de versiones/instantáneas. Versión de PostgreSQL, SQL, configuración, extensiones y framework siguen pendientes. DMP-04 es dependencia obligatoria antes de implementar el aislamiento; DMP-07/DMP-08 no están aprobadas. Las capacidades físicas se verificarán con documentación oficial de PostgreSQL antes de implementar.
+APR-03 aprueba PostgreSQL, distribución lógica, pertenencia, identidades técnicas, integridad y versiones. APR-04 aprueba DMP-04/DMP-07/DMP-08: referencias comunes y conexiones acotadas, alta/migraciones recuperables y archivos/recuperación inicial. Versión, SQL, configuración, extensiones, framework y límites siguen pendientes. Configurar y probar el aislamiento continúa siendo obligatorio; las aprobaciones no demuestran implementación. Las capacidades físicas se verificarán con documentación oficial de PostgreSQL antes de implementar.
 
 ## 2. Organización de ámbitos
 
@@ -223,7 +223,7 @@ Cada solicitud conserva su empresa explícita; no se usa una variable global de 
 
 ### 8.1. Protección de base de datos: principio aprobado, configuración pendiente
 
-APR-03 aprueba **una identidad técnica de ejecución limitada a cada esquema empresarial**, separada de identidad común y aprovisionamiento. El acceso mínimo común se concreta con DMP-04 antes de implementar; la separación no se basa exclusivamente en cambiar contexto con una credencial capaz de leer todo.
+APR-03 aprueba **una identidad técnica de ejecución limitada a cada esquema empresarial**; APR-04 confirma conexiones separadas de identidad común y acceso común mínimo. La configuración física se concreta antes de implementar; la separación no se basa solo en cambiar contexto con una credencial capaz de leer todo.
 
 | Identidad/componente técnico | Puede | No puede |
 | --- | --- | --- |
@@ -239,6 +239,8 @@ No se usará una credencial de negocio universal que cambie libremente de rol co
 Esto limita errores y exposición de una conexión empresarial, pero no promete aislamiento frente a un administrador de infraestructura o compromiso total del servidor que controla todas las credenciales. El acceso de esos operadores y la protección del almacén de secretos requieren medidas operativas separadas. AP no recibe esos privilegios por tener un rol en la aplicación.
 
 ### 8.2. Conexiones y simultaneidad
+
+Principios de DMP-04 aprobados en APR-04: comprobar empresa en referencias de membresía; separar conexión común de identidad y ejecución empresarial; reutilizar solo en contexto autorizado, con límites; autorización vigente por operación y lectura mínima común. No concede acceso al directorio global. Falta elegir permisos, control de conexiones y límites físicos.
 
 - Agrupar/reutilizar conexiones por identidad técnica y empresa; nunca entregar una conexión de A al contexto B sin una estrategia demostrablemente segura. Limitar conexiones y expulsar grupos inactivos según capacidad, sin mantener un grupo ilimitado por empresa.
 - Ni un error ni una cancelación dejan una transacción, rol, contexto temporal o resultado preparado de A disponible a otra empresa. Si se usan nombres de tabla sin calificar, la configuración deberá probarse; preferencia propuesta por destinos explícitos resueltos internamente.
@@ -271,13 +273,13 @@ Un trabajo empresarial conserva empresa, finalidad, objeto, versión esperada y 
 
 ### 11.1. Alta de empresa
 
-Propuesta: reservar empresa e identificador interno; aprovisionar esquema y fila propietaria; preparar identidad técnica mínima; aplicar versión de estructura; verificar relaciones/permisos; emitir invitación inicial recuperable; activar solo al concluir requisitos del flujo. Guardar pasos e intentos sin secretos y reintentar sobre la misma empresa reservada. Fallo mantiene acceso operativo bloqueado.
+Principio aprobado APR-04: reservar empresa/identificador; aprovisionar esquema/fila propietaria, identidad técnica y estructura; verificar relaciones/permisos/configuración; preparar invitación recuperable según canal elegido y activar solo al concluir requisitos. Registrar pasos/errores y reintentar sobre la misma empresa sin duplicación; fallo mantiene acceso operativo bloqueado.
 
 El mecanismo de emisión/entrega de invitación y la condición técnica final de activación aún deben resolverse con EST-01, sin marcar una entrega de correo como exitosa si solo se generó un token.
 
 ### 11.2. Migraciones
 
-Mantener historial por empresa y migración, con versión objetivo, intento y resultado. Se propone procesar una empresa a la vez en v1 para simplificar recuperación, con exclusión de operaciones incompatibles sobre ese esquema durante el cambio. El modo exacto de mantenimiento es técnico, no un nuevo estado empresarial persistente sin actualizar el diccionario.
+Mantener historial por empresa/migración, versión objetivo, intento y resultado. APR-04 aprueba procesar una empresa a la vez en v1, bloquear operaciones incompatibles durante cambio/fallo y probar antes en entorno separado. No se requiere interfaz avanzada inicial. Mantenimiento/recuperación concreta se diseña técnicamente, no como nuevo estado empresarial sin actualizar diccionario.
 
 No declarar versión instalada antes de verificarla. Ante fallo, bloquear operaciones incompatibles de esa empresa y conservar datos/fallo para recuperación; otras empresas compatibles pueden seguir operando. No afirmar que todo cambio de estructura es reversible transaccionalmente: la estrategia depende del motor y de la migración. Probar primero en copia y definir restauración o reparación antes de ejecución real.
 
@@ -285,9 +287,9 @@ No declarar versión instalada antes de verificarla. Ante fallo, bloquear operac
 
 Un esquema empresarial depende de identidades, catálogos y metodologías comunes, además de archivos. Copiar solo sus tablas no garantiza una restauración consistente. La copia debe registrar versión, punto de referencia, dependencias y manifiesto de archivos; concretar mecanismo de coherencia con arquitectura.
 
-Se recomienda demostrar inicialmente restauración de la instancia completa en un entorno separado, con base común, esquemas y archivos, sin sustituir datos del entorno activo. Las metas propuestas de pérdida máxima 24 horas y recuperación 8 horas continúan pendientes de recursos y alojamiento.
+APR-04 aprueba demostrar restauración completa en entorno separado, con base común, esquemas y archivos coordinados, sin sustituir datos activos. Respaldos diarios, pérdida máxima 24 horas y recuperación 8 horas siguen como metas propuestas pendientes de infraestructura, no garantías aprobadas.
 
-Restaurar solo una empresa requiere comprobar correspondencias de identidad/membresía y versiones comunes, sin sobrescribir información de otras empresas ni reactivar accesos revocados. Se propone diferir esa capacidad operativa hasta diseñarla y probarla, manteniendo el aislamiento por esquema desde el inicio. Esto no equivale a ofrecer exportación o portabilidad completa en v1.
+Restaurar solo una empresa requiere comprobar identidades/membresías y versiones comunes, sin sobrescribir otras empresas ni reactivar accesos revocados. APR-04 aprueba diferir esa capacidad hasta diseñarla/probarla, manteniendo separación desde inicio. No implica exportación o portabilidad completa en v1.
 
 ## 12. Escenarios de verificación de aislamiento y modelo
 
@@ -337,22 +339,22 @@ Estos escenarios serán pruebas de implementación futuras. En esta etapa se ver
 
 Las 26 entidades conceptuales tienen correspondencia, pero no necesariamente una tabla por entidad: roles, versiones, decisiones y relaciones necesitan separación para integridad. Los mecanismos aplican SEG-01 a SEG-10, DVAL-01 a DVAL-15 y las transiciones TR del documento 6 según ámbito.
 
-## 14. Estado de decisiones tras APR-03
+## 14. Estado de decisiones tras APR-03 y APR-04
 
-El usuario aprobó DMP-01, DMP-02, DMP-03, DMP-05 y DMP-06 al aceptar la recomendación en el chat del 6 de noviembre de 2026. APR-03 se registra en el documento 1. No se extiende esa aprobación a las otras decisiones ni a detalles físicos todavía no definidos.
+El usuario aprobó DMP-01/02/03/05/06 en APR-03 y DMP-04/07/08 en APR-04, el 6 de noviembre de 2026 en el chat. Registros y alcance en documento 1. Las ocho decisiones están aprobadas en principios de diseño, sin aprobar automáticamente cifras o mecanismos físicos aún no definidos.
 
 | ID | Decisión nueva o pendiente | Recomendación para el proyecto | Estado |
 | --- | --- | --- | --- |
 | DMP-01 | Motor y arquitectura inicial de base | PostgreSQL, base inicial con esquema común y uno por empresa | Aprobada APR-03; versión/configuración pendientes |
 | DMP-02 | Distribución lógica y marca de pertenencia | Tablas comunes/empresariales, empresa_id local y fila propietaria | Aprobada APR-03; representación física por definir |
-| DMP-03 | Barrera de permisos en base de datos | Identidad técnica limitada por empresa, separada de identidad común y aprovisionamiento; rechazo A→B también en motor | Aprobada APR-03; implementar solo después de resolver DMP-04 |
-| DMP-04 | Relaciones al esquema común y conexiones | FK con empresa para membresías, acceso mínimo común y conexiones acotadas con límites/limpieza | Pendiente; siguiente decisión técnica obligatoria antes de aislamiento |
+| DMP-03 | Barrera de permisos en base de datos | Identidad técnica limitada por empresa, separada de identidad común y aprovisionamiento; rechazo A→B también en motor | Aprobada APR-03; concretar/probar permisos junto con DMP-04 antes de implementar |
+| DMP-04 | Relaciones al esquema común y conexiones | Referencias con empresa para membresías, acceso común mínimo, conexiones separadas/acotadas y autorización por operación | Aprobada APR-04; permisos y límites concretos pendientes de diseño físico |
 | DMP-05 | Claves e integridad | ID opaco, tablas de unión para roles, códigos únicos locales y sin cascadas destructivas | Aprobada APR-03; formato/normalización pendientes |
 | DMP-06 | Persistencia de versiones y evidencia de decisiones | Separar versión/verificación, entrega/revisión y avisos; referencias inmutables e instantánea mínima al cierre | Aprobada APR-03; detalle físico pendiente |
-| DMP-07 | Alta, migraciones y trabajos técnicos | Registro de intentos idempotentes, migración por empresa inicialmente secuencial y bloqueo de operaciones incompatibles hasta verificación | Propuesta; canal inicial y recuperación de fallo aún abiertos |
-| DMP-08 | Recuperación inicial y archivos | Archivos privados separados; probar restauración completa en entorno aislado y diferir restauración selectiva por empresa hasta diseñarla | Propuesta; cuotas, retención y metas de recuperación siguen pendientes |
+| DMP-07 | Alta, migraciones y trabajos técnicos | Pasos/errores y reintentos sin duplicación; activación verificada; migraciones secuenciales por empresa con bloqueo/prueba previa | Aprobada APR-04; canal y mecanismos concretos de recuperación pendientes |
+| DMP-08 | Recuperación inicial y archivos | Archivos privados por empresa; copias coordinadas y restauración completa aislada; restauración selectiva diferida | Aprobada APR-04; cuotas, retención y metas operativas aún pendientes |
 
-Siguiente decisión: concretar y revisar DMP-04 para poder implementar el aislamiento aprobado. DMP-07/DMP-08 se resolverán antes de despliegue y datos reales, con alojamiento/almacenamiento. Las cinco aprobaciones no significan SQL ejecutado ni políticas operativas definidas.
+Siguiente etapa: arquitectura/diseño físico y configuración de PostgreSQL, autenticación, conexiones, archivos y recuperación. No se vuelve a solicitar aprobación de los ocho principios DMP; las decisiones nuevas y valores operativos sí deben concretarse. Ninguna aprobación significa SQL ejecutado o pruebas de aislamiento/restauración realizadas.
 
 ## 15. Detalles técnicos y funcionales todavía abiertos
 
@@ -364,4 +366,4 @@ Siguiente decisión: concretar y revisar DMP-04 para poder implementar el aislam
 - Retención, cuotas, corrección de archivos, procedimiento de retiro empresarial y coherencia de copias de base/almacenamiento.
 - Estrategia de reparación de migraciones, readmisión de membresías y desactivación de asociaciones para futuros análisis sin modificar historia.
 
-El siguiente documento puede desarrollar arquitectura y decisiones técnicas; el diseño físico/SQL de aislamiento requiere resolver DMP-04, seleccionar versión y comprobar mecanismos de PostgreSQL. Migraciones y recuperación requieren concretar DMP-07/DMP-08 antes de su ejecución operativa. Este archivo no implementa ni demuestra aislamiento en ejecución.
+El siguiente documento desarrollará arquitectura y decisiones técnicas; diseño físico/SQL requiere seleccionar versión y concretar los mecanismos aprobados de PostgreSQL. Migraciones y recuperación requieren procedimientos operativos verificables antes de ejecutarse en entorno de uso. Este archivo no implementa ni demuestra aislamiento en ejecución.

@@ -12,7 +12,7 @@ Repositorio de documentación para una aplicación web de gestión de seguridad 
 | 4 | [Reglas de cálculo y valoración](04-reglas-de-calculo-y-valoracion.md) | 18 reglas, 17 hallazgos en los Excel, 36 casos de referencia y estado de 12 decisiones metodológicas |
 | 5 | [Diccionario de datos y validaciones](05-diccionario-de-datos-y-validaciones.md) | 26 entidades conceptuales, campos y condiciones, 15 validaciones transversales y 26 escenarios de aceptación |
 | 6 | [Estados y transiciones](06-estados-y-transiciones.md) | Ciclos de vida, condiciones, actores, efectos, concurrencia, diagramas y 31 escenarios de aceptación |
-| 7 | [Modelo de datos y aislamiento por esquemas](07-modelo-de-datos-y-aislamiento-por-esquemas.md) | Modelo lógico, integridad, permisos técnicos y 22 escenarios; cinco decisiones DMP aprobadas y tres pendientes |
+| 7 | [Modelo de datos y aislamiento por esquemas](07-modelo-de-datos-y-aislamiento-por-esquemas.md) | Modelo lógico, integridad, permisos técnicos y 22 escenarios; ocho decisiones DMP aprobadas en principios, detalles físicos pendientes |
 
 ## Estado del proyecto
 
@@ -22,7 +22,7 @@ El usuario aprobó alcance y roles de la primera versión en APR-01 del document
 
 APR-02 aprueba criticidad por máximo C/I/D, notas 0/20/40/60/80/100, promedio global por control evaluado con avance separado, cinco categorías de riesgo y residual conjunto justificado sin descuentos automáticos. Aprueba mínimos de evidencia/cierre y recorridos de estado destacados. Referencias documentales verificables se admiten si el criterio lo permite. PHVA ponderado se difiere; rúbricas detalladas, madurez global, vigencias y políticas operativas siguen pendientes.
 
-APR-03 aprueba DMP-01/02/03/05/06: PostgreSQL, distribución común/empresarial con marca de pertenencia, identidad técnica limitada por empresa, principios de claves/integridad e historial versionado. DMP-04 debe resolverse antes de implementar aislamiento; DMP-07/DMP-08 siguen pendientes antes de despliegue/datos reales. No se ha creado la base de datos.
+APR-03 aprueba DMP-01/02/03/05/06: PostgreSQL, distribución común/empresarial, pertenencia, identidad técnica por empresa, claves/integridad e historial. APR-04 aprueba DMP-04/07/08: referencias/conexiones acotadas, altas y migraciones recuperables y archivos/recuperación inicial. Las ocho DMP están aprobadas en sus principios; configuración, canales, límites, cuotas, retención y metas operativas siguen pendientes. No se ha creado la base de datos.
 
 Los tres Excel revisados son fuentes funcionales del proyecto; actualmente están en la carpeta superior y no se incorporan automáticamente a este repositorio. Sus nombres y usos se describen en el documento de requerimientos.
 
@@ -38,4 +38,4 @@ Los tres Excel revisados son fuentes funcionales del proyecto; actualmente está
 - Mantener los identificadores al revisar documentos y actualizar sus enlaces y versiones cuando cambie el alcance.
 - Los escenarios documentados son criterios para pruebas futuras, no resultados de pruebas ejecutadas.
 
-La siguiente etapa es concretar DMP-04 y arquitectura, versión/configuración de PostgreSQL y diseño físico. El diccionario/modelo son documentos, no tablas implementadas; los escenarios son criterios de pruebas futuras. APR-01/APR-02/APR-03 están registradas con alcance explícito; DMP-07/DMP-08 y pendientes metodológicos/operativos conservan su estado pendiente.
+La siguiente etapa es arquitectura, versión/configuración de PostgreSQL y diseño físico para materializar los principios aprobados. El diccionario/modelo son documentos, no tablas implementadas; los escenarios son pruebas futuras. APR-01 a APR-04 están registradas con alcance explícito y los pendientes metodológicos/operativos conservan su estado individual.

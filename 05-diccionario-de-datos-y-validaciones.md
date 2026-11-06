@@ -1,6 +1,6 @@
 # Diccionario de datos y validaciones
 
-Versión: 0.4 — Datos y validaciones ajustados a APR-01/APR-02/APR-03
+Versión: 0.5 — Datos y validaciones ajustados a APR-01 a APR-04
 Fecha: 6 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md).
 
@@ -13,6 +13,8 @@ La separación por esquema empresarial es una decisión confirmada. APR-03 aprue
 APR-01 del documento 1 aprueba alcance y política de roles, actualizados aquí para admitir varios roles por membresía. Esa aprobación no confirma las demás propuestas de datos, límites o metodologías.
 
 APR-02 aprueba criticidad por máximo, escala discreta y promedio por control, riesgo categórico y residual conjunto documentado, mínimos de evidencia/cierre y conservación histórica. Rúbricas detalladas, duraciones y límites operativos continúan pendientes.
+
+APR-04 aprueba principios de pertenencia de membresías, conexiones acotadas y acceso mínimo común; alta/migraciones recuperables y restauración completa inicial con archivos privados. Los campos físicos, canales, límites y retención aún deben concretarse. No se presume que una decisión aprobada ya esté implementada.
 
 No se necesita copiar cada columna de los Excel como campo de la primera versión. Se incluyen los datos necesarios para los flujos acordados y se identifica el detalle documental pendiente de alcance.
 
@@ -635,6 +637,6 @@ Pendientes específicos antes del modelo físico:
 4. Confirmar datos personales y campos documentales de inventario necesarios para la primera versión, evitando recopilar información innecesaria.
 5. Definir retención, corrección de archivos, unidad exacta del límite de carga y cuotas por empresa.
 6. Aprobar los catálogos propuestos de implementación/verificación, guardado incompleto y condiciones de fechas y evidencias.
-7. Aplicar el modelo lógico aprobado parcialmente en documento 7; concretar DMP-04 para referencias comunes/conexiones antes de implementar aislamiento y definir detalles físicos, restricciones atómicas y coherencia con almacenamiento privado. DMP-07/DMP-08 siguen pendientes.
+7. Aplicar el modelo y principios de las ocho DMP aprobadas por APR-03/APR-04; concretar permisos y conexiones antes de implementar aislamiento, restricciones atómicas, recuperación de altas/migraciones y coherencia entre copias de BD/archivos. Metas numéricas, cuotas y retención siguen pendientes.
 
 El próximo paso es el modelo de datos y relaciones, acompañado por la especificación detallada de estados y transiciones. Este diccionario no implementa tablas ni cambia archivos Excel o políticas pendientes.
