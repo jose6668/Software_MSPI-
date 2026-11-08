@@ -4,6 +4,8 @@ La seguridad es el criterio principal de la implementación y de la evaluación 
 
 ## Entrega inicial HU-SEG-001
 
+Implementación posterior: [HU-SEG-002, controles de repositorio y CI contra secretos](hu/HU-SEG-002.md).
+
 - [Diagnóstico y hallazgos priorizados](DIAGNOSTICO-SEGURIDAD.md).
 - [Matriz de requisitos y evidencia](MATRIZ-SEGURIDAD.md).
 - [Escenarios y plan de pruebas](PLAN-PRUEBAS-SEGURIDAD.md).
