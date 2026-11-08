@@ -1,0 +1,100 @@
+{
+  "fecha": "2026-11-08",
+  "zona_horaria": "America/Bogota",
+  "generado_en": "2026-11-08T12:08:59.865609-05:00",
+  "hu": "HU-SEG-001",
+  "versiones": {
+    "gitleaks": "8.30.1",
+    "maven_wrapper": "3.10.0",
+    "java_predeterminado": "21.0.5",
+    "plugin_dependency_tree": "3.10.0",
+    "asvs": "5.0.0"
+  },
+  "secretos": {
+    "ejecuciones": 6,
+    "fallos": 0,
+    "hallazgos": 0,
+    "redaccion": "100%",
+    "referencias_git": "--all --full-history; referencias locales tras fetch origin; no incluye refs inaccesibles o eliminadas",
+    "reglas": "estándar; sin GITLEAKS_CONFIG/GITLEAKS_CONFIG_TOML ni excepciones por comentario"
+  },
+  "dependencias": {
+    "pares_maven_unicos": 193,
+    "lotes_osv": 8,
+    "pares_consultados": 193,
+    "coincidencias": 0,
+    "alcance": "árbol de dependencias de aplicación y pruebas; excluye JDK/OS/proxy/imágenes/plugins",
+    "incidencia_resuelta": "Primera consulta única reiniciada por red; reintento en ocho lotes completado y validado sin paginación pendiente."
+  },
+  "asvs": {
+    "requisitos_l1_l2_inventariados": 253,
+    "nivel1": 70,
+    "nivel2": 183,
+    "exclusiones_candidatas": 55,
+    "declarados_conformes": 0
+  },
+  "no_ejecutado": [
+    "clean verify con JDK17/PostgreSQL",
+    "pruebas dinámicas HTTP o navegador nuevas",
+    "pruebas de carga/DoS",
+    "restauración",
+    "configuración de exposición LAN/Internet"
+  ],
+  "bloqueos_de_ejecucion": [
+    "Java predeterminado 21; construcción requiere 17",
+    "motor Docker Linux inaccesible",
+    "no hay aplicación frontend implementada ni perfil de evaluación desplegado"
+  ],
+  "resultados_gitleaks": [
+    {
+      "repo": "backend",
+      "kind": "git",
+      "exit_code": 0,
+      "findings": 0,
+      "locations": []
+    },
+    {
+      "repo": "backend",
+      "kind": "dir",
+      "exit_code": 0,
+      "findings": 0,
+      "locations": []
+    },
+    {
+      "repo": "docs",
+      "kind": "git",
+      "exit_code": 0,
+      "findings": 0,
+      "locations": []
+    },
+    {
+      "repo": "docs",
+      "kind": "dir",
+      "exit_code": 0,
+      "findings": 0,
+      "locations": []
+    },
+    {
+      "repo": "frontend",
+      "kind": "git",
+      "exit_code": 0,
+      "findings": 0,
+      "locations": []
+    },
+    {
+      "repo": "frontend",
+      "kind": "dir",
+      "exit_code": 0,
+      "findings": 0,
+      "locations": []
+    }
+  ],
+  "control_documentos_finales": {
+    "gitleaks_dir": "salida 0, sin hallazgos",
+    "json": "todos válidos",
+    "enlaces_locales": "válidos",
+    "matriz": "30 IDs únicos",
+    "plan": "30 casos únicos",
+    "alcance": "verificación adicional posterior a los seis escaneos iniciales"
+  }
+}

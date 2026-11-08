@@ -1,0 +1,44 @@
+[
+  {
+    "repo": "backend",
+    "kind": "git",
+    "exit_code": 0,
+    "findings": 0,
+    "locations": []
+  },
+  {
+    "repo": "backend",
+    "kind": "dir",
+    "exit_code": 0,
+    "findings": 0,
+    "locations": []
+  },
+  {
+    "repo": "docs",
+    "kind": "git",
+    "exit_code": 0,
+    "findings": 0,
+    "locations": []
+  },
+  {
+    "repo": "docs",
+    "kind": "dir",
+    "exit_code": 0,
+    "findings": 0,
+    "locations": []
+  },
+  {
+    "repo": "frontend",
+    "kind": "git",
+    "exit_code": 0,
+    "findings": 0,
+    "locations": []
+  },
+  {
+    "repo": "frontend",
+    "kind": "dir",
+    "exit_code": 0,
+    "findings": 0,
+    "locations": []
+  }
+]
