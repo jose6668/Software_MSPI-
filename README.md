@@ -1,5 +1,9 @@
 # Software MSPI — Documentación
 
+## Seguridad prioritaria de la aplicación
+
+El diagnóstico inicial y la matriz para la evaluación académica están en [Seguridad de MSPI](seguridad/README.md). Incluyen revisión de secretos e historial, dependencias, hallazgos y pruebas para acceso desde el mismo equipo, red local e Internet. Los resultados ejecutados se distinguen de las verificaciones pendientes; no se declara cumplimiento integral ni invulnerabilidad.
+
 Repositorio de documentación para una aplicación web de gestión de seguridad de la información, con varias empresas y un esquema de base de datos por empresa.
 
 ## Documentos

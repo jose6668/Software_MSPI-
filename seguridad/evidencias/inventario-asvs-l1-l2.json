@@ -1,0 +1,2287 @@
+{
+  "estandar": "OWASP ASVS",
+  "version": "5.0.0",
+  "objetivo": "L2: revisar todos los L1/L2 aplicables",
+  "fuente": "https://raw.githubusercontent.com/OWASP/ASVS/v5.0.0/5.0/docs_en/OWASP_Application_Security_Verification_Standard_5.0.0_en.json",
+  "sha256_fuente": "bcdbec214d70abcfad9284a31d4f9e5134305831d628aad3aa85d7e26626cb35",
+  "descripcion": "Inventario de identificadores; consultar texto normativo en la fuente. Exclusiones candidatas sin aprobación implícita. Ningún requisito se declara conforme por este inventario.",
+  "requisitos": [
+    {
+      "id": "V1.1.1",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.1.2",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.1",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.2",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.3",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.4",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.5",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.6",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.7",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.8",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.2.9",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.1",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.2",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.3",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.4",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.5",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.6",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.7",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.8",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.9",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.10",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.3.11",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.4.1",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.4.2",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.4.3",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.5.1",
+      "nivel": 1,
+      "capitulo": "V1",
+      "seccion": "V1.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V1.5.2",
+      "nivel": 2,
+      "capitulo": "V1",
+      "seccion": "V1.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.1.1",
+      "nivel": 1,
+      "capitulo": "V2",
+      "seccion": "V2.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.1.2",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.1.3",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.2.1",
+      "nivel": 1,
+      "capitulo": "V2",
+      "seccion": "V2.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.2.2",
+      "nivel": 1,
+      "capitulo": "V2",
+      "seccion": "V2.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.2.3",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.3.1",
+      "nivel": 1,
+      "capitulo": "V2",
+      "seccion": "V2.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.3.2",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.3.3",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.3.4",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V2.4.1",
+      "nivel": 2,
+      "capitulo": "V2",
+      "seccion": "V2.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.2.1",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.2.2",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.3.1",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.3.2",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.3.3",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.3.4",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.4.1",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.4.2",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.4.3",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.4.4",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.4.5",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.4.6",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.5.1",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.5.2",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.5.3",
+      "nivel": 1,
+      "capitulo": "V3",
+      "seccion": "V3.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.5.4",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.5.5",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.7.1",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.7",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V3.7.2",
+      "nivel": 2,
+      "capitulo": "V3",
+      "seccion": "V3.7",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V4.1.1",
+      "nivel": 1,
+      "capitulo": "V4",
+      "seccion": "V4.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V4.1.2",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V4.1.3",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V4.2.1",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V4.3.1",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V4.3.2",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V4.4.1",
+      "nivel": 1,
+      "capitulo": "V4",
+      "seccion": "V4.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V4.4.2",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V4.4.3",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V4.4.4",
+      "nivel": 2,
+      "capitulo": "V4",
+      "seccion": "V4.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V5.1.1",
+      "nivel": 2,
+      "capitulo": "V5",
+      "seccion": "V5.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.2.1",
+      "nivel": 1,
+      "capitulo": "V5",
+      "seccion": "V5.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.2.2",
+      "nivel": 1,
+      "capitulo": "V5",
+      "seccion": "V5.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.2.3",
+      "nivel": 2,
+      "capitulo": "V5",
+      "seccion": "V5.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.3.1",
+      "nivel": 1,
+      "capitulo": "V5",
+      "seccion": "V5.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.3.2",
+      "nivel": 1,
+      "capitulo": "V5",
+      "seccion": "V5.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.4.1",
+      "nivel": 2,
+      "capitulo": "V5",
+      "seccion": "V5.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.4.2",
+      "nivel": 2,
+      "capitulo": "V5",
+      "seccion": "V5.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V5.4.3",
+      "nivel": 2,
+      "capitulo": "V5",
+      "seccion": "V5.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.1.1",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.1.2",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.1.3",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.1",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.2",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.3",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.4",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.5",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.6",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.7",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.8",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.9",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.10",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.11",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.2.12",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.3.1",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.3.2",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.3.3",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.3.4",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.4.1",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.4.2",
+      "nivel": 1,
+      "capitulo": "V6",
+      "seccion": "V6.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.4.3",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.4.4",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.5.1",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.5.2",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.5.3",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.5.4",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.5.5",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.6.1",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.6",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.6.2",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.6",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.6.3",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.6",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V6.8.1",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.8",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V6.8.2",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.8",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V6.8.3",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.8",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V6.8.4",
+      "nivel": 2,
+      "capitulo": "V6",
+      "seccion": "V6.8",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V7.1.1",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.1.2",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.1.3",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.2.1",
+      "nivel": 1,
+      "capitulo": "V7",
+      "seccion": "V7.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.2.2",
+      "nivel": 1,
+      "capitulo": "V7",
+      "seccion": "V7.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.2.3",
+      "nivel": 1,
+      "capitulo": "V7",
+      "seccion": "V7.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.2.4",
+      "nivel": 1,
+      "capitulo": "V7",
+      "seccion": "V7.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.3.1",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.3.2",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.4.1",
+      "nivel": 1,
+      "capitulo": "V7",
+      "seccion": "V7.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.4.2",
+      "nivel": 1,
+      "capitulo": "V7",
+      "seccion": "V7.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.4.3",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.4.4",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.4.5",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.5.1",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.5.2",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V7.6.1",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.6",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V7.6.2",
+      "nivel": 2,
+      "capitulo": "V7",
+      "seccion": "V7.6",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V8.1.1",
+      "nivel": 1,
+      "capitulo": "V8",
+      "seccion": "V8.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V8.1.2",
+      "nivel": 2,
+      "capitulo": "V8",
+      "seccion": "V8.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V8.2.1",
+      "nivel": 1,
+      "capitulo": "V8",
+      "seccion": "V8.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V8.2.2",
+      "nivel": 1,
+      "capitulo": "V8",
+      "seccion": "V8.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V8.2.3",
+      "nivel": 2,
+      "capitulo": "V8",
+      "seccion": "V8.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V8.3.1",
+      "nivel": 1,
+      "capitulo": "V8",
+      "seccion": "V8.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V8.4.1",
+      "nivel": 2,
+      "capitulo": "V8",
+      "seccion": "V8.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V9.1.1",
+      "nivel": 1,
+      "capitulo": "V9",
+      "seccion": "V9.1",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V9.1.2",
+      "nivel": 1,
+      "capitulo": "V9",
+      "seccion": "V9.1",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V9.1.3",
+      "nivel": 1,
+      "capitulo": "V9",
+      "seccion": "V9.1",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V9.2.1",
+      "nivel": 1,
+      "capitulo": "V9",
+      "seccion": "V9.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V9.2.2",
+      "nivel": 2,
+      "capitulo": "V9",
+      "seccion": "V9.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V9.2.3",
+      "nivel": 2,
+      "capitulo": "V9",
+      "seccion": "V9.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V9.2.4",
+      "nivel": 2,
+      "capitulo": "V9",
+      "seccion": "V9.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.1.1",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.1",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.1.2",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.1",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.2.1",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.2.2",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.3.1",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.3.2",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.3.3",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.3.4",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.1",
+      "nivel": 1,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.2",
+      "nivel": 1,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.3",
+      "nivel": 1,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.4",
+      "nivel": 1,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.5",
+      "nivel": 1,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.6",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.7",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.8",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.9",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.10",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.4.11",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.4",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.5.1",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.5",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.5.2",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.5",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.5.3",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.5",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.5.4",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.5",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.5.5",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.5",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.6.1",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.6",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.6.2",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.6",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.7.1",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.7",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.7.2",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.7",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V10.7.3",
+      "nivel": 2,
+      "capitulo": "V10",
+      "seccion": "V10.7",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V11.1.1",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.1.2",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.2.1",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.2.2",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.2.3",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.3.1",
+      "nivel": 1,
+      "capitulo": "V11",
+      "seccion": "V11.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.3.2",
+      "nivel": 1,
+      "capitulo": "V11",
+      "seccion": "V11.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.3.3",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.4.1",
+      "nivel": 1,
+      "capitulo": "V11",
+      "seccion": "V11.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.4.2",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.4.3",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.4.4",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.5.1",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V11.6.1",
+      "nivel": 2,
+      "capitulo": "V11",
+      "seccion": "V11.6",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.1.1",
+      "nivel": 1,
+      "capitulo": "V12",
+      "seccion": "V12.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.1.2",
+      "nivel": 2,
+      "capitulo": "V12",
+      "seccion": "V12.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.1.3",
+      "nivel": 2,
+      "capitulo": "V12",
+      "seccion": "V12.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.2.1",
+      "nivel": 1,
+      "capitulo": "V12",
+      "seccion": "V12.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.2.2",
+      "nivel": 1,
+      "capitulo": "V12",
+      "seccion": "V12.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.3.1",
+      "nivel": 2,
+      "capitulo": "V12",
+      "seccion": "V12.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.3.2",
+      "nivel": 2,
+      "capitulo": "V12",
+      "seccion": "V12.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.3.3",
+      "nivel": 2,
+      "capitulo": "V12",
+      "seccion": "V12.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V12.3.4",
+      "nivel": 2,
+      "capitulo": "V12",
+      "seccion": "V12.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.1.1",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.2.1",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.2.2",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.2.3",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.2.4",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.2.5",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.3.1",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.3.2",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.4.1",
+      "nivel": 1,
+      "capitulo": "V13",
+      "seccion": "V13.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.4.2",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.4.3",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.4.4",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V13.4.5",
+      "nivel": 2,
+      "capitulo": "V13",
+      "seccion": "V13.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.1.1",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.1.2",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.2.1",
+      "nivel": 1,
+      "capitulo": "V14",
+      "seccion": "V14.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.2.2",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.2.3",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.2.4",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.3.1",
+      "nivel": 1,
+      "capitulo": "V14",
+      "seccion": "V14.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.3.2",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V14.3.3",
+      "nivel": 2,
+      "capitulo": "V14",
+      "seccion": "V14.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.1.1",
+      "nivel": 1,
+      "capitulo": "V15",
+      "seccion": "V15.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.1.2",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.1.3",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.2.1",
+      "nivel": 1,
+      "capitulo": "V15",
+      "seccion": "V15.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.2.2",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.2.3",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.1",
+      "nivel": 1,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.2",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.3",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.4",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.5",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.6",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V15.3.7",
+      "nivel": 2,
+      "capitulo": "V15",
+      "seccion": "V15.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.1.1",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.1",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.2.1",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.2.2",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.2.3",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.2.4",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.2.5",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.2",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.3.1",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.3.2",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.3.3",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.3.4",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.3",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.4.1",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.4.2",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.4.3",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.4",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.5.1",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.5.2",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V16.5.3",
+      "nivel": 2,
+      "capitulo": "V16",
+      "seccion": "V16.5",
+      "aplicabilidad": "Por determinar",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Revisar aplicabilidad detallada y asociar evidencia; la matriz priorizada no acredita este requisito individual."
+    },
+    {
+      "id": "V17.1.1",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.1",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V17.2.1",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V17.2.2",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V17.2.3",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V17.2.4",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.2",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V17.3.1",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    },
+    {
+      "id": "V17.3.2",
+      "nivel": 2,
+      "capitulo": "V17",
+      "seccion": "V17.3",
+      "aplicabilidad": "N/A candidato",
+      "verificacion": "Pendiente",
+      "justificacion_inicial": "Tecnología o federación no presente en la arquitectura v1 revisada; confirmar exclusión y reevaluar al introducirla."
+    }
+  ]
+}

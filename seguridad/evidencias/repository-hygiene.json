@@ -1,0 +1,57 @@
+[
+  {
+    "repo": "backend",
+    "head": "814753bbf7786859c1385a9ad3585d0f66648d39",
+    "reachable_commits": 61,
+    "tracked_files": 243,
+    "sensitive_filename_history": [],
+    "ignore_checks": {
+      ".env": false,
+      ".env.local": false,
+      "mspi/.env": false,
+      "credentials.pem": false
+    },
+    "literal_candidates_locations_only": [
+      {
+        "file": "mspi/src/main/java/software/mspi/gestion/internal/web/ApiInvitationController.java",
+        "line": 34
+      },
+      {
+        "file": "mspi/src/test/java/software/mspi/AccountRecoveryTests.java",
+        "line": 50
+      },
+      {
+        "file": "mspi/src/test/java/software/mspi/SchemaMigrationTests.java",
+        "line": 202
+      }
+    ]
+  },
+  {
+    "repo": "docs",
+    "head": "964249cbd00d13c3fde06e4451f7948d583531b8",
+    "reachable_commits": 15,
+    "tracked_files": 11,
+    "sensitive_filename_history": [],
+    "ignore_checks": {
+      ".env": false,
+      ".env.local": false,
+      "mspi/.env": false,
+      "credentials.pem": false
+    },
+    "literal_candidates_locations_only": []
+  },
+  {
+    "repo": "frontend",
+    "head": "86a30f10f671d0c04b982d8c7d1958e19892dfc6",
+    "reachable_commits": 1,
+    "tracked_files": 1,
+    "sensitive_filename_history": [],
+    "ignore_checks": {
+      ".env": false,
+      ".env.local": false,
+      "mspi/.env": false,
+      "credentials.pem": false
+    },
+    "literal_candidates_locations_only": []
+  }
+]
