@@ -1,9 +1,9 @@
 # HU-SEG-002 — Prevención de secretos implementada
 
-Estado: implementación local en los tres repositorios; verificación/publicación en curso.
+Estado: implementación verificada y publicada en los tres repositorios; pendiente de revisión e integración.
 Rama por repositorio: `feat/HU-SEG-002-prevencion-secretos`.
 Base documental Develop: `4cf3e75e656c2ea1c29539617982cdd73659116b`.
-PR documental y PR de código: pendientes de publicación.
+PR documental hacia Develop: [#2](https://github.com/jose6668/Software_MSPI-/pull/2). PR relacionados: [backend #20](https://github.com/jose6668/Software_MSPI-back/pull/20) y [frontend #1](https://github.com/jose6668/Software_MSPI-front/pull/1).
 
 Como equipo, queremos prevenir publicación accidental de credenciales y comprobar esa defensa automáticamente mientras continuamos las historias funcionales.
 
@@ -42,7 +42,17 @@ Trazabilidad: H-01, SEC-001/002 y P01/P02; ASVS 5.0.0 V13.3.1. La gestión de se
 
 ## Verificación local
 
-El 8 de noviembre de 2026 pasaron los verificadores y las pruebas negativas en los tres repositorios con Python 3.13 y Gitleaks 8.30.1. Los seis escaneos actuales/históricos terminaron con salida 0 y cero hallazgos. Se comprobó que un archivo privado forzado al índice se rechaza y que un comprobante sintético se detecta aunque se retire del último commit, sin aparecer en el reporte. Los diffs preparados no contienen errores de formato. [Resultados estructurados](../evidencias/HU-SEG-002/resultados-locales.json). Los resultados CI se registran tras publicar los PR.
+El 8 de noviembre de 2026 pasaron los verificadores y las pruebas negativas en los tres repositorios con Python 3.13 y Gitleaks 8.30.1. Los seis escaneos actuales/históricos terminaron con salida 0 y cero hallazgos. Se comprobó que un archivo privado forzado al índice se rechaza y que un comprobante sintético se detecta aunque se retire del último commit, sin aparecer en el reporte. Los diffs preparados no contienen errores de formato. [Resultados estructurados](../evidencias/HU-SEG-002/resultados-locales.json).
+
+## Evidencia CI de implementación
+
+| Repositorio | Implementación | Verificación satisfactoria |
+| --- | --- | --- |
+| Backend | bbfbb998d851346b7cb2fa9c19858fa6c0ed70c4 | [Secret hygiene](https://github.com/jose6668/Software_MSPI-back/actions/runs/42505477555) y [Backend CI](https://github.com/jose6668/Software_MSPI-back/actions/runs/42505477443): 110 pruebas, sin fallos/errores/omisiones, Java 17/PostgreSQL |
+| Documentación | 07b143167bdee577363abd1764b04c48420f4e89 | [Secret hygiene](https://github.com/jose6668/Software_MSPI-/actions/runs/42505480037) |
+| Frontend | 5b57e51567231c14b9e0e8d2d6008b041cc62b12 | [Secret hygiene](https://github.com/jose6668/Software_MSPI-front/actions/runs/42505478556) |
+
+Las ejecuciones registradas corresponden a los commits de implementación. Las actualizaciones de evidencia se vuelven a verificar mediante CI antes de dejar los PR listos para revisión. No se declara integración hasta su fusión autorizada.
 
 ## Respuesta a una exposición
 
