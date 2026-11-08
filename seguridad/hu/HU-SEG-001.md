@@ -1,6 +1,6 @@
 # HU-SEG-001 — Diagnóstico y matriz de seguridad
 
-Estado: lista para revisión; rama publicada y PR abierto hacia `Develop`.
+Estado: integrada en `Develop` mediante PR #1, commit `4cf3e75e656c2ea1c29539617982cdd73659116b`.
 Rama: `docs/HU-SEG-001-diagnostico-seguridad`.
 Base documental: `Develop`, creada desde `main` en el commit `964249cbd00d13c3fde06e4451f7948d583531b8` por instrucción del usuario.
 Backend revisado: `Develop`, commit `814753bbf7786859c1385a9ad3585d0f66648d39`.
@@ -41,7 +41,7 @@ Trazabilidad: SEG-01 a SEG-10, RNF-01/04/06/07/09/10, DMP-03/04/08, ARQ-09/10/12
 | R7 Construcción | N/A para documentación; árbol de dependencias resuelto, sin declarar compilación/test nuevos |
 | R8 Revisión/entrega | 2: diff, enlaces, JSON y huellas del contenido versionado revisados; rama publicada y PR #1 abierto hacia Develop |
 
-La entrega no se declara integrada. Documentación, backend y frontend usan ramas de trabajo y PR hacia `Develop`; publicar el PR no implica fusionarlo.
+La integración de esta entrega documental se comprobó al iniciar HU-SEG-002. Documentación, backend y frontend usan ramas de trabajo y PR hacia `Develop`; publicar un PR no implica fusionarlo automáticamente.
 
 ## Siguiente entrega recomendada
 

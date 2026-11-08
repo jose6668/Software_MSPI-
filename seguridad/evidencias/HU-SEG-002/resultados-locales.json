@@ -1,0 +1,72 @@
+{
+  "fecha": "2026-11-08",
+  "zona_horaria": "America/Bogota",
+  "python": "3.13",
+  "gitleaks": "8.30.1",
+  "pruebas_negativas": [
+    "archivo privado forzado al indice",
+    "plantilla con secreto",
+    "URL con credencial",
+    "variables VITE no aprobadas",
+    "detector en archivos actuales",
+    "detector en historial tras retirar el comprobante del ultimo commit",
+    "reportes sin valor sintetico"
+  ],
+  "resultados": [
+    {
+      "repo": "backend",
+      "self_test_exit": 0,
+      "scans": [
+        {
+          "kind": "git",
+          "exit": 0,
+          "findings": 0,
+          "locations": []
+        },
+        {
+          "kind": "dir",
+          "exit": 0,
+          "findings": 0,
+          "locations": []
+        }
+      ]
+    },
+    {
+      "repo": "docs",
+      "self_test_exit": 0,
+      "scans": [
+        {
+          "kind": "git",
+          "exit": 0,
+          "findings": 0,
+          "locations": []
+        },
+        {
+          "kind": "dir",
+          "exit": 0,
+          "findings": 0,
+          "locations": []
+        }
+      ]
+    },
+    {
+      "repo": "frontend",
+      "self_test_exit": 0,
+      "scans": [
+        {
+          "kind": "git",
+          "exit": 0,
+          "findings": 0,
+          "locations": []
+        },
+        {
+          "kind": "dir",
+          "exit": 0,
+          "findings": 0,
+          "locations": []
+        }
+      ]
+    }
+  ],
+  "limites": "No son pruebas de runtime Java ni de la aplicacion frontend; no se declaran cambios de proteccion administrativa de Develop ni seguridad completa."
+}
