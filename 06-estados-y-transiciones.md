@@ -1,7 +1,7 @@
 # Estados y transiciones
 
-Versión: 0.4 — Aprobaciones APR-01 a APR-04; pendientes acotados
-Fecha: 6 de noviembre de 2026
+Versión: 0.5 — Transiciones de acciones y riesgos ajustadas a APR-09
+Fecha: 9 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md), [Diccionario de datos](05-diccionario-de-datos-y-validaciones.md).
 
 ## 1. Propósito y alcance
@@ -189,14 +189,14 @@ Efectivo no significa 100 % de mitigación, parcialmente efectivo no equivale a 
 | TR-RIE-05 | En tratamiento → En seguimiento | Revisar ejecución de plan | AE o GS | Acciones completadas o canceladas justificadamente, controles revisados y residual confirmado vigente | Registrar revisión del resultado; cancelar tareas no prueba mitigación |
 | TR-RIE-06 | En seguimiento → En análisis | Reanalizar | AE o GS | Cambio de activo, amenaza, controles o fundamento; motivo obligatorio | Marcar valoraciones afectadas para revisión y conservar históricas |
 | TR-RIE-07 | En seguimiento → En tratamiento | Abrir mejora adicional | AE o GS | Nuevas acciones y tratamiento justificado, referencia a valoración vigente | Continuar gestión sin eliminar seguimiento previo |
-| TR-RIE-08 | En seguimiento → Cerrado | Aprobar cierre | AE o GS | Justificación, inherente/residual vigentes, sin acciones abiertas y sin revisión de aceptación vencida si aplica | Guardar actor/fecha; congelar cierre y conservar decisiones/evidencias |
-| TR-RIE-09 | No cerrado → Sin cambio | Aprobar aceptación | Solo AE | Valoración vigente, fundamento y fecha de próxima revisión válidos | Crear decisión de aceptación DD-20; no cerrar ni reducir índices |
+| TR-RIE-08 | En seguimiento → Cerrado | Aprobar cierre | AE o GS | Justificación, inherente y residual vigentes, ninguna acción abierta y aceptación vigente si aplica. Cada acción cancelada requiere motivo registrado y explicación de cierre sobre por qué ya no es necesaria o cómo se cubrió su objetivo | Guardar actor y fecha, congelar cierre y conservar decisiones y evidencias |
+| TR-RIE-09 | No cerrado → Sin cambio | Aprobar aceptación | Solo AE | Inherente y residual vigentes, fundamento y fecha de próxima revisión posterior al día empresarial de aprobación | Crear decisión DD-20 vinculada a la residual confirmada y conservar el estado y nivel del riesgo |
 
 Para TR-RIE-03, tratamientos reducir/compartir/evitar requieren acciones y criterio de resultado; una aceptación sin acciones usa TR-RIE-04 con aprobación formal. Si hay acciones adicionales bajo aceptación, su aprobación formal también es necesaria antes de tratarla como adoptada. GS puede proponer aceptar, pero no formalizarlo cambiando el estado.
 
-Se propone cerrar únicamente desde seguimiento, sin saltos identificado → cerrado o tratamiento → cerrado. Cerrado no se reabre: un evento posterior crea un riesgo nuevo relacionado y conserva el cierre anterior. No añadir ni modificar acciones de un riesgo cerrado; si hay seguimiento nuevo, se vincula al nuevo riesgo. Esta precisión no cierra tareas automáticamente.
+El cierre procede únicamente desde seguimiento. Un evento posterior al cierre se registra en un riesgo nuevo relacionado, que recibe sus propias acciones. El riesgo original y sus acciones quedan congelados y conservan el historial.
 
-La pérdida de vigencia de un control no cambia automáticamente el estado del riesgo: marca revisión requerida. Una aceptación vencida queda históricamente registrada, pero no satisface una aprobación vigente para un nuevo cierre o decisión. El estado, el nivel y el tratamiento son dimensiones distintas.
+La pérdida de vigencia de un control marca revisión requerida en el riesgo. La aceptación pasa a revisión pendiente al inicio de la fecha acordada en la zona horaria de la empresa o si pierde vigencia alguna de las valoraciones que la sustentan. La decisión histórica se conserva y el cierre que requiere esa aceptación permanece bloqueado hasta resolver su vigencia.
 
 ## 11. Acción de mejora y revisión independiente
 
@@ -216,9 +216,9 @@ stateDiagram-v2
 
 | ID | Origen → destino | Operación | Actor | Condiciones | Efectos |
 | --- | --- | --- | --- | --- | --- |
-| TR-ACC-01 | Nuevo → Pendiente | Crear y asignar | AE o GS | Un origen local válido, resultado esperado, plazo, responsable elegible y evidencia requerida definidos | Crear tarea y contexto mínimo para responsable |
+| TR-ACC-01 | Nuevo → Pendiente | Crear y asignar | AE o GS | Un origen local válido, resultado verificable, responsable elegible, plazo igual o posterior al día empresarial y criterio de evidencia definido | Generar código único por empresa, crear tarea y habilitar el contexto autorizado para el responsable |
 | TR-ACC-02 | Pendiente → En ejecución | Iniciar tarea | Responsable actual | Membresía/empresa vigentes y asignación actual | Registrar inicio, habilitar avances y evidencias |
-| TR-ACC-03 | En ejecución → En revisión | Entregar | Responsable actual | Comentario de entrega, evidencia requerida disponible y sin conflicto de versión | Registrar solicitud y congelar entrega para revisión |
+| TR-ACC-03 | En ejecución → En revisión | Entregar | Responsable actual | Comentario, revisión vigente y criterio de entrega satisfecho. Si exige adjunto privado, debe estar disponible y superar los controles de seguridad | Registrar solicitud y congelar entrega para revisión |
 | TR-ACC-04 | En revisión → En ejecución | Devolver | AE o GS distinto del responsable | Motivo, última entrega sin decidir y asignación vigente | Registrar devolución y habilitar correcciones |
 | TR-ACC-05 | En revisión → Completada | Aprobar | AE o GS distinto del responsable | Verificar resultado/evidencias, motivo, última entrega pendiente; revalidar identidad y estado | Registrar decisión única y fecha de finalización; no cambia efectividad o riesgo |
 | TR-ACC-06 | Pendiente / En ejecución / En revisión → Cancelada | Cancelar | AE o GS | Motivo de negocio obligatorio y revisión vigente | Conservar entregas y anotar cancelación; no registrar como cumplimiento ni aprobación |
@@ -320,7 +320,7 @@ Son criterios para pruebas futuras. Esta documentación no afirma que exista un 
 | ET-12 | Registrar control implementado sin verificación | Sin verificar; sin descuento automático por estado |
 | ET-13 | Cambiar implementación compartida por varios riesgos | Todos los dependientes señalados para revisión; índices históricos intactos |
 | ET-14 | GS propone aceptar riesgo y cambia su estado | No crea aprobación formal de aceptación ni elude PER-27 |
-| ET-15 | Cerrar riesgo con valoración desactualizada o acciones abiertas | Rechazo; no se cierran tareas para habilitarlo |
+| ET-15 | Cerrar riesgo con valoración desactualizada, acciones abiertas o una cancelación sin motivo o sin explicación de cierre | Rechazo. Una cancelada cuenta como resuelta cuando el motivo y la explicación están registrados |
 | ET-16 | Aceptar riesgo o completar una acción | No cambia automáticamente estado ni nivel del riesgo |
 | ET-17 | Responsable AE/GS aprueba su propia entrega | Rechazo por identidad aun con privilegios de revisor |
 | ET-18 | Reasignar tarea en revisión para aprobar la misma entrega | Rechazo del cambio hasta devolución; nueva entrega conserva asignación y autoría propias |
@@ -333,7 +333,7 @@ Son criterios para pruebas futuras. Esta documentación no afirma que exista un 
 | ET-25 | Cambiar empresa en otra pestaña y confirmar operación anterior | Mantener contexto explícito autorizado o rechazar; nunca aplicar a otra empresa |
 | ET-26 | Tarea supera plazo mientras está en ejecución | Indicador vencida, mismo estado y posibilidad de avanzar autorizadamente |
 | ET-27 | Aprobación de evaluación por su autor AE/GS | Permitida por APR-01; no extender excepción a tareas |
-| ET-28 | Aceptación de riesgo llega a fecha de revisión sin reevaluar | Señal de revisión pendiente, aprobación histórica conservada y cierre bloqueado hasta resolver vigencia |
+| ET-28 | Comienza el día de revisión en la zona empresarial o pierde vigencia alguna valoración que sustenta la aceptación | Aceptación pendiente de revisión, aprobación histórica conservada y cierre bloqueado hasta resolver vigencia |
 | ET-29 | Retirar GS de AU+GS mientras edita | Siguiente operación de edición rechazada; consulta permitida por AU |
 | ET-30 | Usuario GS+RA intenta TR-ACC-05 sobre su propia entrega | Rechazo por identidad, sin selector de rol que lo eluda |
 | ET-31 | Retirar último rol de membresía activa o AE del último administrador | Rechazo atómico; conjunto no vacío y al menos un AE activo |

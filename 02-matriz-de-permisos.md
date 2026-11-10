@@ -1,7 +1,7 @@
 # Matriz de permisos
 
-Versión: 0.3 — Políticas APR-01 y APR-02 incorporadas
-Fecha: 6 de noviembre de 2026
+Versión: 0.4 — Contexto de acciones aprobado en APR-09
+Fecha: 9 de noviembre de 2026
 Base: [Parámetros y requerimientos](01-parametros-y-requerimientos.md)
 Flujos: [Casos de uso](03-casos-de-uso.md)
 
@@ -102,7 +102,7 @@ No hay eliminación física de registros operativos o evidencias en la interfaz 
 ## 4. Condiciones transversales
 
 1. **Empresa y objeto:** comprobar sesión, membresía, estado empresarial, acción y pertenencia del objeto en cada solicitud. Aplicar igual criterio a consultas directas, búsquedas, descargas y reportes.
-2. **Contexto concedido por RA:** incluir identificador y descripción de tarea, plazo, estado, responsable, avances, nombre del activo y resumen del riesgo o hallazgo necesario para ejecutarla. AE o GS selecciona las evidencias de contexto visibles. El permiso RA por sí solo no habilita navegación al registro completo ni otros riesgos, documentos o datos personales. Si existe GS/AE/AU, sus permisos de consulta adicionales se validan de forma independiente.
+2. **Contexto por asignación (APR-09).** El RA consulta el código, descripción, resultado esperado, plazo, estado, avances, nombre del activo cuando aplique y resumen del riesgo o hallazgo preparado por AE o GS. AE o GS selecciona expresamente las evidencias de contexto visibles en esa tarea. Los registros completos de activos, riesgos y evaluaciones y cualquier consulta adicional se rigen por sus propios permisos en la empresa activa.
 3. **Cambio de responsable:** el anterior pierde acceso por asignación y capacidad de enviar avances; los avances históricos conservan su autoría. El nuevo responsable ve el historial autorizado de la tarea.
 4. **Revisión independiente:** se compara la identidad de la persona, no solo su rol. Un AE o GS responsable de la tarea no puede aprobarla. Si no hay otra persona con permiso, la acción permanece en revisión hasta que exista un revisor válido; no hay excepción automática.
 5. **Revocación:** retirar membresía, añadir/retirar roles o suspender empresa afecta la siguiente solicitud, incluyendo sesiones abiertas y descargas nuevas. Al retirar un rol se recalcula el conjunto efectivo; un permiso aún concedido por otro rol válido permanece. No revoca documentos ya descargados ni datos previamente recibidos.
@@ -144,4 +144,4 @@ No hay eliminación física de registros operativos o evidencias en la interfaz 
 - PER-36 a PER-38: RF-18 a RF-21.
 - Todas las filas: SEG-01 a SEG-10 según su aplicación y RN-01 a RN-11.
 
-APR-01 aprueba alcance y roles multirrol; APR-02 aprueba decisiones de cálculo, evidencia mínima y ciclos de vida descritas en el documento 1. El detalle de contexto mínimo de RA no cubierto por esas aprobaciones sigue en revisión. Quedan pendientes canal de invitación/recuperación, retención, rúbricas y evidencia por criterio; los mínimos de cierre sí están aprobados.
+APR-01 aprueba alcance y roles multirrol. APR-02 aprueba decisiones de cálculo, evidencia mínima y ciclos de vida. [APR-09](01-parametros-y-requerimientos.md#19-registro-de-aprobación-apr-09-para-hu-023-hu-024-y-hu-022) aprueba el contexto por asignación y los criterios iniciales de entrega de acciones. Quedan pendientes los casos en que se admiten referencias documentales como evidencia, las rúbricas, la retención y los detalles de invitación y recuperación que correspondan.

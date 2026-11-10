@@ -1,7 +1,7 @@
 # Parámetros y requerimientos del sistema
 
-Versión: 0.6 — Referencias de arquitectura y secuencia backend APR-08 incorporadas
-Fecha: 6 de noviembre de 2026
+Versión: 0.7 — Criterios de acciones y riesgos aprobados en APR-09
+Fecha: 9 de noviembre de 2026
 Nombre provisional: Sistema de Gestión de Seguridad de la Información
 
 ## 1. Objetivo
@@ -234,3 +234,15 @@ APR-05, APR-06 y APR-07 están registrados en [Arquitectura y decisiones técnic
 El 6 de noviembre de 2026, el usuario acepta las recomendaciones para implementar progresivamente el backend. APR-08, en la sección 19 del documento 08, ratifica modularidad, aislamiento por empresa, sesión/permisos, API, migraciones y pruebas/CI, y acuerda esta secuencia: diagnóstico → estructura modular → migraciones y aislamiento con dos empresas → sesión y permisos → primera funcionalidad completa. Las pruebas y CI acompañan las entregas desde el inicio.
 
 El acuerdo no modifica los requerimientos funcionales ni aprueba valores operativos todavía inexistentes. Versiones y configuración pendientes, tiempos de sesión, políticas de recuperación, límites y detalles metodológicos conservan su estado individual. Una aprobación de diseño no acredita implementación ni pruebas ejecutadas; el detalle de entregables y condiciones de avance se mantiene en el documento 08.
+
+## 19. Registro de aprobación APR-09 para HU-023, HU-024 y HU-022
+
+El 9 de noviembre de 2026, el usuario aprueba las recomendaciones para asignar y entregar acciones de mejora, y para aceptar y cerrar riesgos.
+
+1. **Consulta del responsable (HU-023).** El permiso por asignación permite consultar solo las acciones actualmente asignadas dentro de la empresa activa. Incluye código, descripción, resultado esperado, plazo, estado, avances, nombre del activo cuando aplique, resumen del origen preparado por AE/GS y evidencias de contexto habilitadas expresamente para la tarea. Las fichas completas conservan sus permisos propios. La reasignación retira el acceso que otorgaba la asignación anterior.
+2. **Criterio y evidencia de entrega (HU-023 y HU-024).** AE/GS define el resultado verificable al crear la acción y exige un adjunto privado o permite una entrega sin adjunto con justificación registrada. El responsable aporta un comentario al entregar. Si se exige adjunto, debe estar disponible y superar los controles de seguridad aplicables. Para estas historias, las referencias documentales quedan diferidas hasta definir los criterios que las admitan. Se conserva la revisión por otro AE/GS y el congelamiento de la entrega mientras se decide.
+3. **Acciones canceladas en el cierre (HU-022).** Las acciones completadas cuentan como resueltas. Una cancelada cuenta como resuelta si tiene un motivo registrado y AE/GS explica en el cierre por qué el trabajo ya no es necesario o cómo se cubrió su objetivo. Las acciones pendientes, en ejecución o en revisión bloquean el cierre.
+4. **Vigencia de la aceptación (HU-022).** Solo AE registra la decisión con justificación y fecha futura de revisión. Exige valoraciones inherente y residual vigentes y se vincula a la residual confirmada. Pasa a revisión pendiente desde el inicio de la fecha acordada en la zona horaria de la empresa o al perder vigencia cualquiera de las valoraciones que la sustentan. Se conserva la decisión histórica y se bloquea el cierre si la aceptación aplicable requiere revisión.
+5. **Código y plazo inicial (HU-023).** El servidor genera el código visible, único por empresa. Al crear la acción, la fecha límite debe ser igual o posterior al día actual de la empresa.
+
+La documentación de [permisos](02-matriz-de-permisos.md), [casos de uso](03-casos-de-uso.md), [datos](05-diccionario-de-datos-y-validaciones.md) y [transiciones](06-estados-y-transiciones.md) incorpora estos criterios. La secuencia de implementación es HU-023 → HU-024 → HU-022.

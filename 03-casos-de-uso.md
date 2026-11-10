@@ -1,7 +1,7 @@
 # Casos de uso
 
-Versión: 0.3 — Flujos ajustados a APR-01 y APR-02
-Fecha: 6 de noviembre de 2026
+Versión: 0.4 — Criterios de acciones y riesgos aprobados en APR-09
+Fecha: 9 de noviembre de 2026
 Base: [Parámetros y requerimientos](01-parametros-y-requerimientos.md)
 Autorización: [Matriz de permisos](02-matriz-de-permisos.md)
 
@@ -218,9 +218,9 @@ APR-02 fija criticidad por máximo, evaluación de igual peso por control y ries
 ### CU-20. Aprobar aceptación de riesgo
 
 - **Actor y objetivo:** AE aprueba formalmente aceptar un riesgo.
-- **Previas:** valoración vigente, justificación y próxima fecha de revisión; riesgo de su empresa.
+- **Previas.** Riesgo de su empresa, valoraciones inherente y residual vigentes, justificación y fecha de revisión posterior al día empresarial de aprobación.
 - **Flujo:** 1) Revisa riesgo y controles. 2) Registra fundamento de aceptación y fecha de revisión. 3) Confirma decisión. 4) El sistema comprueba permiso y conserva aprobador y fecha.
-- **Alternativas:** GS puede proponer tratamiento, pero no aprobar aceptación; faltantes impiden confirmar; un cambio relevante exige nueva revisión sin borrar la decisión previa.
+- **Alternativas.** GS puede proponer tratamiento. La aprobación corresponde a AE y queda vinculada a la residual confirmada. La decisión pasa a revisión pendiente al inicio de la fecha acordada en la zona horaria empresarial o si pierde vigencia alguna de las valoraciones que la sustentan.
 - **Resultado:** decisión de aceptación registrada; no cierra automáticamente el riesgo.
 - **Verificación:** una solicitud de GS para aprobar se rechaza y no cambia la decisión.
 - **Trazabilidad:** RF-12; RN-09; PER-27; PA-12.
@@ -230,10 +230,10 @@ APR-02 fija criticidad por máximo, evaluación de igual peso por control y ries
 - **Actor y objetivo:** AE o GS actualiza el estado y documenta el cierre.
 - **Previas:** estado compatible y datos del análisis/tratamiento disponibles; cierre exige valoración vigente y justificación.
 - **Flujo:** 1) Revisa valoración, controles y acciones. 2) Solicita transición de estado. 3) El sistema comprueba campos obligatorios de la transición. 4) Actor autorizado aprueba cierre con fundamento o mantiene seguimiento.
-- **Alternativas:** completar tareas o aceptar riesgo no provoca cierre automático; se bloquea el cierre con valoración pendiente o acciones de tratamiento abiertas. Un riesgo cerrado conserva historial; un nuevo evento se documenta como nuevo riesgo relacionado, sin reescribir el cierre.
+- **Alternativas.** Se bloquea el cierre con una valoración pendiente, una aceptación aplicable pendiente de revisión o una acción abierta. Si hay acciones canceladas, cada una requiere motivo registrado y una explicación de cierre sobre por qué ya no es necesaria o cómo se cubrió su objetivo. Un evento posterior al cierre se documenta en un riesgo nuevo relacionado.
 - **Resultado:** estado e historial actualizados; la aceptación formal sigue reservada a AE.
 - **Verificación:** intentar cerrar sin valoración vigente muestra pendientes y no cambia estado.
-- **Trazabilidad:** RF-12, RF-13; estados de riesgo; PER-28. El bloqueo por acciones abiertas es una precisión propuesta para el cierre inicial.
+- **Trazabilidad.** RF-12, RF-13, PER-28, TR-RIE-08 y APR-09.
 
 ## 6. Acciones y evidencias
 
@@ -241,7 +241,7 @@ APR-02 fija criticidad por máximo, evaluación de igual peso por control y ries
 
 - **Actor y objetivo:** AE o GS convierte un riesgo o hallazgo en una tarea verificable.
 - **Previas:** origen válido de la misma empresa y responsable activo con rol AE, GS o RA.
-- **Flujo:** 1) Selecciona origen y describe resultado esperado. 2) Define responsable, plazo y evidencia requerida. 3) El sistema guarda en pendiente. 4) Puede ajustar plazo, alcance, contexto visible o responsable con motivo; puede cancelar justificadamente antes de completarse.
+- **Flujo.** AE o GS selecciona el origen, describe un resultado verificable y define responsable, plazo y criterio de evidencia. El criterio exige un adjunto privado o autoriza una entrega sin adjunto con justificación registrada. El sistema genera un código único por empresa, valida que el plazo inicial sea igual o posterior al día empresarial y guarda la acción en pendiente. AE/GS puede ajustar plazo, alcance, contexto visible o responsable con motivo y cancelar justificadamente según el estado.
 - **Alternativas:** responsable de otra empresa o sin membresía vigente se rechaza; reasignar retira acceso por asignación al anterior; una tarea completada no se reescribe y una mejora posterior se registra como nueva acción relacionada.
 - **Resultado:** acción con origen, plazo y responsable trazables; el vencimiento es indicador independiente del estado.
 - **Verificación:** tarea atrasada sigue mostrando su estado real y el anterior responsable pierde acceso si no tiene otro permiso de consulta.
@@ -251,7 +251,7 @@ APR-02 fija criticidad por máximo, evaluación de igual peso por control y ries
 
 - **Actor y objetivo:** responsable actual, con rol AE, GS o RA, informa avance y entrega resultado.
 - **Previas:** acción pendiente o en ejecución, asignación vigente y acceso autorizado.
-- **Flujo:** 1) Consulta tarea y contexto permitido. 2) Pasa a ejecución y registra avances. 3) Adjunta evidencia requerida. 4) Solicita revisión. 5) El sistema valida completitud y cambia a en revisión.
+- **Flujo.** El responsable consulta el contexto permitido, pasa a ejecución y registra avances. Solicita revisión con un comentario. Si el criterio exige adjunto, el sistema valida que esté disponible y supere los controles de seguridad antes de congelar la entrega y pasarla a revisión.
 - **Alternativas:** evidencia faltante impide solicitar revisión; otro miembro no puede enviar avances por él. En revisión no se edita la entrega hasta que sea devuelta. RA no modifica alcance, responsable, plazo ni valoración de riesgo.
 - **Resultado:** entrega preparada para revisión por otra persona; el riesgo no cambia automáticamente.
 - **Verificación:** RA ve su contexto mínimo, pero no puede abrir inventario o riesgo completo mediante enlaces o solicitudes directas.

@@ -1,7 +1,7 @@
 # Diccionario de datos y validaciones
 
-Versión: 0.5 — Datos y validaciones ajustados a APR-01 a APR-04
-Fecha: 6 de noviembre de 2026
+Versión: 0.6 — Datos de acciones y aceptación de riesgo ajustados a APR-09
+Fecha: 9 de noviembre de 2026
 Relacionados: [Requerimientos](01-parametros-y-requerimientos.md), [Permisos](02-matriz-de-permisos.md), [Casos de uso](03-casos-de-uso.md), [Reglas de cálculo](04-reglas-de-calculo-y-valoracion.md).
 
 ## 1. Propósito y límites
@@ -408,13 +408,13 @@ Una confirmada conserva entradas/resultados inmutables; revisión por separado. 
 | Campo | Tipo | Obligación/origen | Significado y validación |
 | --- | --- | --- | --- |
 | riesgo | REF(riesgo) | M/S | Local |
-| valoracion_referencia | REF(valoración de riesgo) | M/U | Confirmada, vigente y del mismo riesgo al aprobar |
+| valoracion_referencia | REF(valoración residual) | M/U | Residual confirmada y vigente del mismo riesgo. Su inherente de referencia también debe estar vigente al aprobar |
 | justificacion | Texto largo | M/U | Fundamento de aceptación |
 | fecha_proxima_revision | Fecha | M/U | Posterior a fecha empresarial de aprobación; sin aceptación indefinida implícita |
 | aprobada_por | REF(usuario) | M/S | Identidad con membresía AE activa al aprobar |
 | aprobada_en | Instante | M/S | Hora de decisión del servidor |
 
-Conservar decisiones anteriores; un cambio relevante o vencimiento de revisión genera pendiente de revisión, no una aprobación renovada automática. Aceptar no cierra riesgo ni elimina acciones.
+Conservar decisiones anteriores. La decisión pasa a revisión pendiente al inicio de la fecha de próxima revisión en la zona horaria empresarial o si pierde vigencia alguna de las valoraciones que la sustentan. El cierre requiere que la aceptación aplicable esté vigente.
 
 ## 9. Acciones y seguimiento
 
@@ -424,21 +424,21 @@ Conservar decisiones anteriores; un cambio relevante o vencimiento de revisión 
 
 | Campo | Tipo | Obligación/origen | Significado y validación |
 | --- | --- | --- | --- |
-| codigo | Texto(80) | M/S | Identificador legible único por empresa, generación por definir |
+| codigo | Texto(80) | M/S | Identificador legible generado por el servidor y único por empresa |
 | riesgo_origen | REF(riesgo) | C/U | Exactamente un origen: riesgo o hallazgo |
 | hallazgo_origen | REF(hallazgo) | C/U | Excluyente con riesgo_origen; mismo contexto empresarial |
 | descripcion | Texto largo | M/U | Trabajo a ejecutar |
 | resultado_esperado | Texto largo | M/U | Criterio observable que revisará otra persona |
 | responsable | REF(membresía) | M/U | Activa, local y rol AE, GS o RA al asignar; revalidar al ejecutar |
-| fecha_limite | Fecha | M/U | Sin valor ficticio; propuesta: no anterior al día empresarial al crear; tareas vencidas siguen siendo válidas después |
-| evidencia_requerida | Texto(2000) | M/U | Qué debe aportar; si no se exige archivo, justificación explícita según política pendiente |
+| fecha_limite | Fecha | M/U | Igual o posterior al día empresarial al crear. Las tareas pueden quedar vencidas con el paso del tiempo |
+| evidencia_requerida | Criterio con modalidad y texto (hasta 2000 caracteres) | M/U | AE/GS exige adjunto privado e indica qué debe aportar el responsable, o permite entrega sin adjunto y registra la justificación |
 | estado | Código | M/S | Pendiente, en ejecución, en revisión, completada o cancelada |
 | resumen_contexto_ra | Texto largo | M/U | Contexto mínimo preparado por AE/GS; sin copiar ficha completa o datos personales innecesarios |
 | motivo_cambio | Texto(2000) | C/U | Al cambiar plazo, alcance, responsable o cancelar |
 | accion_anterior | REF(acción) | O/U | Local, distinta de sí misma, sin ciclos; mejora posterior a completada |
 | vencida | Booleano | D | Fecha límite anterior al día empresarial y estado no completada/cancelada; no sustituye estado |
 
-El contexto RA se entrega mediante una vista limitada de tarea, nombre de activo y resumen autorizado, no serializando objetos completos. Reasignar retira acceso por asignación al anterior y conserva avances. El plazo no cambia por presentar un porcentaje de avance.
+La vista limitada de RA incluye los campos y evidencias autorizados en la sección 4 del documento 02. Reasignar retira el acceso por asignación al anterior responsable y conserva los avances con su autoría.
 
 ### DD-22. Avance y decisión de revisión
 
@@ -562,8 +562,8 @@ Los mensajes no incluyen SQL, rutas internas, tokens o nombres de objetos de otr
 | Registrar riesgo | Activo, amenaza, vulnerabilidad, descripción y responsable; valoraciones pueden quedar pendientes |
 | Confirmar valoración | Categorías, metodología aprobada y fundamento; residual identifica inherente base y verificaciones o ausencia de mitigación confirmada |
 | Aceptar riesgo | AE, valoración vigente, justificación y fecha de revisión |
-| Crear acción | Un origen local, resultado esperado, responsable elegible, plazo y evidencia requerida |
-| Solicitar revisión de acción | Responsable vigente, estado permitido, entrega y evidencia requerida disponibles |
+| Crear acción | Un origen local, resultado verificable, responsable elegible, plazo inicial válido, contexto autorizado y criterio de entrega con modalidad y detalle |
+| Solicitar revisión de acción | Responsable vigente, estado permitido, comentario y adjunto disponible que supera los controles de seguridad cuando el criterio lo exige |
 | Aprobar acción | AE/GS distinto del responsable, última entrega en revisión, motivo y ausencia de conflicto |
 | Cerrar riesgo | Valoración vigente, justificación y acciones resueltas según CU-21; no se cierra por aceptar tratamiento |
 
