@@ -15,6 +15,7 @@ Repositorio de documentación para una aplicación web de gestión de seguridad 
 | 7 | [Modelo de datos y aislamiento por esquemas](07-modelo-de-datos-y-aislamiento-por-esquemas.md) | Modelo lógico, integridad, permisos técnicos y 22 escenarios; ocho decisiones DMP aprobadas en principios, detalles físicos pendientes |
 | 8 | [Arquitectura y decisiones técnicas](08-arquitectura-y-decisiones-tecnicas.md) | Stack, monolito modular, sesión/API, conexiones, migraciones, pruebas y secuencia backend acordada en APR-08 |
 | 9 | [Diseño de pantallas](09-diseno-de-pantallas.md) | Flujos, perfiles, estados y boceto navegable; distingue propuestas visuales de requisitos aprobados |
+| 10 | [Diagrama de clases](10-diagrama-de-clases.md) | Vista general y diagramas UML por módulo con atributos, operaciones y relaciones contrastados con el backend |
 
 ## Estado del proyecto
 
